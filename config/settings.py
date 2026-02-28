@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-uj+#ds8suj%r8lulkwtqn)#we+qo1xx=o+10nw2_g%-y6is^&0
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = ['vroomhub.onrendor.com']
 
