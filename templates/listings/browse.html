@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+
+<form class="d-flex ms-3" method="GET" action="{% url 'browse_listings' %}">
+    <input type="search" name="q" class="form-control" placeholder="Toyota under 500000 Nairobi automatic">
+    <button class="btn btn-success">Search</button>
+</form>
+<h2>All Listings</h2>
+<div class="row">
+    {% for listing in listings %}
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            {% if listing.images.all %}
+            <img src="{{ listing.images.all.0.image.url }}" class="card-img-top" alt="Image">
+            {% endif %}
+            <div class="card-body">
+                <h5>{{ listing.brand }} {{ listing.model }}</h5>
+                <p>Price: KES {{ listing.price|intcomma }}</p>
+                <p>Location: {{ listing.location }}</p>
+                <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary">View</a>
+            </div>
+            {% if listing.feature and listing.feature.active %}
+            <span class="badge bg-warning text-dark">⭐Featured</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

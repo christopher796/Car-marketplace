@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .verify-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .verify-card {
+        width: 100%;
+        max-width: 650px;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+        backdrop-filter: blur(6px);
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 10px;
+    }
+
+    .btn-verify {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 10px;
+    }
+
+    .note-box {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 14px;
+    }
+</style>
+
+
+<div class="verify-wrapper">
+
+    <div class="card verify-card p-4">
+
+        <!-- Logo + Header -->
+        <div class="text-center mb-3">
+            <img src="{% static 'images/logo.png' %}" width="80" class="mb-2">
+            <h4 class="fw-bold">Get Verified Seller Badge</h4>
+            <p class="text-muted small">Build trust and sell faster 🚗</p>
+        </div>
+
+        <!-- Info box -->
+        <div class="note-box mb-3 text-muted">
+            ✔ Upload ID (Front & Back)<br>
+            ✔ Upload Profile Photo<br>
+            ✔ Provide phone & location<br>
+            ✔ Admin will review within 24 hours
+        </div>
+
+        <!-- Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                {{ form.phone }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Location (Town/City)</label>
+                {{ form.location }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Profile Photo</label>
+                {{ form.profile_pic }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">National ID (Front)</label>
+                {{ form.id_front }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">National ID (Back)</label>
+                {{ form.id_back }}
+            </div>
+
+            <button class="btn btn-dark w-100 btn-verify">
+                ✅ Submit for Verification
+            </button>
+        </form>
+
+        <div class="text-center small text-muted mt-3">
+            Your documents are private and only visible to VroomHub admin.
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

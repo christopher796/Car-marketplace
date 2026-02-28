@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+
+<div class="container my-5">
+
+    <!--LISTING CARD-->
+    <div class="card shadow p-4">
+
+        <!--Header: Brand, Model, year & Posted date-->
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <h2 class="fw-bold">{{ listing.brand }} {{listing.model }} {{ listing.year }}</h2>
+            <small class="text-muted">Posted at {{ listing.created_at|date:"d M Y H:i" }}</small>
+        </div>
+
+        <!--PRICE-->
+        <h3 class="text-primary mb-3">Price: KES {{listing.price|intcomma }}</h3>
+
+        <!--Main Info Grid-->
+        <div class="row mb-4">
+            <div class="col-md-6"><strong>Location:</strong>{{ listing.location }}</div>
+            <div class="col-md-6"><strong>Condition:</strong>{{ listing.condition }}</div>
+            <div class="col-md-6"><strong>Transmission:</strong>{{ listing.transmission }}</div>
+            <div class="col-md-6"><strong>Fuel Type:</strong>{{ listing.fuel_type }}</div>
+            <div class="col-md-6"><strong>Mileage:</strong>{{ listing.mileage }} Km</div>
+            <div class="col-md-6"><strong>Trim:</strong>{{ listing.trim }}</div>
+            <div class="col-md-6"><strong>Exterior Color:</strong>{{ listing.color }}</div>
+            <div class="col-md-6"><strong>Interior Color:</strong>{{ listing.interior_color }}</div>
+            <div class="col-md-6"><strong>Seats:</strong>{{ listing.seats_number }}</div>
+            <div class="col-md-6"><strong>Engine:</strong>{{ listing.engine_size }} CC | {{ listing.horse_power }} HP</div>
+            <div class="col-md-6"><strong>Registered Car:</strong>{{ listing.registered_car }}</div>
+            <div class="col-md-6"><strong>Body Type:</strong>{{ listing.body }}</div>
+            <div class="col-md-6"><strong>Drive Train:</strong>{{ listing.drive_train }}</div>
+            <div class="col-md-6"><strong>Negotiable:</strong>{{ listing.negotiation }}</div>
+        </div>
+
+            <!--KEY FEATURES-->
+            {% if listing.features.exists %}
+            <h5>Key Features:</h5>
+            <ul class="list-inline mb-4">
+                {% for f in listing.features.all %}
+                <li class="list-inline-item badge bg-secondary">{{ f.name }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <!--DESCRIPTION-->
+            <h5>Description:</h5>
+            <p>{{ listing.description|linebreaksbr }}</p>
+
+            <!--IMAGES-->
+            {% if listing.images.all %}
+            <h5>Images:</h5>
+            <div class="row mb-4">
+                {% for img in listing.images.all %}
+                <div class="col-md-4 mb-2">
+                    <a href="{{ img.image.url }}" target="_blank"><img src="{{ img.image.url }}" class="img-fluid rounded" style="height: 200px; object-fit: cover;"></a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!--SELLER INFO-->
+            <div class="mb-4">
+                <h5>Seller:</h5>
+                <a href="{% url 'seller_profile' listing.user.id %}" class="btn btn-info mb-2">View Seller</a>
+                <div class="mt-2">
+                    <a href="tel:{{ listing.phone_number|cut:' '|cut:'-' }}" class="btn btn-primary me-2">Call Seller</a>
+                    <a href="{{ whatsapp_link }}" target="_blank" class="btn btn-success">Whatsapp</a>
+                </div>
+            </div>
+
+            <!--Share Buttons-->
+            <div>
+                <h5>Share this listing:</h5>
+                <a target="_blank" href="{{ whatsapp_share }}" class="btn btn-success me-2">Share Whatsapp</a>
+                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}" class="btn btn-primary">Share Facebook</a>
+            </div>
+
+            <!--Boost Sales-->
+            
+
+            <!--VIEWS-->
+            <small class="text-muted d-block mt-3">
+                Views: {{ listing.views_count }}
+            </small>
+        </div>
+</div>
+
+
+{% endblock %}

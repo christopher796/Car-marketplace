@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<h2>{{ seller.username }}'s Ads </h2>
+
+{% if seller.profile.profile_pic %}
+<img src="{{ seller.profile.profile_pic.url }}" width="120" class="rounded-circle">
+{% endif %}
+
+<p>
+    Location: {{ seller.profile.location }}
+</p>
+
+<p>
+    Status: {% if seller.profile.is_verified %}
+    <span class="text-primary">Verified Seller</span>
+    {% else %}
+    <span class="text-muted">Not Verified</span>
+    {% endif %}
+</p>
+
+<hr>
+
+<h4>All listings</h4>
+
+{% for ad in listings %}
+<div class="card mb-3 p-3">
+    <a href="{% url 'listing_detail' ad.id %}">
+        <strong>{{ ad.title }}</strong>
+    </a>
+    <p>KES {{ ad.price|intcomma }}</p>
+</div>
+{% empty %}
+<p>No ads yet</p>
+{% endfor %}
+
+{% endblock %}
+

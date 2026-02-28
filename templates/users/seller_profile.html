@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+<div class="container my-5">
+
+    <div class="row g-4">
+
+        <!-- ================= PROFILE CARD ================= -->
+        <div class="col-lg-4">
+
+            <div class="card shadow-lg text-center p-4">
+
+                <!-- Profile Picture -->
+                {% if profile.profile_pic %}
+                    <img src="{{ profile.profile_pic.url }}"
+                         class="rounded-circle mx-auto mb-3"
+                         style="width:150px;height:150px;object-fit:cover;">
+                {% else %}
+                    <img src="/static/images/default-avatar.png"
+                         class="rounded-circle mx-auto mb-3"
+                         style="width:150px;height:150px;object-fit:cover;">
+                {% endif %}
+
+                <!-- Username + Verified -->
+                <h4 class="fw-bold mb-1">
+                    {{ profile.user.username }}
+                    {% if profile.is_verified %}
+                        <span class="badge bg-primary ms-2">✔ Verified</span>
+                    {% endif %}
+                </h4>
+
+                <p class="text-muted mb-1">📞 {{ profile.phone }}</p>
+                <p class="text-muted">📍 {{ profile.location }}</p>
+
+                <!-- Average Rating -->
+                <p class="text-warning mb-2">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= avg_rating %}
+                            <i class="bi bi-star-fill"></i>
+                        {% else %}
+                            <i class="bi bi-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <small class="text-muted">
+                        ({{ avg_rating|floatformat:1 }}/5 from {{ reviews.count }} reviews)
+                    </small>
+                </p>
+
+                <!-- View Seller's Ads -->
+                <a href="{% url 'seller_listings' user_id=profile.user.id %}"
+                   class="btn btn-dark w-100 mt-3">
+                    View Seller's Ads
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- ================= RIGHT SIDE CONTENT ================= -->
+        <div class="col-lg-8">
+
+            <!-- ===== SELLER'S ADS ===== -->
+            <div class="card shadow-sm p-4 mb-4">
+                <h4 class="mb-3">Seller's Ads</h4>
+
+                {% if ads %}
+                    <div class="row">
+                        {% for ad in ads %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    {% if ad.images.all %}
+                                        <img src="{{ ad.images.all.0.image.url }}"
+                                             class="card-img-top"
+                                             style="height:180px;object-fit:cover;">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ ad.title }}</h5>
+                                        <p class="card-text">KES {{ ad.price|intcomma }}</p>
+                                        <a href="{% url 'listing_detail' listing_id=ad.id %}" class="btn btn-primary btn-sm">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">No ads posted yet.</p>
+                {% endif %}
+            </div>
+
+            <!-- ===== REVIEWS SECTION ===== -->
+            <div class="card shadow-sm p-4 mb-4">
+                <h4 class="mb-3">Seller Reviews</h4>
+
+                {% if reviews %}
+                    {% for r in reviews %}
+                        <div class="border-bottom py-2 d-flex align-items-center justify-content-between">
+                            <!-- Stars -->
+                            <div class="text-warning fs-5">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= r.rating %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <!-- Comment -->
+                            <small class="text-muted ms-3">{{ r.comment }}</small>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No reviews yet.</p>
+                {% endif %}
+            </div>
+
+            <!-- ===== ADD REVIEW FORM ===== -->
+            <div class="card shadow-sm p-4">
+                <h5 class="mb-3">Leave a Review</h5>
+
+                <form method="POST" action="{% url 'add_review' profile.user.id %}">
+                    {% csrf_token %}
+
+                    <label class="form-label">Rating</label>
+                    <select name="rating" class="form-select mb-3">
+                        <option value="5">★★★★★ (5)</option>
+                        <option value="4">★★★★☆ (4)</option>
+                        <option value="3">★★★☆☆ (3)</option>
+                        <option value="2">★★☆☆☆ (2)</option>
+                        <option value="1">★☆☆☆☆ (1)</option>
+                    </select>
+
+                    <label class="form-label">Comment</label>
+                    <textarea name="comment"
+                              class="form-control mb-3"
+                              rows="3"
+                              placeholder="Write your experience with this seller..."></textarea>
+
+                    <button class="btn btn-success w-100">
+                        Submit Review
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

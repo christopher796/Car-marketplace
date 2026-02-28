@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .register-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 460px;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+        backdrop-filter: blur(6px);
+    }
+
+    .brand-title {
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 12px;
+    }
+
+    .btn-register {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 10px;
+    }
+</style>
+
+
+<div class="register-wrapper">
+
+    <div class="card register-card p-4">
+
+        <!-- Logo + Title -->
+        <div class="text-center mb-3">
+            <img src="{% static 'images/logo.png' %}" width="85" class="mb-2">
+            <h4 class="brand-title">Create your VroomHub account</h4>
+            <p class="text-muted small">Start buying & selling cars today</p>
+        </div>
+
+        <!-- Error message -->
+        {% if error %}
+        <div class="alert alert-danger text-center">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {{ form.errors }}
+
+        <!-- Register Form -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <input name="first_name"
+                       class="form-control"
+                       placeholder="First Name"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <input name="last_name"
+                       class="form-control"
+                       placeholder="Last Name"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <input name="username"
+                       class="form-control"
+                       placeholder="Username"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+            </div>
+
+            <div class="mb-3">
+                <input name="password"
+                       type="password"
+                       class="form-control"
+                       placeholder="Password"
+                       required>
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100 btn-register">
+                🚀 Create Account
+            </button>
+        </form>
+
+        <!-- Login link -->
+        <div class="text-center mt-3 small">
+            Already have an account?
+            <a href="{% url 'login' %}" class="fw-bold text-decoration-none">
+                Login here
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

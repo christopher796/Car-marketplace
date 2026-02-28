@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>Feature {{ listing.title }}</h3>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="phone" placeholder="2547XXXXXXXX" class="form-control mb-3" required>
+
+    {% for p in packages %}
+    <button name="package" value="{{ p.id }}" class="btn btn-warning mb-2 w-100">
+        {{ p.name }} - KES {{ P.price }} ({{ p.days }} days)
+    </button>
+    {% endfor %}
+
+</form>
+{% endblock %}
