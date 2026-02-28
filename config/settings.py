@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-uj+#ds8suj%r8lulkwtqn)#we+qo1xx=o+10nw2_g%-y6is^&0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [vroomhub.onrendor.com]
 
 
 # Application definition
