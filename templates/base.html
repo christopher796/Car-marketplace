@@ -3,108 +3,115 @@
 <head>
     <title>VroomHub</title>
 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    {% load humanize %}
     {% load static %}
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load humanize %}
 
     <style>
-        /* Make the body full height and add background */
         body {
             min-height: 100vh;
             background: url("{% static 'images/logo.png' %}") no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
 
-        /* Add a semi-transparent overlay to improve text readability */
         body::before {
             content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.4); /* Adjust transparency */
+            inset: 0;
+            background-color: rgba(255,255,255,0.4);
             z-index: -1;
+        }
+
+        /* Mobile improvements */
+        body {
+            overflow-x: hidden;
+        }
+
+        .card {
+            border-radius: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                width: 100%;
+                margin-bottom: 8px;
+            }
+
+            .navbar .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+<!-- ✅ MOBILE FRIENDLY NAVBAR -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid px-3">
 
-    <!-- Logo -->
-    <a class="navbar-brand fw-bold" href="{% url 'browse_listings' %}">
-         Vroom Hub
-    </a>
+        <a class="navbar-brand fw-bold" href="{% url 'browse_listings' %}">
+            VroomHub
+        </a>
 
-    <div class="ms-auto d-flex align-items-center gap-3">
+        <!-- Hamburger button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        {% if user.is_authenticated %}
+        <!-- Collapsible menu -->
+        <div class="collapse navbar-collapse" id="mainNav">
 
-            <!-- Logged in features -->
-            <a href="{% url 'manage_ads' %}" class="text-white text-decoration-none">
-                My Ads
-            </a>
+            <div class="ms-auto d-flex flex-column flex-md-row gap-2">
 
-            <a href="{% url 'post_listing' %}" class="btn btn-success btn-sm">
-                Post Ad
-            </a>
+                {% if user.is_authenticated %}
 
-            <!-- Profile button -->
-            <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-info btn-sm">
-                Profile
-            </a>
+                    <a href="{% url 'manage_ads' %}" class="btn btn-outline-light btn-sm">My Ads</a>
 
-            <p class="text-white mb-0 ms-2">Hi, {{ user.username }}!</p>
+                    <a href="{% url 'post_listing' %}" class="btn btn-success btn-sm">Post Ad</a>
 
-            {% if user.profile.is_verified %}
-                <span class="badge bg-success ms-2">Verified</span>
-            {% else %}
-                <a href="{% url 'get_verified' %}" class="btn btn-outline-info btn-sm ms-2">Get Verified</a>
-            {% endif %}
+                    <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-info btn-sm">Profile</a>
 
-            <!-- Admin (only staff/superuser sees this) -->
-            {% if user.is_staff %}
-                <a href="/admin/" class="text-warning text-decoration-none ms-2">Admin</a>
-            {% endif %}
+                    {% if user.profile.is_verified %}
+                        <span class="badge bg-success align-self-center">Verified</span>
+                    {% else %}
+                        <a href="{% url 'get_verified' %}" class="btn btn-outline-info btn-sm">Get Verified</a>
+                    {% endif %}
 
-            <!-- Logout -->
-            <a href="{% url 'logout' %}" class="btn btn-sm btn-danger ms-2">
-                Logout
-            </a>
+                    {% if user.is_staff %}
+                        <a href="/admin/" class="btn btn-warning btn-sm">Admin</a>
+                    {% endif %}
 
-        {% else %}
+                    <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
 
-            <!-- Guest features -->
-            <a href="{% url 'login' %}" class="btn btn-sm btn-outline-light me-2">
-                Login
-            </a>
+                {% else %}
 
-            <a href="{% url 'register' %}" class="btn btn-sm btn-success">
-                Register
-            </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">Login</a>
 
-        {% endif %}
+                    <a href="{% url 'register' %}" class="btn btn-success btn-sm">Register</a>
 
+                {% endif %}
+
+            </div>
+        </div>
     </div>
-
 </nav>
 
-<div class="container mt-4">
+<!-- ✅ FULL WIDTH CONTENT -->
+<div class="container-fluid px-3 mt-3">
     {% block content %}{% endblock %}
 </div>
 
-<!-- Bootstrap JS Bundle -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
