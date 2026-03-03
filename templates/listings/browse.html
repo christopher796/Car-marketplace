@@ -2,17 +2,25 @@
 {% block content %}
 {% load humanize %}
 
-<form class="d-flex ms-3" method="GET" action="{% url 'browse_listings' %}">
-    <input type="search" name="q" class="form-control" placeholder="Search....">
-    <button class="btn btn-success">Search</button>
-</form>
+<!--SEARCH BAR-->
+<div class="row justify-content-center mb-4">
+    <div class="col-12 col-md-8 col-lg-6">
+        <form method="GET" action="{% url 'browse_listings' %}" class="input-group shadow-sm">
+            <input type="search" name="q" class="form-control form-control-lg" 
+            placeholder="Search Cars....." value="{{ request.GET.q }}">
+            <button class="btn btn-success px-4">Search</button>
+        </form>
+    </div>
+</div>
+
+<!--Display Listings-->
 <h2>All Listings</h2>
 <div class="row">
     {% for listing in listings %}
-    <div class="col-md-4 mb-3">
+    <div class="col-12 col-sm-6 col-lg-4 mb-3">
         <div class="card">
             {% if listing.images.all %}
-            <img src="{{ listing.images.all.0.image.url }}" class="card-img-top" alt="Image">
+            <img src="{{ listing.images.all.0.image.url }}" class="card-img-top img-fluid" alt="Image">
             {% endif %}
             <div class="card-body">
                 <h5>{{ listing.brand }} {{ listing.model }}</h5>
