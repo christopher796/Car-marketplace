@@ -1,117 +1,522 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>VroomHub</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     {% load static %}
     {% load humanize %}
 
     <style>
-        body {
-            min-height: 100vh;
-            background: url("{% static 'images/logo.png' %}") no-repeat center center fixed;
-            background-size: cover;
+        /* =========================
+           ENERGETIC & YOUTHFUL THEME
+           Orange + Charcoal + Light Gray
+        ==========================*/
+        :root {
+            --orange: #F97316;
+            --orange-hover: #EA580C;
+            --orange-light: #FDBA74;
+            --charcoal: #1F2937;
+            --charcoal-light: #374151;
+            --charcoal-dark: #111827;
+            --light-gray: #F3F4F6;
+            --light-gray-dark: #E5E7EB;
+            --white: #FFFFFF;
+            --text-dark: #1F2937;
+            --text-light: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-color: rgba(255,255,255,0.4);
-            z-index: -1;
-        }
-
-        /* Mobile improvements */
+        /* =========================
+           BODY
+        ==========================*/
         body {
+            background: var(--light-gray);
+            color: var(--text-dark);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
         }
 
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        /* =========================
+           NAVBAR
+        ==========================*/
+        .navbar {
+            background: var(--charcoal-dark) !important;
+            border-bottom: 2px solid var(--orange);
+            padding: 0.8rem 1rem;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--white) !important;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-brand span {
+            background: var(--orange);
+            color: var(--charcoal-dark);
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .navbar-toggler {
+            border: 1px solid var(--orange);
+            color: var(--orange);
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3);
+        }
+
+        /* =========================
+           BUTTONS
+        ==========================*/
+        .btn {
+            border-radius: 30px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4);
+            color: var(--white);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 2px solid var(--charcoal-light);
+            color: var(--text-light);
+        }
+
+        .btn-outline-light:hover {
+            background: var(--charcoal-light);
+            border-color: var(--charcoal-light);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #F59E0B;
+            color: var(--charcoal-dark);
+            font-weight: 700;
+        }
+
+        .btn-warning:hover {
+            background: #D97706;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* =========================
+           CARDS (Listings)
+        ==========================*/
         .card {
-            border-radius: 14px;
+            background: var(--white);
+            border: none;
+            border-radius: 20px;
+            color: var(--text-dark);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: 100%;
+            border: 1px solid var(--light-gray-dark);
         }
 
-        @media (max-width: 768px) {
-            .btn {
-                width: 100%;
-                margin-bottom: 8px;
-            }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--orange-light);
+        }
 
+        .card-img-top {
+            border-radius: 20px 20px 0 0;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal-dark);
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--orange);
+            margin: 0.5rem 0;
+        }
+
+        /* =========================
+           BADGES
+        ==========================*/
+        .badge {
+            background: var(--orange-light);
+            color: var(--charcoal-dark);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-verified {
+            background: #10B981;
+            color: white;
+        }
+
+        .badge-featured {
+            background: var(--orange);
+            color: white;
+        }
+
+        /* =========================
+           CONTAINER
+        ==========================*/
+        .main-container {
+            padding: 2rem 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* =========================
+           SECTION HEADERS
+        ==========================*/
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--charcoal-dark);
+        }
+
+        h2 {
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--orange);
+            border-radius: 2px;
+        }
+
+        /* =========================
+           LINKS
+        ==========================*/
+        a {
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:not(.btn):not(.navbar-brand) {
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        a:not(.btn):not(.navbar-brand):hover {
+            color: var(--orange-hover);
+            text-decoration: underline;
+        }
+
+        small, .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        /* =========================
+           FORM ELEMENTS
+        ==========================*/
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 1px solid var(--light-gray-dark);
+            padding: 0.75rem 1rem;
+            background: var(--white);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+            outline: none;
+        }
+
+        /* =========================
+           ALERTS
+        ==========================*/
+        .alert {
+            border-radius: 16px;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .alert-success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .alert-danger {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .alert-warning {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .alert-info {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        /* =========================
+           FOOTER (optional)
+        ==========================*/
+        .footer {
+            background: var(--charcoal-dark);
+            color: var(--text-light);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 3px solid var(--orange);
+        }
+
+        /* =========================
+           MOBILE OPTIMIZATION
+        ==========================*/
+        @media (max-width: 768px) {
             .navbar .btn {
                 width: 100%;
+                margin: 4px 0;
             }
+
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .card-img-top {
+                height: 160px;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-price {
+                font-size: 1.3rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin: 4px 0;
+            }
+        }
+
+        /* =========================
+           ANIMATIONS
+        ==========================*/
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* =========================
+           UTILITY CLASSES
+        ==========================*/
+        .bg-orange {
+            background: var(--orange);
+        }
+
+        .bg-orange-light {
+            background: var(--orange-light);
+        }
+
+        .bg-charcoal {
+            background: var(--charcoal);
+        }
+
+        .text-orange {
+            color: var(--orange);
+        }
+
+        .text-charcoal {
+            color: var(--charcoal-dark);
+        }
+
+        .shadow-custom {
+            box-shadow: var(--shadow-md);
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, var(--orange), transparent);
+            width: 100%;
+            margin: 2rem 0;
         }
     </style>
 </head>
 
 <body>
 
-<!-- ✅ MOBILE FRIENDLY NAVBAR -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-    <div class="container-fluid px-3">
+<!-- =========================
+     ENERGETIC & YOUTHFUL NAVBAR
+==========================-->
+<nav class="navbar navbar-expand-md navbar-dark sticky-top shadow-sm">
+    <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold" href="{% url 'browse_listings' %}">
-            VroomHub
+        <a class="navbar-brand" href="{% url 'browse_listings' %}">
+            🚗 VroomHub <span>KENYA</span>
         </a>
 
-        <!-- Hamburger button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Collapsible menu -->
         <div class="collapse navbar-collapse" id="mainNav">
 
-            <div class="ms-auto d-flex flex-column flex-md-row gap-2">
+            <div class="ms-auto d-flex flex-column flex-md-row gap-2 align-items-md-center">
 
                 {% if user.is_authenticated %}
 
-                    <a href="{% url 'manage_ads' %}" class="btn btn-outline-light btn-sm">My Ads</a>
+                    <a href="{% url 'manage_ads' %}" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-grid me-1"></i> My Ads
+                    </a>
 
-                    <a href="{% url 'post_listing' %}" class="btn btn-success btn-sm">Post Ad</a>
+                    <a href="{% url 'post_listing' %}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i> Post Ad
+                    </a>
 
-                    <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-info btn-sm">Profile</a>
+                    <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-person me-1"></i> Profile
+                    </a>
 
                     {% if user.profile.is_verified %}
-                        <span class="badge bg-success align-self-center">Verified</span>
-                    {% else %}
-                        <a href="{% url 'get_verified' %}" class="btn btn-outline-info btn-sm">Get Verified</a>
+                        <span class="badge badge-verified">
+                            <i class="bi bi-patch-check-fill me-1"></i> Verified
+                        </span>
                     {% endif %}
 
                     {% if user.is_staff %}
-                        <a href="/admin/" class="btn btn-warning btn-sm">Admin</a>
+                        <a href="/admin/" class="btn btn-warning btn-sm">
+                            <i class="bi bi-shield-lock me-1"></i> Admin
+                        </a>
                     {% endif %}
 
-                    <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+                    <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-box-arrow-right me-1"></i> Logout
+                    </a>
 
                 {% else %}
 
-                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">Login</a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                    </a>
 
-                    <a href="{% url 'register' %}" class="btn btn-success btn-sm">Register</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-person-plus me-1"></i> Register
+                    </a>
 
                 {% endif %}
-
             </div>
         </div>
     </div>
 </nav>
 
-<!-- ✅ FULL WIDTH CONTENT -->
-<div class="container-fluid px-3 mt-3">
+<!-- =========================
+     PAGE CONTENT
+==========================-->
+<div class="main-container">
     {% block content %}{% endblock %}
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Optional Footer (add if you want) -->
+<footer class="footer d-none d-md-block">
+    <div class="container text-center">
+        <p class="mb-0">© 2025 VroomHub Kenya — Drive Your Dream</p>
+    </div>
+</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

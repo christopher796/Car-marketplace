@@ -1,40 +1,677 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% load static %}
 
 {% block content %}
 
-<h2>{{ seller.username }}'s Ads </h2>
+<style>
+    .profile-wrapper {
+        min-height: 80vh;
+        background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+        padding: 2rem 0;
+        position: relative;
+    }
 
-{% if seller.profile.profile_pic %}
-<img src="{{ seller.profile.profile_pic.url }}" width="120" class="rounded-circle">
-{% endif %}
+    /* Decorative elements */
+    .profile-wrapper::before {
+        content: '';
+        position: absolute;
+        top: -10%;
+        right: -5%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+    }
 
-<p>
-    Location: {{ seller.profile.location }}
-</p>
+    .profile-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
 
-<p>
-    Status: {% if seller.profile.is_verified %}
-    <span class="text-primary">Verified Seller</span>
-    {% else %}
-    <span class="text-muted">Not Verified</span>
-    {% endif %}
-</p>
+    /* Profile Header/Cover */
+    .profile-cover {
+        background: linear-gradient(135deg, var(--charcoal-dark) 0%, var(--charcoal) 100%);
+        border-radius: 40px 40px 30px 30px;
+        padding: 3rem 2rem 6rem;
+        margin-bottom: -4rem;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 4px solid var(--orange);
+    }
 
-<hr>
+    .profile-cover::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
 
-<h4>All listings</h4>
+    .profile-cover::after {
+        content: '🚗';
+        position: absolute;
+        bottom: 10px;
+        right: 30px;
+        font-size: 8rem;
+        opacity: 0.05;
+        transform: rotate(-10deg);
+    }
 
-{% for ad in listings %}
-<div class="card mb-3 p-3">
-    <a href="{% url 'listing_detail' ad.id %}">
-        <strong>{{ ad.title }}</strong>
-    </a>
-    <p>KES {{ ad.price|intcomma }}</p>
+    /* Profile Card */
+    .profile-card {
+        background: white;
+        border-radius: 30px;
+        box-shadow: var(--shadow-lg);
+        padding: 2rem;
+        position: relative;
+        z-index: 3;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(249, 115, 22, 0.1);
+        animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Profile Header Section */
+    .profile-header {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px dashed var(--light-gray-dark);
+    }
+
+    /* Profile Image */
+    .profile-image-wrapper {
+        position: relative;
+        width: 140px;
+        height: 140px;
+    }
+
+    .profile-image {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--orange);
+        box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        background: var(--light-gray);
+    }
+
+    .default-avatar {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--orange-light) 0%, var(--orange) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        font-weight: 700;
+        color: white;
+        border: 4px solid white;
+        box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+    }
+
+    .verified-badge-large {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: #10B981;
+        color: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid white;
+        font-size: 1.2rem;
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Profile Info */
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--charcoal-dark);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .profile-name span {
+        color: var(--orange);
+    }
+
+    .profile-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-muted);
+    }
+
+    .meta-item i {
+        color: var(--orange);
+        font-size: 1.2rem;
+    }
+
+    .meta-item strong {
+        color: var(--charcoal-dark);
+        font-weight: 700;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .stat-box {
+        background: var(--light-gray);
+        padding: 1.5rem;
+        border-radius: 20px;
+        text-align: center;
+        border: 1px solid var(--light-gray-dark);
+        transition: all 0.3s ease;
+    }
+
+    .stat-box:hover {
+        transform: translateY(-5px);
+        border-color: var(--orange);
+        box-shadow: var(--shadow-md);
+    }
+
+    .stat-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--orange);
+        line-height: 1.2;
+    }
+
+    .stat-label {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Contact Bar */
+    .contact-bar {
+        background: var(--light-gray);
+        border-radius: 50px;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 2rem 0;
+        border: 1px solid var(--light-gray-dark);
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--charcoal-dark);
+    }
+
+    .contact-item i {
+        color: var(--orange);
+        font-size: 1.2rem;
+    }
+
+    .contact-actions {
+        display: flex;
+        gap: 0.8rem;
+    }
+
+    .contact-btn {
+        padding: 0.6rem 1.5rem;
+        border-radius: 40px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-message {
+        background: var(--orange);
+        color: white;
+    }
+
+    .btn-message:hover {
+        background: var(--orange-hover);
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .btn-whatsapp {
+        background: #25D366;
+        color: white;
+    }
+
+    .btn-whatsapp:hover {
+        background: #128C7E;
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    /* Section Title */
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 2rem 0 1.5rem;
+    }
+
+    .section-title h4 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--charcoal-dark);
+        margin: 0;
+    }
+
+    .section-title i {
+        color: var(--orange);
+        font-size: 1.5rem;
+        background: rgba(249, 115, 22, 0.1);
+        padding: 0.5rem;
+        border-radius: 12px;
+    }
+
+    .listing-count-badge {
+        background: var(--orange-light);
+        color: var(--orange-hover);
+        padding: 0.3rem 1rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-left: 1rem;
+    }
+
+    /* Listings Grid */
+    .listings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .listing-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--light-gray-dark);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+    }
+
+    .listing-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--orange);
+    }
+
+    .card-image {
+        height: 180px;
+        background: var(--light-gray);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .listing-card:hover .card-image img {
+        transform: scale(1.1);
+    }
+
+    .no-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--light-gray);
+        color: var(--text-muted);
+        font-size: 3rem;
+    }
+
+    .card-content {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--charcoal-dark);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .card-price {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--orange);
+        margin-bottom: 0.5rem;
+    }
+
+    .card-meta {
+        display: flex;
+        gap: 1rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .card-meta i {
+        color: var(--orange);
+        margin-right: 3px;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 40px;
+        border: 2px dashed var(--light-gray-dark);
+        margin: 2rem 0;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: var(--orange-light);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+        font-weight: 700;
+        color: var(--charcoal-dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: var(--text-muted);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            justify-content: center;
+        }
+
+        .profile-meta {
+            justify-content: center;
+        }
+
+        .contact-bar {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .contact-info {
+            justify-content: center;
+        }
+
+        .listings-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="profile-wrapper">
+    <div class="container profile-container">
+        <!-- Cover Section -->
+        <div class="profile-cover"></div>
+
+        <!-- Main Profile Card -->
+        <div class="profile-card">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <!-- Profile Image -->
+                <div class="profile-image-wrapper">
+                    {% if seller.profile.profile_pic %}
+                        <img src="{{ seller.profile.profile_pic.url }}" class="profile-image" alt="{{ seller.username }}">
+                    {% else %}
+                        <div class="default-avatar">
+                            {{ seller.username|first|upper }}
+                        </div>
+                    {% endif %}
+
+                    {% if seller.profile.is_verified %}
+                    <div class="verified-badge-large" title="Verified Seller">
+                        <i class="bi bi-patch-check-fill"></i>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Profile Info -->
+                <div class="profile-info">
+                    <h1 class="profile-name">
+                        {{ seller.username }}'s <span>Auto Shop</span>
+                    </h1>
+
+                    <div class="profile-meta">
+                        {% if seller.profile.location %}
+                        <span class="meta-item">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <strong>Location:</strong> {{ seller.profile.location }}
+                        </span>
+                        {% endif %}
+
+                        <span class="meta-item">
+                            <i class="bi bi-calendar3"></i>
+                            <strong>Member since:</strong> {{ seller.date_joined|date:"F Y" }}
+                        </span>
+
+                        <span class="meta-item">
+                            <i class="bi bi-shield-check"></i>
+                            <strong>Status:</strong> 
+                            {% if seller.profile.is_verified %}
+                                <span style="color: #10B981;">Verified Seller</span>
+                            {% else %}
+                                <span class="text-muted">Not Verified</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">{{ listings|length }}</div>
+                    <div class="stat-label">Total Listings</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">{{ total_views|default:"0" }}</div>
+                    <div class="stat-label">Listing Views</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">{{ active_listings|default:listings|length }}</div>
+                    <div class="stat-label">Active Ads</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">{{ seller.profile.phone|yesno:"✓,—" }}</div>
+                    <div class="stat-label">Contact Available</div>
+                </div>
+            </div>
+
+            <!-- Contact Bar -->
+            {% if seller.profile.phone or seller.profile.whatsapp %}
+            <div class="contact-bar">
+                <div class="contact-info">
+                    {% if seller.profile.phone %}
+                    <span class="contact-item">
+                        <i class="bi bi-telephone-fill"></i>
+                        {{ seller.profile.phone }}
+                    </span>
+                    {% endif %}
+                    
+                    {% if seller.profile.whatsapp %}
+                    <span class="contact-item">
+                        <i class="bi bi-whatsapp"></i>
+                        {{ seller.profile.whatsapp }}
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <div class="contact-actions">
+                    {% if seller.profile.whatsapp %}
+                    <a href="https://wa.me/{{ seller.profile.whatsapp|cut:'+'|cut:' ' }}" target="_blank" class="contact-btn btn-whatsapp">
+                        <i class="bi bi-whatsapp"></i> WhatsApp
+                    </a>
+                    {% endif %}
+                    
+                    {% if user.is_authenticated and user != seller %}
+                    <a href="{% url 'send_message' seller.id %}" class="contact-btn btn-message">
+                        <i class="bi bi-envelope"></i> Message
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Seller Bio (if available) -->
+            {% if seller.profile.bio %}
+            <div class="description-box" style="margin: 1.5rem 0;">
+                <h5 style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;">
+                    <i class="bi bi-person-lines-fill" style="color: var(--orange);"></i>
+                    About the seller
+                </h5>
+                <p style="color: var(--text-muted); margin: 0;">
+                    {{ seller.profile.bio }}
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Listings Section -->
+            <div class="section-title">
+                <i class="bi bi-grid-fill"></i>
+                <h4>All Listings</h4>
+                <span class="listing-count-badge">
+                    <i class="bi bi-car-front"></i> {{ listings|length }} vehicle{{ listings|pluralize }}
+                </span>
+            </div>
+
+            {% if listings %}
+            <div class="listings-grid">
+                {% for ad in listings %}
+                <a href="{% url 'listing_detail' ad.id %}" class="listing-card">
+                    <div class="card-image">
+                        {% if ad.images.all %}
+                            <img src="{{ ad.images.all.0.image.url }}" alt="{{ ad.title }}">
+                        {% else %}
+                            <div class="no-image">
+                                <i class="bi bi-image"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">
+                            {{ ad.title|truncatechars:30 }}
+                            {% if ad.feature and ad.feature.active %}
+                            <span style="color: var(--orange);"><i class="bi bi-star-fill"></i></span>
+                            {% endif %}
+                        </div>
+                        <div class="card-price">
+                            KES {{ ad.price|intcomma }}
+                        </div>
+                        <div class="card-meta">
+                            <span><i class="bi bi-eye"></i> {{ ad.views_count }} views</span>
+                            <span><i class="bi bi-calendar"></i> {{ ad.created_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="bi bi-megaphone"></i>
+                <h3>No ads yet</h3>
+                <p>{{ seller.username }} hasn't posted any vehicle listings yet.</p>
+                
+                {% if user == seller %}
+                <a href="{% url 'post_listing' %}" class="btn btn-primary" style="margin-top: 1.5rem; padding: 0.8rem 2rem; border-radius: 50px;">
+                    <i class="bi bi-plus-circle"></i> Post Your First Ad
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- If current user is viewing their own profile -->
+            {% if user == seller %}
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px dashed var(--light-gray-dark);">
+                <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary" style="border-radius: 50px; padding: 0.6rem 2rem;">
+                    <i class="bi bi-pencil-square"></i> Edit Profile
+                </a>
+                <a href="{% url 'manage_ads' %}" class="btn btn-outline-primary" style="border-radius: 50px; padding: 0.6rem 2rem; margin-left: 1rem;">
+                    <i class="bi bi-gear"></i> Manage Ads
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
-{% empty %}
-<p>No ads yet</p>
-{% endfor %}
-
 {% endblock %}
-
