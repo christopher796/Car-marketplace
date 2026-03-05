@@ -309,7 +309,7 @@
 
     .btn-call {
         background: var(--orange);
-        color: white;
+        color: white !important;
     }
 
     .btn-call:hover {
@@ -671,7 +671,7 @@
 
                 <!-- Contact Buttons -->
                 <div class="contact-buttons">
-                    <a href="tel:{{ listing.phone_number|cut:' '|cut:'-' }}" class="contact-btn btn-call">
+                    <a href="tel:{{ listing.phone_number|cut:' '|cut:'-' }}" class="contact-btn btn-call ">
                         <i class="bi bi-telephone-fill"></i> Call Seller
                     </a>
                     <a href="{{ whatsapp_link }}" target="_blank" class="contact-btn btn-whatsapp">
@@ -691,13 +691,13 @@
                     <div class="share-title">Share this listing</div>
                     <div class="share-button">
                         <a href="{{ whatsapp_share }}" target="_blank" class="share-btn share-wa">
-                            <i class="bi bi-whatsapp"></i>
+                            <i class="bi bi-whatsapp text-dark"></i>
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}" target="_blank" class="share-btn share-fb">
-                            <i class="bi bi-facebook"></i>
+                            <i class="bi bi-facebook text-white"></i>
                         </a>
                         <a href="https://twitter.com/intent/tweet?url={{ current_url }}&text=Check out this {{ listing.brand }} {{ listing.model }}" target="_blank" class="share-btn share-twitter">
-                            <i class="bi bi-twitter-x"></i>
+                            <i class="bi bi-twitter text-dark"></i>
                         </a>
                         <button class="share-btn share-copy" onclick="copyToClipboard('{{ current_url }}')">
                             <i class="bi bi-link"></i>

@@ -160,6 +160,49 @@
             font-size: 0.85rem;
         }
 
+        .btn-get-verified {
+            background: var(--orange);
+            color: black !important;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-get-verified:hover {
+            background: var(--orange-hover);
+            transform: translate(-3px);
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-get-verified i {
+            font-size: 1.2rem;
+        }
+
+        .dashboard-btn {
+            background: var(--orange);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .dashboard-btn:hover {
+            background: var(--orange-hover);
+            transform: translate(-2px);
+        }
+
         /* =========================
            CARDS (Listings)
         ==========================*/
@@ -446,7 +489,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand" href="{% url 'browse_listings' %}">
-            🚗 VroomHub <span>KENYA</span>
+             VroomHub
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -477,9 +520,22 @@
                         </span>
                     {% endif %}
 
+                    {% if user.is_authenticated and not user.profile.is_verified %}
+                    <a href="{% url 'get_verified' %}" class="btn-get-verified">
+                        <i class="bi bi-patch-check-fill"></i>
+                        Get Verified
+                    </a>
+                    {% endif %}
+
+
                     {% if user.is_staff %}
                         <a href="/admin/" class="btn btn-warning btn-sm">
                             <i class="bi bi-shield-lock me-1"></i> Admin
+                        </a>
+
+                        <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">
+                            <i class="bi bi-speedometer2"></i>
+                            Dashboard
                         </a>
                     {% endif %}
 

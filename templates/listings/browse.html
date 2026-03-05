@@ -118,28 +118,74 @@
     }
 
     .filter-chip {
-        padding: 0.6rem 1.5rem;
+        padding: 0.7rem 1.8rem;
         background: var(--white);
         border: 2px solid var(--light-gray-dark);
         border-radius: 40px;
         font-weight: 600;
         color: var(--charcoal-dark);
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /*Bouncy effect */
         cursor: pointer;
         font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        position: relative;
+        overflow: hidden;
     }
 
-    .filter-chip:hover,
+    .filter-chip:hover:not(.active) {
+        background: var(--light-gray);
+        border-color: var(--orange-light);
+        transform: translate(-2px);
+        color: var(--orange);
+    }
     .filter-chip.active {
         background: var(--orange);
         border-color: var(--orange);
         color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(249, 115, 22, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+    }
+
+    .filter-chip.active i {
+        color: white;
     }
 
     .filter-chip i {
-        margin-right: 0.5rem;
+        color: var(--orange);
+        transition: color 0.3s ease;
+    }
+
+    .filter-chip::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(40, 40);
+            opacity: 0;
+        }
+    }
+
+    .filter-chip:focus:not(:active)::after {
+        animation: ripple 0.6s ease-out;
     }
 
     /* Enhanced card grid */
@@ -332,7 +378,7 @@
     .view-btn {
         padding: 0.5rem 1.2rem;
         background: var(--orange);
-        color: white;
+        color: white !important;
         border-radius: 30px;
         font-weight: 600;
         font-size: 0.9rem;
@@ -459,19 +505,19 @@
 
 <!-- Filter Chips (Quick filters) -->
 <div class="filter-chips">
-    <a href="{% url 'browse_listings' %}" class="filter-chip {% if not request.GET.q %}active{% endif %}">
+    <a href="{% url 'browse_listings' %}" class="filter-chip {% if not request.GET.price_max and not request.GET.condition and not request.GET.featured and not request.GET.sort %}active{% endif %} text-dark">
         <i class="bi bi-grid"></i> All Cars
     </a>
-    <a href="?price_max=1000000" class="filter-chip">
+    <a href="?price_max=1000000" class="filter-chip {% if request.GET.price_max == '1000000' %}active{% endif %} text-dark">
         <i class="bi bi-cash"></i> Under 1M KES
     </a>
-    <a href="?condition=new" class="filter-chip">
+    <a href="?condition=new" class="filter-chip {% if request.GET.condition == 'new' %}active{% endif %} text-dark">
         <i class="bi bi-star"></i> New Arrivals
     </a>
-    <a href="?featured=true" class="filter-chip">
+    <a href="?featured=true" class="filter-chip text-dark">
         <i class="bi bi-award"></i> Featured
     </a>
-    <a href="?sort=price_asc" class="filter-chip">
+    <a href="?sort=price_asc" class="filter-chip {% if request.GET.sort == 'price_asc' %}active{% endif %} text-dark">
         <i class="bi bi-sort-up"></i> Price: Low to High
     </a>
 </div>
