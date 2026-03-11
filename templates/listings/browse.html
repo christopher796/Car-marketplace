@@ -514,7 +514,7 @@
     <a href="?condition=new" class="filter-chip {% if request.GET.condition == 'new' %}active{% endif %} text-dark">
         <i class="bi bi-star"></i> New Arrivals
     </a>
-    <a href="?featured=true" class="filter-chip text-dark">
+    <a href="?featured=true" class="filter-chip text-dark {% if request.GET.featured == 'true' %}active{% endif %}">
         <i class="bi bi-award"></i> Featured
     </a>
     <a href="?sort=price_asc" class="filter-chip {% if request.GET.sort == 'price_asc' %}active{% endif %} text-dark">
