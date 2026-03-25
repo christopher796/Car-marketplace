@@ -52,7 +52,7 @@
 
     /* Enhanced search bar */
     .search-wrapper {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         position: relative;
     }
 
@@ -108,12 +108,108 @@
         font-size: 1.2rem;
     }
 
-    /* Filter chips */
+    /* Search info text */
+    .search-info {
+        text-align: center;
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .search-info i {
+        color: var(--orange);
+    }
+
+    /* Budget Filter Section - Like the screenshot */
+    .budget-filter-section {
+        background: var(--white);
+        border-radius: 24px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--light-gray-dark);
+    }
+
+    .budget-filter-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        color: var(--charcoal-dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .budget-filter-title i {
+        color: var(--orange);
+        font-size: 1.2rem;
+    }
+
+    .budget-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .budget-btn {
+        padding: 0.6rem 1.5rem;
+        background: var(--light-gray);
+        border: 2px solid var(--light-gray-dark);
+        border-radius: 40px;
+        font-weight: 600;
+        color: var(--charcoal-dark);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .budget-btn:hover {
+        background: var(--orange-light);
+        border-color: var(--orange);
+        transform: translateY(-2px);
+    }
+
+    .budget-btn.active {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: white;
+        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    .budget-btn i {
+        font-size: 0.9rem;
+    }
+
+    .advanced-search-link {
+        margin-top: 1rem;
+        text-align: right;
+    }
+
+    .advanced-search-link a {
+        color: var(--orange);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.2s ease;
+    }
+
+    .advanced-search-link a:hover {
+        color: var(--orange-hover);
+        gap: 8px;
+    }
+
+    /* Filter chips (quick filters) */
     .filter-chips {
         display: flex;
         flex-wrap: wrap;
         gap: 0.8rem;
-        margin: 2rem 0 1.5rem;
+        margin: 1rem 0 1.5rem;
         justify-content: center;
     }
 
@@ -124,7 +220,7 @@
         border-radius: 40px;
         font-weight: 600;
         color: var(--charcoal-dark);
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /*Bouncy effect */
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         cursor: pointer;
         font-size: 0.95rem;
         text-decoration: none;
@@ -159,33 +255,25 @@
         transition: color 0.3s ease;
     }
 
-    .filter-chip::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 5px;
-        height: 5px;
-        background: rgba(255, 255, 255, 0.5);
-        opacity: 0;
-        border-radius: 100%;
-        transform: scale(1, 1) translate(-50%);
-        transform-origin: 50% 50%;
+    /* Clear filters button */
+    .clear-filters-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0.5rem 1.2rem;
+        background: var(--light-gray);
+        border: 1px solid var(--light-gray-dark);
+        border-radius: 30px;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
     }
 
-    @keyframes ripple {
-        0% {
-            transform: scale(0, 0);
-            opacity: 0.5;
-        }
-        100% {
-            transform: scale(40, 40);
-            opacity: 0;
-        }
-    }
-
-    .filter-chip:focus:not(:active)::after {
-        animation: ripple 0.6s ease-out;
+    .clear-filters-btn:hover {
+        background: #EF4444;
+        color: white;
+        border-color: #EF4444;
     }
 
     /* Enhanced card grid */
@@ -476,6 +564,15 @@
             font-size: 0.9rem;
         }
 
+        .budget-buttons {
+            gap: 0.5rem;
+        }
+
+        .budget-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
         .listings-grid {
             grid-template-columns: 1fr;
             gap: 1rem;
@@ -493,22 +590,55 @@
 
 <!-- Search Section with enhanced styling -->
 <div class="search-wrapper">
-    <form method="GET" action="{% url 'browse_listings' %}" class="search-form">
+    <form method="GET" action="{% url 'browse_listings' %}" class="search-form" id="searchForm">
         <input type="search" name="q" class="form-control" 
-               placeholder="Search by make, model, or location..." 
+               placeholder="Simply write the vehicle name and press the search button (i.e demio or vitz)" 
                value="{{ request.GET.q }}">
         <button class="btn" type="submit">
             <i class="bi bi-search"></i> Search
         </button>
     </form>
+    <div class="search-info">
+        <i class="bi bi-info-circle"></i> Simply write the vehicle name and press the search button (i.e demio or vitz)
+    </div>
+</div>
+
+<!-- BUDGET FILTER SECTION -->
+<div class="budget-filter-section">
+    <div class="budget-filter-title">
+        <i class="bi bi-funnel"></i> Filter by budget
+    </div>
+    <div class="budget-buttons">
+        <button class="budget-btn" data-min="0" data-max="500000">
+            <i class="bi bi-cash"></i> 0 - 500K
+        </button>
+        <button class="budget-btn" data-min="500000" data-max="1000000">
+            <i class="bi bi-cash-stack"></i> 500K - 1M
+        </button>
+        <button class="budget-btn" data-min="1000000" data-max="2000000">
+            <i class="bi bi-cash-stack"></i> 1M - 2M
+        </button>
+        <button class="budget-btn" data-min="2000000" data-max="3000000">
+            <i class="bi bi-cash-stack"></i> 2M - 3M
+        </button>
+        <button class="budget-btn" data-min="3000000" data-max="5000000">
+            <i class="bi bi-cash-stack"></i> 3M - 5M
+        </button>
+        <button class="budget-btn" data-min="5000000" data-max="10000000">
+            <i class="bi bi-cash-stack"></i> 5M - 10M
+        </button>
+        <button class="budget-btn" data-min="10000000" data-max="999999999">
+            <i class="bi bi-cash-stack"></i> Above 10M
+        </button>
+    </div>
 </div>
 
 <!-- Filter Chips (Quick filters) -->
 <div class="filter-chips">
-    <a href="{% url 'browse_listings' %}" class="filter-chip {% if not request.GET.price_max and not request.GET.condition and not request.GET.featured and not request.GET.sort %}active{% endif %} text-dark">
+    <a href="{% url 'browse_listings' %}" class="filter-chip {% if not request.GET.price_min and not request.GET.price_max and not request.GET.condition and not request.GET.featured and not request.GET.sort %}active{% endif %} text-dark">
         <i class="bi bi-grid"></i> All Cars
     </a>
-    <a href="?price_max=1000000" class="filter-chip {% if request.GET.price_max == '1000000' %}active{% endif %} text-dark">
+    <a href="?price_max=1000000" class="filter-chip {% if request.GET.price_max == '1000000' and not request.GET.price_min %}active{% endif %} text-dark">
         <i class="bi bi-cash"></i> Under 1M KES
     </a>
     <a href="?condition=new" class="filter-chip {% if request.GET.condition == 'new' %}active{% endif %} text-dark">
@@ -517,9 +647,11 @@
     <a href="?featured=true" class="filter-chip text-dark {% if request.GET.featured == 'true' %}active{% endif %}">
         <i class="bi bi-award"></i> Featured
     </a>
-    <a href="?sort=price_asc" class="filter-chip {% if request.GET.sort == 'price_asc' %}active{% endif %} text-dark">
-        <i class="bi bi-sort-up"></i> Price: Low to High
+    {% if request.GET.price_min or request.GET.price_max %}
+    <a href="{% url 'browse_listings' %}" class="clear-filters-btn">
+        <i class="bi bi-x-circle"></i> Clear Budget Filter
     </a>
+    {% endif %}
 </div>
 
 <!-- Page Header with result count -->
@@ -604,7 +736,7 @@
                 </div>
                 
                 <a href="{% url 'listing_detail' listing.id %}" class="view-btn">
-                    View <i class="bi bi-arrow-right"></i>
+                    View<i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -619,12 +751,12 @@
         <ul class="pagination">
             {% if listings.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page=1" aria-label="First">
+                <a class="page-link" href="?page=1&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}" aria-label="First">
                     <i class="bi bi-chevron-double-left"></i>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ listings.previous_page_number }}" aria-label="Previous">
+                <a class="page-link" href="?page={{ listings.previous_page_number }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}" aria-label="Previous">
                     <i class="bi bi-chevron-left"></i>
                 </a>
             </li>
@@ -634,18 +766,18 @@
                 {% if listings.number == num %}
                 <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                 {% elif num > listings.number|add:'-3' and num < listings.number|add:'3' %}
-                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}">{{ num }}</a></li>
                 {% endif %}
             {% endfor %}
 
             {% if listings.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ listings.next_page_number }}" aria-label="Next">
+                <a class="page-link" href="?page={{ listings.next_page_number }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}" aria-label="Next">
                     <i class="bi bi-chevron-right"></i>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ listings.paginator.num_pages }}" aria-label="Last">
+                <a class="page-link" href="?page={{ listings.paginator.num_pages }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}" aria-label="Last">
                     <i class="bi bi-chevron-double-right"></i>
                 </a>
             </li>
@@ -666,4 +798,79 @@
     </a>
 </div>
 {% endif %}
+
+<script>
+    // Budget filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current budget filter values from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentMin = urlParams.get('price_min');
+        const currentMax = urlParams.get('price_max');
+        
+        // Highlight active budget button based on URL params
+        const budgetBtns = document.querySelectorAll('.budget-btn');
+        budgetBtns.forEach(btn => {
+            const min = btn.getAttribute('data-min');
+            const max = btn.getAttribute('data-max');
+            
+            if (currentMin === min && currentMax === max) {
+                btn.classList.add('active');
+            }
+            
+            // Add click handler
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const selectedMin = this.getAttribute('data-min');
+                const selectedMax = this.getAttribute('data-max');
+                
+                // Build new URL with budget filters
+                const url = new URL(window.location.href);
+                url.searchParams.set('price_min', selectedMin);
+                url.searchParams.set('price_max', selectedMax);
+                
+                // Keep existing search query if any
+                const currentQ = urlParams.get('q');
+                if (currentQ) {
+                    url.searchParams.set('q', currentQ);
+                }
+                
+                // Remove page parameter to reset to first page
+                url.searchParams.delete('page');
+                
+                window.location.href = url.toString();
+            });
+        });
+        
+        // Advanced search link handler (you can redirect to advanced search page)
+        const advancedLink = document.getElementById('advancedSearchLink');
+        if (advancedLink) {
+            advancedLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                // You can create an advanced search page and redirect there
+                // For now, just show an alert or scroll to filters
+                alert('Advanced search feature coming soon! You can use the budget filters above for now.');
+            });
+        }
+        
+        // Handle search form to preserve budget filters
+        const searchForm = document.getElementById('searchForm');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                const searchInput = this.querySelector('input[name="q"]');
+                const currentMin = urlParams.get('price_min');
+                const currentMax = urlParams.get('price_max');
+                
+                if (searchInput && searchInput.value.trim()) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('q', searchInput.value.trim());
+                    if (currentMin) url.searchParams.set('price_min', currentMin);
+                    if (currentMax) url.searchParams.set('price_max', currentMax);
+                    url.searchParams.delete('page');
+                    window.location.href = url.toString();
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}

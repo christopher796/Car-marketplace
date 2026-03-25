@@ -66,7 +66,6 @@ def post_listing(request):
     })
 
 
-# Browse approved listings
 def browse_listings(request):
     # Start with approved & active listings
     listings = Listing.objects.filter(is_approved=True, is_active=True)
@@ -76,10 +75,45 @@ def browse_listings(request):
         When(feature__active=True, then=0),
         default=1,
         output_field=IntegerField()
-    )).order_by('featured_order', '-created_at') # Featured first, then newest
+    ))
     
+    # Get all filter parameters from URL
     query = request.GET.get('q')
-
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    condition = request.GET.get('condition')
+    featured = request.GET.get('featured')
+    sort = request.GET.get('sort')
+    
+    # ==================== 1. BUDGET FILTER ====================
+    if price_min:
+        try:
+            price_min = int(price_min)
+            listings = listings.filter(price__gte=price_min)
+        except (ValueError, TypeError):
+            pass
+    
+    if price_max:
+        try:
+            price_max = int(price_max)
+            # If price_max is 999999999 (our "Above 10M" marker), don't filter by max
+            if price_max != 999999999:
+                listings = listings.filter(price__lte=price_max)
+        except (ValueError, TypeError):
+            pass
+    
+    # ==================== 2. NEW ARRIVALS FILTER ====================
+    if condition == 'new':
+        from datetime import timedelta
+        from django.utils import timezone
+        days_limit = timezone.now() - timedelta(days=30)
+        listings = listings.filter(created_at__gte=days_limit)
+    
+    # ==================== 3. FEATURED FILTER ====================
+    if featured == 'true':
+        listings = listings.filter(feature__active=True)
+    
+    # ==================== 4. SEARCH & SMART FILTERS ====================
     if query:
         q = query.lower()
         filters = Q()
@@ -92,28 +126,28 @@ def browse_listings(request):
             Q(description__icontains=q)
         )
 
-        # Price Under 
+        # Price Under (e.g., "under 500000")
         match = re.search(r'under\s?(\d+)', q)
         if match:
             max_price = int(match.group(1))
             filters &= Q(price__lte=max_price)
 
-        # Price over
-        match = re.search(r'over\s?(\d)', q)
+        # Price Over (e.g., "over 1000000")
+        match = re.search(r'over\s?(\d+)', q)
         if match:
             min_price = int(match.group(1))
             filters &= Q(price__gte=min_price)
 
-        # Year detection
+        # Year detection (e.g., "2020")
         year_match = re.search(r'(20\d{2})', q)
         if year_match:
             year = int(year_match.group(1))
             filters &= Q(year=year)
 
-        # Location Detection
+        # Location Detection (Kenyan counties)
         locations = ['mombasa', 'kwale', 'kilifi', 'tana river', 'lamu', 'taita-taveta', 'garissa', 'wajir', 'mandera', 'marsabit', 'isiolo', 
         'meru', 'tharaka-nithi', 'embu', 'kitui', 'machakos', 'makueni', 'nyandarua', 'nyeri', 'kirinyaga', 'muranga', 'kiambu', 'turkana', 'west pokot', 'samburu', 
-        'trans-nzoia', 'Uasin gishu', 'elgeyo marakwet', 'nandi', 'baringo', 'laikipia', 'nakuru', 'narok', 'kajiado', 'kericho', 'bomet', 'kakamega', 'vihiga', 'bungoma', 
+        'trans-nzoia', 'uasin gishu', 'elgeyo marakwet', 'nandi', 'baringo', 'laikipia', 'nakuru', 'narok', 'kajiado', 'kericho', 'bomet', 'kakamega', 'vihiga', 'bungoma', 
         'busia', 'siaya', 'kisumu', 'homa bay', 'migori', 'kisii', 'nyamira', 'nairobi']
         
         for loc in locations:
@@ -130,11 +164,22 @@ def browse_listings(request):
         if 'new' in q:
             filters &= Q(condition='New')
         if 'used' in q:
-            filters &= Q(condition= 'Used')
+            filters &= Q(condition='Used')
 
         listings = listings.filter(filters)
+    
+    # ==================== 5. SORTING ====================
+    if sort == 'price_asc':
+        # Price low to high (but keep featured at top)
+        listings = listings.order_by('price', 'featured_order', '-created_at')
+    elif sort == 'price_desc':
+        # Price high to low (but keep featured at top)
+        listings = listings.order_by('-price', 'featured_order', '-created_at')
+    else:
+        # Default sorting: Featured first, then newest
+        listings = listings.order_by('featured_order', '-created_at')
+    
     return render(request, 'listings/browse.html', {'listings': listings})
-
 
 # View listing detail
 def listing_detail(request, listing_id):
