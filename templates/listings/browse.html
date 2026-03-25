@@ -205,12 +205,42 @@
     }
 
     /* Filter chips (quick filters) */
+
+    .filter-chips-container {
+        position: relative;
+        margin: 1rem 0 1.5rem;
+    }
+
     .filter-chips {
         display: flex;
         flex-wrap: wrap;
         gap: 0.8rem;
-        margin: 1rem 0 1.5rem;
-        justify-content: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        padding: 0.5rem 0 1rem 0;
+        margin: 0;
+    }
+
+    /* Hide scrollbar */
+    .filter-chips::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .filter-chips::-webkit-scrollbar-track {
+        background: var(--light-gray-dark);
+        border-radius: 10px;
+    }
+
+    .filter-chips::-webkit-scrollbar-thumb {
+        background: var(--orange);
+        border-radius: 10px;
+    }
+
+    .filter-chips::-webkit-scrollbar-thumb:hover {
+        background: var(--orange-hover);
     }
 
     .filter-chip {
@@ -230,6 +260,8 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         position: relative;
         overflow: hidden;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .filter-chip:hover:not(.active) {
@@ -255,6 +287,56 @@
         transition: color 0.3s ease;
     }
 
+    /* Scroll buttons for desktop */
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--orange);
+        color: white;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+        opacity: 0.7;
+    }
+
+    .scroll-btn:hover {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    .scroll-left {
+        left: -10px;
+    }
+
+    .scroll-right {
+        right: -10px;
+    }
+
+    /* Hide scroll buttons on mobile */
+    @media (max-width: 768px) {
+        .scroll-btn {
+            display: none;
+        }
+
+        .filter-chips {
+            gap: 0.6rem;
+            padding: 0.5rem 0.25rem 1rem 0.25rem;
+        }
+
+        .filter-chip {
+            padding: 0.6rem 1.4rem;
+            font-size: 0.65rem;
+        }
+    }
+
     /* Clear filters button */
     .clear-filters-btn {
         display: inline-flex;
@@ -274,6 +356,14 @@
         background: #EF4444;
         color: white;
         border-color: #EF4444;
+    }
+
+    /* Mobile optimization for filter chips container */
+    @media (max-width: 768px) {
+        .filter-chips-container {
+            margin: 1rem -0.5rem 1.5rem -0.5rem;
+            padding: 0 0.5rem;
+        }
     }
 
     /* Enhanced card grid */
@@ -634,7 +724,13 @@
 </div>
 
 <!-- Filter Chips (Quick filters) -->
-<div class="filter-chips">
+ <div class="filter-chips-container">
+    <!--Scroll buttons for desktop-->
+    <div class="scroll-btn scroll-left" id="scrollLeftBtn" style="display: none;">
+        <i class="bi bi-chevron-left"></i>
+    </div>
+
+<div class="filter-chips" id="filterChips">
     <a href="{% url 'browse_listings' %}" class="filter-chip {% if not request.GET.price_min and not request.GET.price_max and not request.GET.condition and not request.GET.featured and not request.GET.sort %}active{% endif %} text-dark">
         <i class="bi bi-grid"></i> All Cars
     </a>
@@ -652,6 +748,11 @@
         <i class="bi bi-x-circle"></i> Clear Budget Filter
     </a>
     {% endif %}
+</div>
+
+<div class="scroll-btn scroll-right" id="scrollRightBtn" style="display: none;">
+    <i class="bi bi-chevron-right"></i>
+</div>
 </div>
 
 <!-- Page Header with result count -->
@@ -800,6 +901,58 @@
 {% endif %}
 
 <script>
+
+    // Horizontal scroll functionality for filter chips (optional desktop scroll buttons)
+    const filterChips = document.getElementById('filterChips');
+    const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+    const scrollRightBtn = document.getElementById('scrollRightBtn');
+    
+    // Check if scroll buttons are needed (only on desktop where content overflows)
+    function checkScrollButtons() {
+        if (filterChips && window.innerWidth > 768) {
+            if (filterChips.scrollWidth > filterChips.clientWidth) {
+                scrollLeftBtn.style.display = 'flex';
+                scrollRightBtn.style.display = 'flex';
+            } else {
+                scrollLeftBtn.style.display = 'none';
+                scrollRightBtn.style.display = 'none';
+            }
+        }
+    }
+    
+    // Scroll functions
+    if (scrollLeftBtn) {
+        scrollLeftBtn.addEventListener('click', () => {
+            filterChips.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+    }
+    
+    if (scrollRightBtn) {
+        scrollRightBtn.addEventListener('click', () => {
+            filterChips.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+    }
+    
+    // Check on load and window resize
+    window.addEventListener('load', checkScrollButtons);
+    window.addEventListener('resize', checkScrollButtons);
+    
+    // Optional: Hide scroll buttons when at the start/end
+    if (filterChips) {
+        filterChips.addEventListener('scroll', () => {
+            if (window.innerWidth > 768) {
+                const atStart = filterChips.scrollLeft === 0;
+                const atEnd = filterChips.scrollLeft + filterChips.clientWidth >= filterChips.scrollWidth - 5;
+                
+                if (scrollLeftBtn) {
+                    scrollLeftBtn.style.opacity = atStart ? '0.3' : '0.7';
+                }
+                if (scrollRightBtn) {
+                    scrollRightBtn.style.opacity = atEnd ? '0.3' : '0.7';
+                }
+            }
+        });
+    }
     // Budget filter functionality
     document.addEventListener('DOMContentLoaded', function() {
         // Get current budget filter values from URL
