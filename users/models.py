@@ -14,6 +14,8 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     is_blocked = models.BooleanField(default=False)
+    whatsapp = models.CharField(max_length=15, blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username

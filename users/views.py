@@ -6,6 +6,7 @@ from .models import Profile, Review, Report
 from listings.models import Listing
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import Profile
 
 
 # Create your views here.
@@ -96,3 +97,37 @@ def get_verified(request):
     else:
         form = VerificationForm(instance=profile)
     return render(request, 'users/get_verified.html', {'form': form})
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        # Get the profile for the current user
+        profile = request.user.profile
+        
+        # Get form data
+        phone = request.POST.get('phone')
+        whatsapp = request.POST.get('whatsapp')
+        location = request.POST.get('location')
+        bio = request.POST.get('bio')
+        
+        # Update profile fields
+        if phone:
+            profile.phone = phone
+        if whatsapp:
+            profile.whatsapp = whatsapp
+        if location:
+            profile.location = location
+        if bio:
+            profile.bio = bio
+        
+        # Handle profile picture upload
+        if request.FILES.get('profile_pic'):
+            profile.profile_pic = request.FILES['profile_pic']
+        
+        profile.save()
+        
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('seller_profile', user_id=request.user.id)
+    
+    # GET request - show the edit form
+    return render(request, 'users/edit_profile.html', {'user': request.user})

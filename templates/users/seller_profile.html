@@ -93,6 +93,22 @@
         transform: scale(1.05);
     }
 
+    .default-avatar-large {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--orange-light), var(--orange));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        font-weight: 700;
+        color: white;
+        border: 4px solid white;
+        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
+        margin: 0 auto;
+    }
+
     .verified-badge-large {
         position: absolute;
         bottom: 10px;
@@ -115,12 +131,35 @@
         font-weight: 800;
         color: var(--charcoal-dark);
         margin-bottom: 0.3rem;
+        text-align: center;
     }
 
     .profile-name span {
         color: var(--orange);
     }
 
+    /* Bio Section */
+    .bio-section {
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.05) 0%, transparent 100%);
+        border-radius: 20px;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-left: 4px solid var(--orange);
+    }
+
+    .bio-section p {
+        margin: 0;
+        color: var(--charcoal-dark);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    .bio-section i {
+        color: var(--orange);
+        margin-right: 8px;
+    }
+
+    /* Contact Info */
     .contact-info {
         background: var(--light-gray);
         border-radius: 20px;
@@ -137,10 +176,25 @@
         color: var(--charcoal-dark);
     }
 
+    .info-item:last-child {
+        margin-bottom: 0;
+    }
+
     .info-item i {
         color: var(--orange);
         width: 20px;
         font-size: 1.1rem;
+    }
+
+    .info-item a {
+        color: var(--charcoal-dark);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .info-item a:hover {
+        color: var(--orange);
+        text-decoration: underline;
     }
 
     .rating-display {
@@ -181,6 +235,49 @@
         background: var(--orange-hover);
         transform: translateY(-3px);
         box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        color: white;
+    }
+
+    /* Contact Action Buttons */
+    .contact-actions {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .contact-action-btn {
+        flex: 1;
+        padding: 0.6rem;
+        border-radius: 40px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+    .btn-whatsapp {
+        background: #25D366;
+        color: white;
+    }
+
+    .btn-whatsapp:hover {
+        background: #128C7E;
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .btn-message {
+        background: var(--orange);
+        color: white;
+    }
+
+    .btn-message:hover {
+        background: var(--orange-hover);
+        transform: translateY(-2px);
         color: white;
     }
 
@@ -315,6 +412,8 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
     }
 
     .review-stars {
@@ -429,9 +528,10 @@
             height: 120px;
         }
 
-        .profile-image {
+        .profile-image, .default-avatar-large {
             width: 120px;
             height: 120px;
+            font-size: 3rem;
         }
 
         .profile-name {
@@ -444,6 +544,14 @@
 
         .section-card {
             padding: 1.2rem;
+        }
+
+        .contact-actions {
+            flex-direction: column;
+        }
+
+        .contact-action-btn {
+            width: 100%;
         }
     }
 </style>
@@ -463,9 +571,9 @@
                                  class="profile-image"
                                  alt="{{ profile.user.username }}">
                         {% else %}
-                            <img src="{% static 'images/default-avatar.png' %}"
-                                 class="profile-image"
-                                 alt="Default avatar">
+                            <div class="default-avatar-large">
+                                {{ profile.user.username|first|upper }}
+                            </div>
                         {% endif %}
 
                         <!-- Verified Badge -->
@@ -477,9 +585,16 @@
                     </div>
 
                     <!-- Username -->
-                    <h4 class="profile-name text-center">
+                    <h4 class="profile-name">
                         <span>{{ profile.user.username }}</span>
                     </h4>
+
+                    <!-- Bio Section -->
+                    {% if profile.bio %}
+                    <div class="bio-section">
+                        <p><i class="bi bi-quote"></i> {{ profile.bio }}</p>
+                    </div>
+                    {% endif %}
 
                     <!-- Contact Info -->
                     <div class="contact-info">
@@ -487,6 +602,13 @@
                         <div class="info-item">
                             <i class="bi bi-telephone-fill"></i>
                             <span>{{ profile.phone }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if profile.whatsapp %}
+                        <div class="info-item">
+                            <i class="bi bi-whatsapp"></i>
+                            <span>{{ profile.whatsapp }}</span>
                         </div>
                         {% endif %}
 
@@ -499,9 +621,29 @@
 
                         <div class="info-item">
                             <i class="bi bi-calendar3"></i>
-                            <span>Member since {{ profile.user.date_joined|date:"M Y" }}</span>
+                            <span>Member since {{ profile.user.date_joined|date:"F Y" }}</span>
                         </div>
                     </div>
+
+                    <!-- Contact Action Buttons -->
+                    {% if profile.whatsapp or profile.phone %}
+                    <div class="contact-actions">
+                        {% if profile.whatsapp %}
+                        <a href="https://wa.me/{{ profile.whatsapp|cut:'+'|cut:' '|cut:'-' }}" 
+                           target="_blank" 
+                           class="contact-action-btn btn-whatsapp">
+                            <i class="bi bi-whatsapp"></i> WhatsApp
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.is_authenticated and user != profile.user %}
+                        <a href="{% url 'send_message' profile.user.id %}" 
+                           class="contact-action-btn btn-message">
+                            <i class="bi bi-envelope"></i> Message
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
 
                     <!-- Rating Display -->
                     <div class="rating-display">
@@ -527,7 +669,7 @@
 
                     <!-- View Seller's Ads Button -->
                     <a href="{% url 'seller_listings' user_id=profile.user.id %}"
-                       class="btn-view-ads text-dark">
+                       class="btn-view-ads" style="color: black;">
                         <i class="bi bi-grid-fill"></i>
                         View All Ads ({{ ads.count }})
                     </a>
@@ -548,6 +690,15 @@
                         </div>
                     </div>
 
+                    <!-- Edit Profile Button (for own profile) -->
+                    {% if user == profile.user %}
+                    <div class="mt-3">
+                        <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary w-100 rounded-pill">
+                            <i class="bi bi-pencil-square"></i> Edit Profile
+                        </a>
+                    </div>
+                    {% endif %}
+
                 </div>
             </div>
 
@@ -565,7 +716,7 @@
                     {% if ads %}
                         <div class="ads-grid">
                             {% for ad in ads|slice:":4" %}
-                                <a href="{% url 'listing_detail' listing_id=ad.id %}" class="ad-card">
+                                <a href="{% url 'listing_detail' ad.id %}" class="ad-card">
                                     <div class="ad-image">
                                         {% if ad.images.all %}
                                             <img src="{{ ad.images.all.0.image.url }}"
@@ -589,7 +740,7 @@
                         {% if ads.count > 4 %}
                         <div class="text-center mt-3">
                             <a href="{% url 'seller_listings' user_id=profile.user.id %}"
-                               class="btn btn-outline-primary btn-sm rounded-pill">
+                               class="btn btn-dark btn-sm rounded-pill ">
                                 View all {{ ads.count }} ads
                                 <i class="bi bi-arrow-right ms-1"></i>
                             </a>
@@ -655,11 +806,11 @@
                 </div>
 
                 <!-- ADD REVIEW FORM -->
-                 {% if user.is_authenticated and user != profile.user %}
-                 <div class="section-card review-form">
+                {% if user.is_authenticated and user != profile.user %}
+                <div class="section-card review-form">
                     <div class="section-title">
                         <i class="bi bi-pencil-square"></i>
-                        <h5 class="mb-0">Leave a Review</h5>
+                        <h4>Leave a Review</h4>
                     </div>
 
                     <form method="POST" action="{% url 'add_review' profile.user.id %}">
@@ -697,19 +848,21 @@
                             Submit Review
                         </button>
                     </form>
-                    {% elif not user.is_authenticated %}
-                    <div class="section-card text-center">
-                        <i class="bi bi-box-arrow-in-right fs-1 text-orange mb-3"></i>
-                        <h5>Want to leave a review?</h5>
-                        <p class="text-muted mb-3">Please log in to share your experience</p>
-                        <a href="{% url 'login' %}?next={% url 'seller_profile' user_id=profile.user.id %}" class="btn btn-primary rounded-pill px-4">
-                            Login to Review
-                        </a>
-                    </div>
-                    {% endif %}
-                 </div>
+                </div>
+                {% elif not user.is_authenticated %}
+                <div class="section-card text-center">
+                    <i class="bi bi-box-arrow-in-right fs-1 text-orange mb-3 d-block"></i>
+                    <h5>Want to leave a review?</h5>
+                    <p class="text-muted mb-3">Please log in to share your experience with this seller</p>
+                    <a href="{% url 'login' %}?next={% url 'seller_profile' user_id=profile.user.id %}" 
+                       class="btn btn-primary rounded-pill px-4">
+                        Login to Review
+                    </a>
+                </div>
+                {% endif %}
 
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

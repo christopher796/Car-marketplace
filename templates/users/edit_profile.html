@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .edit-profile-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 30px;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .edit-profile-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--orange);
+    }
+    
+    .edit-profile-header h2 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--charcoal-dark);
+        margin: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: var(--charcoal-dark);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 2px solid var(--light-gray-dark);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        border-color: var(--orange);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    }
+    
+    .current-avatar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .current-avatar img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--orange);
+    }
+    
+    .default-avatar-large {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--orange-light), var(--orange));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--light-gray-dark);
+    }
+    
+    .btn-save {
+        background: var(--orange);
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-save:hover {
+        background: var(--orange-hover);
+        transform: translateY(-2px);
+    }
+    
+    .btn-cancel {
+        background: var(--light-gray);
+        color: var(--charcoal-dark);
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 40px;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-cancel:hover {
+        background: var(--light-gray-dark);
+        transform: translateY(-2px);
+    }
+    
+    /* Help text styling */
+    .help-text {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 0.3rem;
+        display: block;
+    }
+    
+    @media (max-width: 768px) {
+        .edit-profile-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .btn-save, .btn-cancel {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .current-avatar {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="edit-profile-container">
+        <div class="edit-profile-header">
+            <h2><i class="bi bi-pencil-square"></i> Edit Profile</h2>
+            <p class="text-muted">Update your personal information</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Profile Picture -->
+            <div class="form-group">
+                <label>Profile Picture</label>
+                <div class="current-avatar">
+                    {% if user.profile.profile_pic %}
+                        <img src="{{ user.profile.profile_pic.url }}" alt="{{ user.username }}">
+                    {% else %}
+                        <div class="default-avatar-large">
+                            {{ user.username|first|upper }}
+                        </div>
+                    {% endif %}
+                    <div style="flex: 1;">
+                        <input type="file" name="profile_pic" accept="image/*" class="form-control">
+                        <small class="help-text">Leave empty to keep current photo. Max size: 5MB</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Username (read-only) -->
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" value="{{ user.username }}" disabled class="form-control">
+                <small class="help-text">Username cannot be changed</small>
+            </div>
+            
+            <!-- Email (read-only) -->
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" value="{{ user.email }}" disabled class="form-control">
+                <small class="help-text">Email cannot be changed</small>
+            </div>
+            
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="phone" value="{{ user.profile.phone|default:'' }}" 
+                       placeholder="e.g., 0712345678" class="form-control">
+                <small class="help-text">Buyers can contact you on this number</small>
+            </div>
+            
+            <!-- WhatsApp Number -->
+            <div class="form-group">
+                <label>WhatsApp Number</label>
+                <input type="tel" name="whatsapp" value="{{ user.profile.whatsapp|default:'' }}" 
+                       placeholder="e.g., 0712345678" class="form-control">
+                <small class="help-text">Buyers can message you on WhatsApp</small>
+            </div>
+            
+            <!-- Location - Changed to Text Input -->
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" name="location" value="{{ user.profile.location|default:'' }}" 
+                       placeholder="e.g., Nairobi, Mombasa, Kisumu, or any location" class="form-control">
+                <small class="help-text">Enter your city, town, or area (e.g., Nairobi CBD, Westlands, etc.)</small>
+            </div>
+            
+            <!-- Bio -->
+            <div class="form-group">
+                <label>Bio / About You</label>
+                <textarea name="bio" rows="4" class="form-control" 
+                          placeholder="Tell buyers about yourself, your experience, and what makes you a trusted seller...">{{ user.profile.bio|default:'' }}</textarea>
+                <small class="help-text">Share your story to build trust with potential buyers</small>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn-save">
+                    <i class="bi bi-check-lg"></i> Save Changes
+                </button>
+                <a href="{% url 'seller_profile' user_id=user.id %}" class="btn-cancel">
+                    <i class="bi bi-x-lg"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
