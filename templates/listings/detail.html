@@ -635,39 +635,100 @@
         </div>
 
         <!-- Right Column - Seller Card -->
-        <div>
-            <div class="seller-card">
-                <div class="seller-header">
-                    <div class="seller-avatar-large">
-                        {{ listing.user.username|first|upper }}
-                    </div>
-                    <div class="seller-info">
-                        <h4>{{ listing.user.username }}</h4>
-                        {% if listing.user.profile.is_verified %}
-                        <span class="verified">
-                            <i class="bi bi-patch-check-fill"></i> Verified Seller
-                        </span>
-                        {% else %}
-                        <span class="text-muted">Member since {{ listing.user.date_joined|date:"Y" }}</span>
-                        {% endif %}
-                    </div>
-                </div>
+<div>
+    <div class="seller-card">
+        <div class="seller-header">
+            <!-- Profile Picture instead of avatar letter -->
+            <div class="seller-avatar-large">
+                {% if listing.user.profile.profile_pic %}
+                    <img src="{{ listing.user.profile.profile_pic.url }}" 
+                         alt="{{ listing.user.username }}" 
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                {% else %}
+                    {{ listing.user.username|first|upper }}
+                {% endif %}
+            </div>
+            <div class="seller-info">
+                <h4>{{ listing.user.username }}</h4>
+                {% if listing.user.profile.is_verified %}
+                <span class="verified">
+                    <i class="bi bi-patch-check-fill"></i> Verified Seller
+                </span>
+                {% else %}
+                <span class="text-muted">
+                    <i class="bi bi-clock-history"></i> Member since {{ listing.user.date_joined|date:"F Y" }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
 
-                <!-- Seller Stats -->
-                <div class="seller-stats">
-                    <div class="stat-box">
-                        <div class="stat-number">{{ user_listings_count|default:"0" }}</div>
-                        <div class="stat-label">Listings</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">{{ seller_rating|default:"5.0" }}</div>
-                        <div class="stat-label">Rating</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">{{ seller_joined|default:"2023" }}</div>
-                        <div class="stat-label">Joined</div>
-                    </div>
+        <!-- Seller Bio -->
+        {% if listing.user.profile.bio %}
+        <div class="seller-bio">
+            <i class="bi bi-quote"></i>
+            <p>{{ listing.user.profile.bio }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Contact Info -->
+        <div class="seller-contact-info">
+            {% if listing.user.profile.phone %}
+            <div class="contact-item">
+                <i class="bi bi-telephone-fill"></i>
+                <span>{{ listing.user.profile.phone }}</span>
+            </div>
+            {% endif %}
+            
+            {% if listing.user.profile.whatsapp %}
+            <div class="contact-item">
+                <i class="bi bi-whatsapp"></i>
+                <span>{{ listing.user.profile.whatsapp }}</span>
+            </div>
+            {% endif %}
+            
+            {% if listing.user.profile.location %}
+            <div class="contact-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>{{ listing.user.profile.location }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Seller Stats -->
+        <div class="seller-stats">
+            <div class="stat-box">
+                <div class="stat-number">{{ user_listings_count|default:"0" }}</div>
+                <div class="stat-label">Total Listings</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">
+                    {% if seller_rating %}
+                        {{ seller_rating|floatformat:1 }}
+                    {% else %}
+                        5.0
+                    {% endif %}
                 </div>
+                <div class="stat-label">
+                    {% if total_reviews_count > 0 %}
+                        Rating ({{ total_reviews_count }} review{{ total_reviews_count|pluralize }})
+                    {% else %}
+                        No reviews yet
+                    {% endif %}
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">{{ listing.user.date_joined|date:"Y" }}</div>
+                <div class="stat-label">Joined</div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+            <a href="{% url 'seller_profile' user_id=listing.user.id %}" class="btn-view-profile">
+                <i class="bi bi-person"></i> View Full Profile
+            </a>
+        </div>
+    </div>
+</div>
 
                 <!-- Contact Buttons -->
                 <div class="contact-buttons">
@@ -741,10 +802,103 @@
     }
 
     // Copy to clipboard
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Link copied to clipboard!');
-        });
+     function copyToClipboard(url) {
+        // Try using the modern clipboard API
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(function() {
+                // Success feedback
+                showCopySuccess();
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                // Fallback to older method
+                fallbackCopyToClipboard(url);
+            });
+        } else {
+            // Fallback for older browsers
+            fallbackCopyToClipboard(url);
+        }
+    }
+    
+    function fallbackCopyToClipboard(text) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            var successful = document.execCommand('copy');
+            if (successful) {
+                showCopySuccess();
+            } else {
+                showCopyError();
+            }
+        } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+            showCopyError();
+        }
+        
+        document.body.removeChild(textarea);
+    }
+    
+    function showCopySuccess() {
+        // Show success tooltip
+        const button = document.querySelector('.share-btn.share-copy');
+        const originalIcon = button.innerHTML;
+        
+        button.innerHTML = '<i class="bi bi-check-lg"></i>';
+        button.style.background = '#10B981';
+        button.style.color = 'white';
+        
+        // Show floating message
+        showToast('Link copied to clipboard!', 'success');
+        
+        // Revert back after 2 seconds
+        setTimeout(function() {
+            button.innerHTML = originalIcon;
+            button.style.background = '';
+            button.style.color = '';
+        }, 2000);
+    }
+    
+    function showCopyError() {
+        showToast('Failed to copy. Please try again.', 'error');
+    }
+    
+    function showToast(message, type = 'success') {
+        // Create toast element if it doesn't exist
+        let toast = document.getElementById('copyToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'copyToast';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${type === 'success' ? '#10B981' : '#EF4444'};
+                color: white;
+                padding: 12px 24px;
+                border-radius: 50px;
+                font-size: 14px;
+                font-weight: 600;
+                z-index: 9999;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                pointer-events: none;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            document.body.appendChild(toast);
+        }
+        
+        toast.textContent = message;
+        toast.style.backgroundColor = type === 'success' ? '#10B981' : '#EF4444';
+        toast.style.opacity = '1';
+        
+        setTimeout(function() {
+            toast.style.opacity = '0';
+        }, 2000);
     }
 
     // Save listing (placeholder)

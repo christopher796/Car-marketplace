@@ -28,6 +28,9 @@ class Review(models.Model):
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"Review for {self.seller.username} by {self.reviewer.username}"
+
 class Report(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reports_received')
     reporter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reports_made')

@@ -751,9 +751,6 @@
         <a href="?featured=true" class="filter-chip text-dark {% if request.GET.featured == 'true' %}active{% endif %}">
             <i class="bi bi-award"></i> Featured
         </a>
-        <a href="?sort=price_asc" class="filter-chip {% if request.GET.sort == 'price_asc' %}active{% endif %} text-dark">
-            <i class="bi bi-sort-up"></i> Price: Low to High
-        </a>
         {% if request.GET.price_min or request.GET.price_max or request.GET.condition or request.GET.featured or request.GET.sort %}
         <a href="{% url 'browse_listings' %}" class="clear-filters-btn">
             <i class="bi bi-x-circle"></i> Clear All Filters

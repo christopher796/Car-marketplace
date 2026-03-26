@@ -43,12 +43,13 @@
         border-radius: 40px;
         border: 2px solid rgba(249, 115, 22, 0.1);
         box-shadow: var(--shadow-lg);
-        padding: 2.5rem;
+        padding: 2rem;
         position: relative;
         z-index: 2;
         animation: slideUp 0.5s ease-out;
         max-width: 900px;
         margin: 0 auto;
+        overflow-x: hidden;
     }
 
     @keyframes slideUp {
@@ -64,12 +65,12 @@
 
     .page-header {
         text-align: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
         position: relative;
     }
 
     .page-header h2 {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 800;
         color: var(--charcoal-dark);
         margin-bottom: 0.5rem;
@@ -88,15 +89,15 @@
         bottom: 5px;
         left: 0;
         width: 100%;
-        height: 8px;
+        height: 6px;
         background: rgba(249, 115, 22, 0.2);
         z-index: -1;
-        border-radius: 4px;
+        border-radius: 3px;
     }
 
     .page-header p {
         color: var(--text-muted);
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         max-width: 600px;
         margin: 0 auto;
     }
@@ -104,8 +105,8 @@
     .progress-steps {
         display: flex;
         justify-content: center;
-        gap: 1rem;
-        margin: 2rem 0 1.5rem;
+        gap: 0.8rem;
+        margin: 1.5rem 0 1.5rem;
         flex-wrap: wrap;
     }
 
@@ -113,12 +114,13 @@
         background: var(--white);
         border: 2px solid var(--light-gray-dark);
         border-radius: 40px;
-        padding: 0.5rem 1.5rem;
+        padding: 0.4rem 1.2rem;
         font-weight: 600;
+        font-size: 0.85rem;
         color: var(--text-muted);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
     }
 
     .step.active {
@@ -128,45 +130,49 @@
     }
 
     .step i {
-        font-size: 1.1rem;
+        font-size: 0.9rem;
     }
 
     /* Form Styling */
     .form-section {
         background: var(--light-gray);
         border-radius: 24px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
         border: 1px solid var(--light-gray-dark);
     }
 
     .section-title {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-weight: 700;
         color: var(--charcoal-dark);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding-bottom: 0.75rem;
+        gap: 8px;
+        padding-bottom: 0.5rem;
         border-bottom: 2px solid var(--orange-light);
+        flex-wrap: wrap;
     }
 
     .section-title i {
         color: var(--orange);
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
 
     /* Form fields styling */
     .form-group {
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .form-label {
         font-weight: 600;
         color: var(--charcoal-dark);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         display: block;
+        font-size: 0.9rem;
     }
 
     .form-label .required {
@@ -176,12 +182,13 @@
 
     .form-control, .form-select, textarea {
         border: 2px solid var(--light-gray-dark);
-        border-radius: 16px;
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
+        border-radius: 14px;
+        padding: 0.7rem 1rem;
+        font-size: 0.95rem;
         transition: all 0.2s ease;
         background: var(--white);
         width: 100%;
+        box-sizing: border-box;
     }
 
     .form-control:focus, .form-select:focus, textarea:focus {
@@ -195,16 +202,18 @@
     }
 
     .help-text {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         color: var(--text-muted);
         margin-top: 0.3rem;
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 4px;
+        flex-wrap: wrap;
     }
 
     .help-text i {
         color: var(--orange);
+        font-size: 0.7rem;
     }
 
     /* Two column layout for form fields */
@@ -214,32 +223,26 @@
         gap: 1rem;
     }
 
-    @media (max-width: 768px) {
-        .form-row {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-    }
-
     /* Image upload area */
     .image-upload-section {
         background: var(--white);
         border-radius: 24px;
-        padding: 1.5rem;
-        margin-top: 2rem;
+        padding: 1.2rem;
+        margin-top: 1.5rem;
+        overflow-x: auto;
     }
 
     .image-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 1rem;
-        margin: 1.5rem 0;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.8rem;
+        margin: 1rem 0;
     }
 
     .image-upload-box {
         aspect-ratio: 1;
-        border: 3px dashed var(--light-gray-dark);
-        border-radius: 16px;
+        border: 2px dashed var(--light-gray-dark);
+        border-radius: 14px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -249,6 +252,7 @@
         background: var(--light-gray);
         position: relative;
         overflow: hidden;
+        padding: 0.5rem;
     }
 
     .image-upload-box:hover {
@@ -258,15 +262,16 @@
     }
 
     .image-upload-box i {
-        font-size: 2rem;
+        font-size: 1.5rem;
         color: var(--orange);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
     }
 
     .image-upload-box span {
-        font-size: 0.8rem;
+        font-size: 0.65rem;
         color: var(--text-muted);
         font-weight: 500;
+        text-align: center;
     }
 
     .image-upload-box.required {
@@ -290,14 +295,14 @@
     .image-count-badge {
         background: var(--orange);
         color: white;
-        padding: 0.3rem 0.8rem;
+        padding: 0.2rem 0.6rem;
         border-radius: 20px;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        margin-left: 1rem;
+        gap: 4px;
+        margin-left: 0.5rem;
     }
 
     /* Chassis note */
@@ -305,23 +310,24 @@
         background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
         border: 1px solid rgba(249, 115, 22, 0.2);
         border-radius: 16px;
-        padding: 1rem 1.5rem;
-        margin: 1.5rem 0;
+        padding: 0.8rem 1rem;
+        margin: 1rem 0;
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 0.8rem;
         flex-wrap: wrap;
     }
 
     .chassis-note i {
         color: var(--orange);
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
 
     .chassis-note p {
         margin: 0;
         color: var(--charcoal-dark);
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+        flex: 1;
     }
 
     /* Submit button */
@@ -330,17 +336,18 @@
         color: white;
         border: none;
         border-radius: 50px;
-        padding: 1rem 2rem;
-        font-size: 1.2rem;
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
         font-weight: 700;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
         transition: all 0.3s ease;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
         box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        cursor: pointer;
     }
 
     .submit-btn:hover {
@@ -354,7 +361,7 @@
     }
 
     .submit-btn i {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
 
     /* File input styling */
@@ -362,22 +369,35 @@
         padding: 0.5rem;
         border: 2px dashed var(--light-gray-dark);
         background: var(--light-gray);
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 0.85rem;
     }
 
     input[type="file"]::file-selector-button {
         background: var(--orange);
         color: white;
         border: none;
-        padding: 0.5rem 1rem;
+        padding: 0.4rem 0.8rem;
         border-radius: 30px;
-        margin-right: 1rem;
+        margin-right: 0.8rem;
         font-weight: 600;
+        font-size: 0.8rem;
         cursor: pointer;
         transition: all 0.2s ease;
     }
 
     input[type="file"]::file-selector-button:hover {
         background: var(--orange-hover);
+    }
+
+    /* Alert styling */
+    .alert-info {
+        background: #DBEAFE;
+        border: none;
+        border-radius: 14px;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
     }
 
     /* Error messages */
@@ -390,17 +410,138 @@
     .errorlist li {
         background: #FEE2E2;
         color: #991B1B;
-        padding: 0.5rem 1rem;
-        border-radius: 12px;
-        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 10px;
+        font-size: 0.8rem;
         display: flex;
         align-items: center;
         gap: 5px;
+        word-break: break-word;
     }
 
-    .errorlist li::before {
-        content: '⚠️';
-        margin-right: 5px;
+    /* Responsive */
+    @media (max-width: 768px) {
+        .posting-wrapper {
+            padding: 1rem 0;
+        }
+
+        .posting-card {
+            padding: 1.2rem;
+            margin: 0 0.75rem;
+            border-radius: 30px;
+        }
+
+        .page-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .page-header p {
+            font-size: 0.85rem;
+        }
+
+        .progress-steps {
+            gap: 0.5rem;
+        }
+
+        .step {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.7rem;
+        }
+
+        .form-section {
+            padding: 1rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+        }
+
+        .form-control, .form-select, textarea {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .image-grid {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .image-upload-box i {
+            font-size: 1.2rem;
+        }
+
+        .image-upload-box span {
+            font-size: 0.6rem;
+        }
+
+        .chassis-note {
+            padding: 0.6rem 0.8rem;
+        }
+
+        .chassis-note i {
+            font-size: 1rem;
+        }
+
+        .chassis-note p {
+            font-size: 0.75rem;
+        }
+
+        .submit-btn {
+            padding: 0.8rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .alert-info {
+            padding: 0.6rem;
+        }
+
+        .alert-info div {
+            font-size: 0.8rem;
+        }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 480px) {
+        .posting-card {
+            padding: 1rem;
+            margin: 0 0.5rem;
+        }
+
+        .image-grid {
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .image-upload-box i {
+            font-size: 1rem;
+        }
+
+        .image-upload-box span {
+            font-size: 0.55rem;
+        }
+
+        .progress-steps {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step {
+            width: 100%;
+            justify-content: center;
+        }
     }
 </style>
 
@@ -476,7 +617,7 @@
 
                     <!-- Description field (full width) -->
                     {% if form.description %}
-                        <div class="form-group mt-3">
+                        <div class="form-group mt-2">
                             <label class="form-label" for="{{ form.description.id_for_label }}">
                                 {{ form.description.label }}
                                 {% if form.description.field.required %}
@@ -502,18 +643,18 @@
                         </span>
                     </div>
 
-                    <p class="text-muted mb-3">
+                    <p class="text-muted mb-2" style="font-size: 0.85rem;">
                         <i class="bi bi-exclamation-triangle-fill" style="color: var(--orange);"></i>
                         <strong>First 5 images are required</strong> — the rest are optional but recommended for better responses.
                     </p>
 
                     <!-- Image upload tips -->
-                    <div class="alert alert-info" style="background: #DBEAFE; border: none; border-radius: 16px;">
-                        <div class="d-flex align-items-center gap-3 flex-wrap">
-                            <i class="bi bi-lightbulb-fill" style="color: var(--orange); font-size: 1.5rem;"></i>
-                            <div>
-                                <strong>Pro tips for great photos:</strong><br>
-                                • Take photos in good daylight • Show exterior, interior, engine, and boot • Include any unique features
+                    <div class="alert-info" style="background: #DBEAFE; border: none; border-radius: 14px; padding: 0.8rem;">
+                        <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
+                            <i class="bi bi-lightbulb-fill" style="color: var(--orange); font-size: 1.2rem;"></i>
+                            <div style="flex: 1;">
+                                <strong style="font-size: 0.85rem;">Pro tips for great photos:</strong>
+                                <span style="font-size: 0.75rem; display: block;">Take photos in good daylight • Show exterior, interior, engine, and boot • Include any unique features</span>
                             </div>
                         </div>
                     </div>
@@ -538,7 +679,7 @@
                     </div>
 
                     <!-- Image requirements -->
-                    <div class="help-text mt-3">
+                    <div class="help-text mt-2">
                         <i class="bi bi-check-circle-fill" style="color: #10B981;"></i>
                         Allowed formats: JPG, PNG, WEBP. Max file size: 5MB per image.
                     </div>
@@ -552,7 +693,7 @@
             </form>
 
             <!-- Footer note -->
-            <p class="text-center text-muted mt-4 small">
+            <p class="text-center text-muted mt-3 small" style="font-size: 0.7rem;">
                 <i class="bi bi-shield-check"></i>
                 By posting, you agree to our <a href="#" style="color: var(--orange);">Terms of Service</a> and confirm that this vehicle is available for sale.
             </p>
@@ -568,20 +709,19 @@
         fileInputs.forEach(input => {
             input.addEventListener('change', function(e) {
                 const files = e.target.files;
-                const previewContainer = this.closest('.image-upload-section').querySelector('.image-grid');
-                
-                // You can enhance this to show previews of selected images
                 console.log(`${files.length} images selected`);
             });
         });
 
         // Form validation animation
         const form = document.getElementById('listingForm');
-        form.addEventListener('submit', function(e) {
-            const submitBtn = this.querySelector('.submit-btn');
-            submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing...';
-            submitBtn.disabled = true;
-        });
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('.submit-btn');
+                submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing...';
+                submitBtn.disabled = true;
+            });
+        }
     });
 </script>
 {% endblock %}

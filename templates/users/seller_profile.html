@@ -145,6 +145,12 @@
         padding: 1rem;
         margin: 1rem 0;
         border-left: 4px solid var(--orange);
+        transition: all 0.3s ease;
+    }
+
+    .bio-section:hover {
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, transparent 100%);
+        transform: translateX(5px);
     }
 
     .bio-section p {
@@ -166,6 +172,12 @@
         padding: 1rem;
         margin: 1rem 0;
         border: 1px solid var(--light-gray-dark);
+        transition: all 0.3s ease;
+    }
+
+    .contact-info:hover {
+        border-color: var(--orange-light);
+        box-shadow: var(--shadow-sm);
     }
 
     .info-item {
@@ -174,6 +186,7 @@
         gap: 10px;
         margin-bottom: 0.8rem;
         color: var(--charcoal-dark);
+        padding: 0.3rem 0;
     }
 
     .info-item:last-child {
@@ -182,8 +195,9 @@
 
     .info-item i {
         color: var(--orange);
-        width: 20px;
+        width: 24px;
         font-size: 1.1rem;
+        text-align: center;
     }
 
     .info-item a {
@@ -200,9 +214,15 @@
     .rating-display {
         background: rgba(249, 115, 22, 0.05);
         border-radius: 30px;
-        padding: 0.8rem;
+        padding: 1rem;
         margin: 1rem 0;
         border: 1px solid rgba(249, 115, 22, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .rating-display:hover {
+        background: rgba(249, 115, 22, 0.08);
+        transform: translateY(-2px);
     }
 
     .stars {
@@ -262,22 +282,26 @@
     .btn-whatsapp {
         background: #25D366;
         color: white;
+        box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
     }
 
     .btn-whatsapp:hover {
         background: #128C7E;
         transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
         color: white;
     }
 
     .btn-message {
         background: var(--orange);
         color: white;
+        box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
     }
 
     .btn-message:hover {
         background: var(--orange-hover);
         transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(249, 115, 22, 0.3);
         color: white;
     }
 
@@ -290,11 +314,30 @@
         padding: 1.8rem;
         margin-bottom: 1.5rem;
         transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .section-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--orange), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+    }
+
+    .section-card:hover::before {
+        transform: translateX(100%);
     }
 
     .section-card:hover {
         box-shadow: var(--shadow-md);
         border-color: var(--orange-light);
+        transform: translateY(-2px);
     }
 
     .section-title {
@@ -334,8 +377,8 @@
     /* Ads Grid */
     .ads-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 1.2rem;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.5rem;
     }
 
     .ad-card {
@@ -346,17 +389,46 @@
         transition: all 0.3s ease;
         text-decoration: none;
         display: block;
+        position: relative;
+    }
+
+    .ad-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--orange);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .ad-card:hover::after {
+        transform: scaleX(1);
     }
 
     .ad-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-8px);
         border-color: var(--orange);
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--shadow-lg);
     }
 
     .ad-image {
-        height: 150px;
+        height: 160px;
         overflow: hidden;
+        position: relative;
+    }
+
+    .ad-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
+        z-index: 1;
     }
 
     .ad-image img {
@@ -372,6 +444,7 @@
 
     .ad-content {
         padding: 1rem;
+        background: white;
     }
 
     .ad-title {
@@ -383,15 +456,30 @@
 
     .ad-price {
         color: var(--orange);
-        font-weight: 700;
-        font-size: 1.1rem;
+        font-weight: 800;
+        font-size: 1.2rem;
+        margin: 0.3rem 0;
     }
 
     /* Reviews List */
     .reviews-list {
-        max-height: 400px;
+        max-height: 500px;
         overflow-y: auto;
         padding-right: 0.5rem;
+    }
+
+    .reviews-list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .reviews-list::-webkit-scrollbar-track {
+        background: var(--light-gray-dark);
+        border-radius: 10px;
+    }
+
+    .reviews-list::-webkit-scrollbar-thumb {
+        background: var(--orange);
+        border-radius: 10px;
     }
 
     .review-item {
@@ -400,11 +488,13 @@
         padding: 1.2rem;
         margin-bottom: 1rem;
         border: 1px solid var(--light-gray-dark);
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
     }
 
     .review-item:hover {
         border-color: var(--orange-light);
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
     }
 
     .review-header {
@@ -419,6 +509,7 @@
     .review-stars {
         color: #FFB800;
         font-size: 0.9rem;
+        letter-spacing: 1px;
     }
 
     .review-date {
@@ -429,15 +520,18 @@
     .review-comment {
         color: var(--charcoal-dark);
         font-size: 0.95rem;
-        margin: 0.5rem 0;
+        margin: 0.8rem 0;
         line-height: 1.5;
+        font-style: italic;
     }
 
     .reviewer-info {
         display: flex;
         align-items: center;
         gap: 8px;
-        margin-top: 0.5rem;
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--light-gray-dark);
         color: var(--text-muted);
         font-size: 0.85rem;
     }
@@ -449,12 +543,13 @@
     /* Review Form */
     .review-form {
         background: linear-gradient(135deg, rgba(249, 115, 22, 0.03) 0%, transparent 100%);
+        position: relative;
     }
 
     .form-label {
         font-weight: 600;
         color: var(--charcoal-dark);
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         gap: 5px;
@@ -469,6 +564,7 @@
         border-radius: 20px;
         padding: 0.7rem 1rem;
         transition: all 0.3s ease;
+        background: white;
     }
 
     .form-select:focus, .form-control:focus {
@@ -497,19 +593,59 @@
         box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
     }
 
+    /* Stats Row */
+    .stats-row {
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        flex: 1;
+        padding: 0.8rem;
+        background: var(--light-gray);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+        transform: translateY(-3px);
+        background: rgba(249, 115, 22, 0.05);
+        border: 1px solid var(--orange-light);
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--orange);
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 0.3rem;
+    }
+
     /* Empty States */
     .empty-state {
         text-align: center;
-        padding: 2rem;
+        padding: 3rem 2rem;
         background: var(--light-gray);
         border-radius: 20px;
         border: 2px dashed var(--light-gray-dark);
+        transition: all 0.3s ease;
     }
 
     .empty-state i {
-        font-size: 3rem;
+        font-size: 4rem;
         color: var(--orange-light);
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
     }
 
     .empty-state p {
@@ -540,6 +676,7 @@
 
         .ads-grid {
             grid-template-columns: 1fr;
+            gap: 1rem;
         }
 
         .section-card {
@@ -552,6 +689,14 @@
 
         .contact-action-btn {
             width: 100%;
+        }
+
+        .stats-row {
+            gap: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
         }
     }
 </style>
@@ -635,13 +780,6 @@
                             <i class="bi bi-whatsapp"></i> WhatsApp
                         </a>
                         {% endif %}
-                        
-                        {% if user.is_authenticated and user != profile.user %}
-                        <a href="{% url 'send_message' profile.user.id %}" 
-                           class="contact-action-btn btn-message">
-                            <i class="bi bi-envelope"></i> Message
-                        </a>
-                        {% endif %}
                     </div>
                     {% endif %}
 
@@ -649,13 +787,15 @@
                     <div class="rating-display">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="stars">
-                                {% for i in "12345" %}
-                                    {% if forloop.counter <= avg_rating|floatformat:0 %}
-                                        <i class="bi bi-star-fill"></i>
-                                    {% else %}
-                                        <i class="bi bi-star"></i>
-                                    {% endif %}
-                                {% endfor %}
+                                {% with rating=avg_rating|default:0 %}
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= rating %}
+                                            <i class="bi bi-star-fill"></i>
+                                        {% else %}
+                                            <i class="bi bi-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
                             </span>
                             <span class="rating-text">
                                 {{ avg_rating|floatformat:1 }}/5
@@ -669,24 +809,24 @@
 
                     <!-- View Seller's Ads Button -->
                     <a href="{% url 'seller_listings' user_id=profile.user.id %}"
-                       class="btn-view-ads" style="color: black;">
+                       class="btn-view-ads text-dark">
                         <i class="bi bi-grid-fill"></i>
                         View All Ads ({{ ads.count }})
                     </a>
 
                     <!-- Seller Stats -->
-                    <div class="row g-2 mt-3">
-                        <div class="col-4 text-center">
-                            <div class="small text-muted">Ads</div>
-                            <div class="fw-bold text-orange">{{ ads.count }}</div>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-value">{{ ads.count }}</div>
+                            <div class="stat-label">Total Listings</div>
                         </div>
-                        <div class="col-4 text-center">
-                            <div class="small text-muted">Reviews</div>
-                            <div class="fw-bold text-orange">{{ reviews.count }}</div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ reviews.count }}</div>
+                            <div class="stat-label">Reviews</div>
                         </div>
-                        <div class="col-4 text-center">
-                            <div class="small text-muted">Rating</div>
-                            <div class="fw-bold text-orange">{{ avg_rating|floatformat:1 }}</div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ avg_rating|floatformat:1 }}</div>
+                            <div class="stat-label">Rating</div>
                         </div>
                     </div>
 
@@ -709,7 +849,7 @@
                 <div class="section-card">
                     <div class="section-title">
                         <i class="bi bi-grid-fill"></i>
-                        <h4>Seller's Latest Ads</h4>
+                        <h4>Latest Listings</h4>
                         <span class="count-badge">{{ ads.count }} total</span>
                     </div>
 
@@ -727,7 +867,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="ad-content">
-                                        <div class="ad-title">{{ ad.title|truncatechars:20 }}</div>
+                                        <div class="ad-title">{{ ad.title|truncatechars:25 }}</div>
                                         <div class="ad-price">KES {{ ad.price|intcomma }}</div>
                                         <div class="small text-muted">
                                             <i class="bi bi-eye me-1"></i>{{ ad.views_count }} views
@@ -738,19 +878,19 @@
                         </div>
 
                         {% if ads.count > 4 %}
-                        <div class="text-center mt-3">
+                        <div class="text-center mt-4">
                             <a href="{% url 'seller_listings' user_id=profile.user.id %}"
-                               class="btn btn-dark btn-sm rounded-pill ">
-                                View all {{ ads.count }} ads
-                                <i class="bi bi-arrow-right ms-1"></i>
+                               class="btn btn-dark btn-sm rounded-pill px-4 py-2">
+                                View All {{ ads.count }} Listings
+                                <i class="bi bi-arrow-right ms-2"></i>
                             </a>
                         </div>
                         {% endif %}
 
                     {% else %}
                         <div class="empty-state">
-                            <i class="bi bi-image"></i>
-                            <p>No ads posted yet</p>
+                            <i class="bi bi-car-front"></i>
+                            <p>No listings posted yet</p>
                         </div>
                     {% endif %}
                 </div>
@@ -759,7 +899,7 @@
                 <div class="section-card">
                     <div class="section-title">
                         <i class="bi bi-chat-fill"></i>
-                        <h4>Seller Reviews</h4>
+                        <h4>Customer Reviews</h4>
                         <span class="count-badge">{{ reviews.count }} review{{ reviews.count|pluralize }}</span>
                     </div>
 
@@ -792,15 +932,15 @@
                                         <span>{{ r.user.username }}</span>
                                         <span class="text-muted">•</span>
                                         <i class="bi bi-check-circle-fill text-success"></i>
-                                        <span>Verified buyer</span>
+                                        <span>Verified Buyer</span>
                                     </div>
                                 </div>
                             {% endfor %}
                         </div>
                     {% else %}
                         <div class="empty-state">
-                            <i class="bi bi-chat"></i>
-                            <p>No reviews yet</p>
+                            <i class="bi bi-chat-dots"></i>
+                            <p>No reviews yet. Be the first to leave a review!</p>
                         </div>
                     {% endif %}
                 </div>
@@ -810,7 +950,7 @@
                 <div class="section-card review-form">
                     <div class="section-title">
                         <i class="bi bi-pencil-square"></i>
-                        <h4>Leave a Review</h4>
+                        <h4>Write a Review</h4>
                     </div>
 
                     <form method="POST" action="{% url 'add_review' profile.user.id %}">
@@ -838,7 +978,7 @@
                             </label>
                             <textarea name="comment"
                             class="form-control"
-                            rows="3"
+                            rows="4"
                             placeholder="Share your experience with this seller..."
                             required></textarea>
                         </div>
@@ -855,7 +995,7 @@
                     <h5>Want to leave a review?</h5>
                     <p class="text-muted mb-3">Please log in to share your experience with this seller</p>
                     <a href="{% url 'login' %}?next={% url 'seller_profile' user_id=profile.user.id %}" 
-                       class="btn btn-primary rounded-pill px-4">
+                       class="btn btn-primary rounded-pill px-4 py-2">
                         Login to Review
                     </a>
                 </div>

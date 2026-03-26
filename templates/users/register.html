@@ -788,78 +788,104 @@
 
 <!-- Password strength checker -->
  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const passwordInput = document.getElementById('passwordField');
-        if (!passwordInput) return;
+   document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('passwordField');
+    if (!passwordInput) return;
 
-        const strengthBar = document.getElementById('strengthBar');
-        const strengethLabel = document.getElementById('strengthLabel');
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthLabel = document.getElementById('strengthLabel');
 
-        // Requirements elements
-        const reqLength = document.getElementById('reqLength');
-        const reqNumber = document.getElementById('reqNumber');
-        const reqUppercase = document.getElementById('reqUppercase');
-        const reqSpecial = document.getElementById('reqSpecial');
+    // Requirements elements
+    const reqLength = document.getElementById('reqLength');
+    const reqNumber = document.getElementById('reqNumber');
+    const reqUppercase = document.getElementById('reqUppercase');
+    const reqSpecial = document.getElementById('reqSpecial');
 
-        function checkPasswordStrength(password) {
-            let strength = 0;
+    function resetRequirement(element) {
+        if (!element) return;
+        const icon = element.querySelector('i');
+        element.classList.remove('valid', 'invalid');
+        if (icon) icon.className = 'bi bi-circle';
+    }
 
-            //Length check
-            const hasLength = password.length >= 8;
-            if (hasLength) strength += 1;
-            updateRequirement(reqLength, hasLength);
-
-            // Number check
-            const hasNumber = /\d/.test(password);
-            if (hasUppercase) strength += 1;
-            updateRequirement(reqNumber, hasNumber);
-
-            // Uppercase check
-            const hasUppercase = /[A-Z]/.test(password);
-            if (hasUppercase) strength += 1;
-            updateRequirement(reqUppercase, hasUppercase);
-
-            // special character check
-            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-            if (hasSpecial) strength += 1;
-            updateRequirement(reqSpecial, hasSpecial);
-
-            return strength;
+    function updateRequirement(element, isValid) {
+        if (!element) return;
+        const icon = element.querySelector('i');
+        
+        if (isValid) {
+            element.classList.add('valid');
+            element.classList.remove('invalid');
+            if (icon) icon.className = 'bi bi-check-circle-fill';
+        } else {
+            element.classList.add('invalid');
+            element.classList.remove('valid');
+            if (icon) icon.className = 'bi bi-x-circle';
         }
+    }
 
-        function updateRequirement(element, isValid) {
-            const icon = element.querySelector('i');
-            if (isValid) {
-                element.classList.add('valid');
-                element.classList.remove('invalid');
-                icon.className = 'bi bi-circle';
-            }
+    function checkPasswordStrength(password) {
+        let strength = 0;
+        
+        // If password is empty, reset all requirements and return 0
+        if (password.length === 0) {
+            resetRequirement(reqLength);
+            resetRequirement(reqNumber);
+            resetRequirement(reqUppercase);
+            resetRequirement(reqSpecial);
+            return 0;
         }
+        
+        // Length check
+        const hasLength = password.length >= 8;
+        if (hasLength) strength += 1;
+        updateRequirement(reqLength, hasLength);
+        
+        // Number check
+        const hasNumber = /\d/.test(password);
+        if (hasNumber) strength += 1;
+        updateRequirement(reqNumber, hasNumber);
+        
+        // Uppercase check
+        const hasUppercase = /[A-Z]/.test(password);
+        if (hasUppercase) strength += 1;
+        updateRequirement(reqUppercase, hasUppercase);
+        
+        // Special character check
+        const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        if (hasSpecial) strength += 1;
+        updateRequirement(reqSpecial, hasSpecial);
+        
+        return strength;
+    }
 
-        passwordInput.addEventListener('input', function() {
-            const password = this.value;
-
-            if (password.length === 0) {
-                strengthBar.className = 'strength-bar';
-                strengthLabel.textContent = 'Not entered';
-                return;
-            }
-
-            const strength = checkPasswordStrength(password);
-
-            // Update strength bar
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        
+        if (password.length === 0) {
+            // Reset strength bar
+            if (strengthBar) strengthBar.className = 'strength-bar';
+            if (strengthLabel) strengthLabel.textContent = 'Not entered';
+            checkPasswordStrength(password); // This will reset all requirements
+            return;
+        }
+        
+        const strength = checkPasswordStrength(password);
+        
+        // Update strength bar
+        if (strengthBar) {
             strengthBar.className = 'strength-bar';
             if (strength <= 1) {
                 strengthBar.classList.add('weak');
-                strengthLabel.textContent = 'weak';
+                if (strengthLabel) strengthLabel.textContent = 'Weak';
             } else if (strength <= 2) {
                 strengthBar.classList.add('medium');
-                strengethLabel.textContent = 'Mediun';
+                if (strengthLabel) strengthLabel.textContent = 'Medium';
             } else if (strength >= 3) {
                 strengthBar.classList.add('strong');
-                strengethLabel.textContent = 'Strong';
+                if (strengthLabel) strengthLabel.textContent = 'Strong';
             }
-        });
+        }
+    });
 
         // Form Submission animation
         const form = document.getElementById('registerForm');

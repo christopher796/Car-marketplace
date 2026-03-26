@@ -80,6 +80,7 @@
         position: relative;
         z-index: 10;
         animation: slideUpFade 0.5s ease-out;
+        overflow-x: hidden;
     }
 
     @keyframes slideUpFade {
@@ -96,19 +97,19 @@
     /* Header */
     .verify-header {
         text-align: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
         position: relative;
     }
 
     .badge-icon {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         background: linear-gradient(135deg, var(--orange-light) 0%, var(--orange) 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 1.2rem;
+        margin: 0 auto 1rem;
         box-shadow: 0 15px 25px rgba(249, 115, 22, 0.3);
         animation: gentlePulse 3s ease infinite;
     }
@@ -119,12 +120,12 @@
     }
 
     .badge-icon i {
-        font-size: 3.5rem;
+        font-size: 2.8rem;
         color: white;
     }
 
     .verify-header h4 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
         font-weight: 800;
         color: var(--charcoal-dark);
         margin-bottom: 0.5rem;
@@ -143,19 +144,20 @@
         bottom: 5px;
         left: 0;
         width: 100%;
-        height: 8px;
+        height: 6px;
         background: rgba(249, 115, 22, 0.2);
         z-index: -1;
-        border-radius: 4px;
+        border-radius: 3px;
     }
 
     .verify-header p {
         color: var(--text-muted);
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 5px;
+        flex-wrap: wrap;
     }
 
     .verify-header p i {
@@ -166,8 +168,8 @@
     .progress-steps {
         display: flex;
         justify-content: center;
-        gap: 2rem;
-        margin-bottom: 2.5rem;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
         flex-wrap: wrap;
     }
 
@@ -179,8 +181,8 @@
     }
 
     .step-circle {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         background: var(--light-gray);
         border: 2px solid var(--light-gray-dark);
@@ -190,6 +192,7 @@
         font-weight: 700;
         color: var(--text-muted);
         transition: all 0.3s ease;
+        font-size: 0.9rem;
     }
 
     .step.active .step-circle {
@@ -199,7 +202,7 @@
     }
 
     .step-label {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         color: var(--text-muted);
     }
 
@@ -212,18 +215,19 @@
     .requirements-box {
         background: linear-gradient(135deg, rgba(249, 115, 22, 0.05) 0%, rgba(249, 115, 22, 0.02) 100%);
         border: 2px dashed var(--orange-light);
-        border-radius: 24px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
+        border-radius: 20px;
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
     }
 
     .requirements-title {
         font-weight: 700;
         color: var(--charcoal-dark);
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
         display: flex;
         align-items: center;
         gap: 8px;
+        font-size: 0.95rem;
     }
 
     .requirements-title i {
@@ -232,21 +236,22 @@
 
     .requirements-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.8rem;
     }
 
     .requirement-item {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         color: var(--text-muted);
-        font-size: 0.95rem;
+        font-size: 0.85rem;
     }
 
     .requirement-item i {
         color: var(--orange);
-        font-size: 1.1rem;
+        font-size: 0.9rem;
+        flex-shrink: 0;
     }
 
     .requirement-item strong {
@@ -256,17 +261,17 @@
     /* Form styling */
     .form-section {
         background: var(--light-gray);
-        border-radius: 24px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
+        border-radius: 20px;
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
         border: 1px solid var(--light-gray-dark);
     }
 
     .section-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 700;
         color: var(--charcoal-dark);
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -274,34 +279,41 @@
 
     .section-title i {
         color: var(--orange);
+        font-size: 1.1rem;
     }
 
     .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group:last-child {
+        margin-bottom: 0;
     }
 
     .form-label {
         font-weight: 600;
         color: var(--charcoal-dark);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         display: flex;
         align-items: center;
         gap: 5px;
+        font-size: 0.85rem;
     }
 
     .form-label i {
         color: var(--orange);
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .form-control {
         width: 100%;
-        padding: 0.9rem 1rem;
+        padding: 0.75rem 1rem;
         border: 2px solid var(--light-gray-dark);
         border-radius: 16px;
-        font-size: 1rem;
+        font-size: 0.95rem;
         transition: all 0.3s ease;
         background: var(--white);
+        box-sizing: border-box;
     }
 
     .form-control:focus {
@@ -313,27 +325,31 @@
     /* File input styling */
     .file-input-wrapper {
         position: relative;
+        width: 100%;
     }
 
     .file-input {
-        padding: 0.7rem;
+        width: 100%;
+        padding: 0.6rem;
         border: 2px dashed var(--light-gray-dark);
         background: var(--white);
         cursor: pointer;
-        width: 100%;
         border-radius: 16px;
+        font-size: 0.85rem;
+        box-sizing: border-box;
     }
 
     .file-input::file-selector-button {
         background: var(--orange);
         color: white;
         border: none;
-        padding: 0.6rem 1.2rem;
+        padding: 0.5rem 1rem;
         border-radius: 30px;
-        margin-right: 1rem;
+        margin-right: 0.8rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
+        font-size: 0.8rem;
     }
 
     .file-input::file-selector-button:hover {
@@ -341,16 +357,18 @@
     }
 
     .file-hint {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         color: var(--text-muted);
         margin-top: 0.3rem;
         display: flex;
         align-items: center;
         gap: 5px;
+        flex-wrap: wrap;
     }
 
     .file-hint i {
         color: var(--orange);
+        font-size: 0.8rem;
     }
 
     /* Submit button */
@@ -359,17 +377,17 @@
         color: white;
         border: none;
         border-radius: 50px;
-        padding: 1.2rem;
-        font-size: 1.2rem;
+        padding: 1rem;
+        font-size: 1rem;
         font-weight: 700;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
+        gap: 10px;
         transition: all 0.3s ease;
         box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
         width: 100%;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
         cursor: pointer;
     }
 
@@ -384,7 +402,7 @@
     }
 
     .btn-verify i {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         transition: transform 0.2s ease;
     }
 
@@ -395,15 +413,16 @@
     /* Privacy note */
     .privacy-note {
         text-align: center;
-        margin-top: 2rem;
-        padding-top: 1.5rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
         border-top: 2px dashed var(--light-gray-dark);
         color: var(--text-muted);
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 6px;
+        flex-wrap: wrap;
     }
 
     .privacy-note i {
@@ -414,67 +433,193 @@
     .benefits-section {
         display: flex;
         justify-content: center;
-        gap: 2rem;
-        margin: 2rem 0;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
         flex-wrap: wrap;
     }
 
     .benefit-item {
         text-align: center;
+        flex: 1;
+        min-width: 70px;
     }
 
     .benefit-icon {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
         background: rgba(249, 115, 22, 0.1);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 0.5rem;
+        margin: 0 auto 0.4rem;
     }
 
     .benefit-icon i {
         color: var(--orange);
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
 
     .benefit-text {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         color: var(--charcoal-dark);
         font-weight: 600;
     }
 
-    /* Responsive */
+    /* Trust message */
+    .trust-message {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.7rem;
+        opacity: 0.5;
+        color: var(--text-muted);
+    }
+
+    /* Responsive - Mobile Fixes */
     @media (max-width: 768px) {
+        .verify-wrapper {
+            padding: 1rem;
+            align-items: flex-start;
+            min-height: auto;
+        }
+
         .verify-card {
-            padding: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 30px;
+            margin: 1rem 0;
         }
 
         .badge-icon {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
         }
 
         .badge-icon i {
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
 
         .verify-header h4 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
+        }
+
+        .verify-header p {
+            font-size: 0.85rem;
+        }
+
+        .progress-steps {
+            gap: 0.8rem;
+        }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            font-size: 0.8rem;
+        }
+
+        .step-label {
+            font-size: 0.65rem;
+        }
+
+        .requirements-box {
+            padding: 1rem;
         }
 
         .requirements-grid {
             grid-template-columns: 1fr;
+            gap: 0.6rem;
+        }
+
+        .requirement-item {
+            font-size: 0.8rem;
+        }
+
+        .form-section {
+            padding: 1rem;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-label {
+            font-size: 0.8rem;
+        }
+
+        .form-control {
+            padding: 0.65rem 0.9rem;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .file-input::file-selector-button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-verify {
+            padding: 0.9rem;
+            font-size: 0.95rem;
+        }
+
+        .benefits-section {
+            gap: 0.8rem;
+        }
+
+        .benefit-icon {
+            width: 35px;
+            height: 35px;
+        }
+
+        .benefit-icon i {
+            font-size: 1rem;
+        }
+
+        .benefit-text {
+            font-size: 0.7rem;
+        }
+
+        .privacy-note {
+            font-size: 0.7rem;
+        }
+
+        .trust-message {
+            font-size: 0.65rem;
+        }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 480px) {
+        .verify-card {
+            padding: 1rem;
+        }
+
+        .verify-header h4 {
+            font-size: 1.2rem;
         }
 
         .progress-steps {
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
         .step-circle {
-            width: 35px;
-            height: 35px;
+            width: 28px;
+            height: 28px;
+            font-size: 0.7rem;
+        }
+
+        .form-section {
+            padding: 0.8rem;
+        }
+
+        .file-input::file-selector-button {
+            display: block;
+            margin-bottom: 0.5rem;
+            width: 100%;
         }
     }
 </style>
@@ -543,7 +688,7 @@
                     <span><strong>Phone & Location</strong> (Valid)</span>
                 </div>
             </div>
-            <div class="file-hint" style="margin-top: 1rem; justify-content: center;">
+            <div class="file-hint" style="margin-top: 0.8rem; justify-content: center;">
                 <i class="bi bi-clock"></i>
                 Admin will review within 24 hours
             </div>
@@ -663,7 +808,7 @@
         </div>
 
         <!-- Trust message -->
-        <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem; opacity: 0.5;">
+        <div class="trust-message">
             🔒 256-bit encrypted • GDPR compliant
         </div>
     </div>

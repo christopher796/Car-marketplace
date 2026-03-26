@@ -365,33 +365,39 @@
         background: linear-gradient(to right, transparent, var(--light-gray-dark), transparent);
     }
 
-    /* Social login (optional enhancement) */
-    .social-login {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
+    /* Google Login Button */
+    .google-login {
         margin-bottom: 1.5rem;
     }
 
-    .social-btn {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
+    .btn-google {
+        background: white;
+        color: #1F2937;
         border: 2px solid var(--light-gray-dark);
-        background: var(--white);
+        border-radius: 50px;
+        padding: 0.9rem;
+        font-size: 1rem;
+        font-weight: 600;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--charcoal-dark);
-        font-size: 1.3rem;
-        transition: all 0.2s ease;
+        gap: 12px;
+        transition: all 0.3s ease;
         cursor: pointer;
+        text-decoration: none;
     }
 
-    .social-btn:hover {
+    .btn-google:hover {
         border-color: var(--orange);
-        color: var(--orange);
-        transform: translateY(-3px);
+        background: var(--light-gray);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-google i {
+        font-size: 1.3rem;
+        color: #DB4437;
     }
 
     /* Register link */
@@ -486,7 +492,7 @@
         <div class="logo-section">
             <div class="logo-wrapper">
                 {% if logo_exists %}
-                    <img src="{% static 'images/logo.png' %}" alt="VroomHub">
+                    <img src="{% static 'images/logo.png' %}" alt="Chrandi Motors">
                 {% else %}
                     <i class="bi bi-car-front-fill"></i>
                 {% endif %}
@@ -572,26 +578,6 @@
             </button>
         </form>
 
-        <!-- Divider -->
-        <div class="divider">
-            <span class="divider-line"></span>
-            <span>or</span>
-            <span class="divider-line"></span>
-        </div>
-
-        <!-- Social login (optional - you can remove if not needed) -->
-        <div class="social-login">
-            <div class="social-btn" title="Login with Google" onclick="alert('Google login coming soon!')">
-                <i class="bi bi-google"></i>
-            </div>
-            <div class="social-btn" title="Login with Facebook" onclick="alert('Facebook login coming soon!')">
-                <i class="bi bi-facebook"></i>
-            </div>
-            <div class="social-btn" title="Login with Twitter" onclick="alert('Twitter login coming soon!')">
-                <i class="bi bi-twitter-x"></i>
-            </div>
-        </div>
-
         <!-- Register link -->
         <div class="register-section">
             <div class="register-text">
@@ -632,7 +618,6 @@
         loginBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Logging in...';
         loginBtn.disabled = true;
     });
-
 </script>
 
 {% endblock %}

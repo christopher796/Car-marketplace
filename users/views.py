@@ -38,12 +38,25 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        remember = request.POST.get('remember')  # Get remember me checkbox value
+        
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
+            
+            # Handle Remember Me functionality
+            if remember:
+                # If remember me is checked, session expires after 2 weeks (1209600 seconds)
+                request.session.set_expiry(1209600)  # 2 weeks
+            else:
+                # If remember me is NOT checked, session expires when browser closes
+                request.session.set_expiry(0)
+            
             return redirect('browse_listings')
         else:
             return render(request, 'users/login.html', {'error': 'Invalid credentials'})
+    
     return render(request, 'users/login.html')
 
 @login_required
@@ -52,9 +65,10 @@ def logout_view(request):
     return redirect('/')
 
 User = get_user_model()    
+
 def seller_profile(request, user_id):
-    profile= get_object_or_404(Profile, user_id=user_id)
-    ads= Listing.objects.filter(user_id=user_id, is_approved=True)
+    profile = get_object_or_404(Profile, user_id=user_id)
+    ads = Listing.objects.filter(user_id=user_id, is_approved=True, is_active=True)
 
     # All reviews for this seller
     reviews = profile.user.reviews.all()
@@ -64,7 +78,18 @@ def seller_profile(request, user_id):
         avg_rating = sum(r.rating for r in reviews) / reviews.count()
     else:
         avg_rating = 0
-    return render(request, 'users/seller_profile.html', {'profile': profile, 'ads': ads, 'reviews': reviews, 'avg_rating': avg_rating})
+
+    # Calculate total views across all seller's listings
+    from django.db.models import Sum
+    total_views = ads.aggregate(total=Sum('views_count'))['total'] or 0
+
+    return render(request, 'users/seller_profile.html', {
+        'profile': profile, 
+        'ads': ads, 
+        'reviews': reviews, 
+        'avg_rating': avg_rating,
+        'total_views': total_views,  # Add total views to context
+    })
 
 User = get_user_model()
 def add_review(request, user_id):

@@ -3,7 +3,7 @@ from .forms import ListingForm, ListingImageForm
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from  .models import Listing, ListingImage
-from django.db.models import F
+from django.db.models import F, Avg
 import re
 from django.db.models import Q, Case, When, IntegerField
 from django.contrib.auth.models import User
@@ -188,10 +188,35 @@ def listing_detail(request, listing_id):
     Listing.objects.filter(id=listing.id).update(
         views_count=F('views_count') + 1
     )
+    
+    # Get seller information
+    seller = listing.user
+    
+    # Get total listings count for this seller (approved and active)
+    user_listings_count = Listing.objects.filter(
+        user=seller, 
+        is_active=True, 
+        is_approved=True
+    ).count()
+    
+    # Try to import Review model from users app
+    try:
+        from users.models import Review  # Update 'users' to your actual app name
+        seller_reviews = Review.objects.filter(seller=seller)
+        total_reviews_count = seller_reviews.count()
+        
+        if total_reviews_count > 0:
+            seller_rating = seller_reviews.aggregate(Avg('rating'))['rating__avg']
+        else:
+            seller_rating = 5.0
+    except ImportError:
+        # If Review model doesn't exist or can't be imported, use defaults
+        total_reviews_count = 0
+        seller_rating = 5.0
 
-    # Prepare Whatasapp Message Safely
+    # Prepare WhatsApp Message Safely
     message = (
-        f"Hi, I saw your car on VroomHub.\n "
+        f"Hi, I saw your car on Chrandi Motors.\n "
         f"Brand: {listing.brand}\n "
         f"Model: {listing.model}\n "
         f"Year: {listing.year}\n"
@@ -220,7 +245,15 @@ def listing_detail(request, listing_id):
     )
     whatsapp_share = f"https://wa.me/?text={quote(share_message)}"
 
-    return render(request, 'listings/detail.html', {'listing': listing, 'whatsapp_link': whatsapp_link, 'whatsapp_share': whatsapp_share, 'current_url': current_url})
+    return render(request, 'listings/detail.html', {
+        'listing': listing, 
+        'whatsapp_link': whatsapp_link, 
+        'whatsapp_share': whatsapp_share, 
+        'current_url': current_url,
+        'user_listings_count': user_listings_count,
+        'seller_rating': seller_rating,
+        'total_reviews_count': total_reviews_count,
+    })
 
 # Edit listing
 @login_required

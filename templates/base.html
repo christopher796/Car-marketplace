@@ -48,6 +48,7 @@
             overflow-x: hidden;
             min-height: 100vh;
             line-height: 1.6;
+            padding-bottom: 70px; /* Space for bottom navigation on mobile */
         }
 
         /* Import Inter font */
@@ -91,7 +92,77 @@
             display: none;
         }
 
-        /* Custom mobile menu styling */
+        /* =========================
+           BOTTOM NAVIGATION BAR (MOBILE)
+        ==========================*/
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-top: 2px solid var(--orange);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            padding: 0.5rem 1rem;
+        }
+
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--text-muted);
+            gap: 4px;
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.4rem;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-nav-item span {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--orange);
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .bottom-nav-item.active i {
+            transform: translateY(-2px);
+        }
+
+        .bottom-nav-item:hover {
+            color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        .bottom-nav-item .badge-verified-mini {
+            background: #10B981;
+            color: white;
+            padding: 0.1rem 0.3rem;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            margin-left: 4px;
+        }
+
+        /* Custom mobile menu styling - Keep for desktop */
         .mobile-menu {
             position: fixed;
             top: 0;
@@ -421,12 +492,12 @@
             transition: color 0.2s ease;
         }
 
-        a:not(.btn):not(.navbar-brand) {
+        a:not(.btn):not(.navbar-brand):not(.bottom-nav-item) {
             color: var(--orange);
             font-weight: 500;
         }
 
-        a:not(.btn):not(.navbar-brand):hover {
+        a:not(.btn):not(.navbar-brand):not(.bottom-nav-item):hover {
             color: var(--orange-hover);
             text-decoration: underline;
         }
@@ -500,28 +571,19 @@
                 display: none;
             }
             
-            /* Show mobile hamburger on tablet/mobile */
-            .mobile-hamburger {
+            /* Show bottom navigation on mobile */
+            .bottom-nav {
                 display: block;
-                background: transparent;
-                border: 1px solid var(--orange);
-                border-radius: 8px;
-                padding: 8px 12px;
-                cursor: pointer;
-                transition: all 0.2s ease;
             }
             
-            .mobile-hamburger:hover {
-                background: var(--orange);
+            /* Hide mobile hamburger when bottom nav is shown */
+            .mobile-hamburger {
+                display: none;
             }
             
-            .mobile-hamburger:hover i {
-                color: var(--charcoal-dark);
-            }
-            
-            .mobile-hamburger i {
-                font-size: 1.5rem;
-                color: var(--orange);
+            /* Adjust body padding for bottom nav */
+            body {
+                padding-bottom: 70px;
             }
             
             /* Navbar container adjustments for mobile */
@@ -540,8 +602,13 @@
             /* On desktop, hide mobile elements */
             .mobile-hamburger,
             .mobile-menu,
-            .mobile-overlay {
+            .mobile-overlay,
+            .bottom-nav {
                 display: none !important;
+            }
+            
+            body {
+                padding-bottom: 0;
             }
         }
 
@@ -584,6 +651,19 @@
             animation: fadeIn 0.5s ease-out;
         }
 
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .bottom-nav {
+            animation: slideUp 0.3s ease-out;
+        }
+
         /* =========================
            UTILITY CLASSES
         ==========================*/
@@ -623,7 +703,7 @@
 <body>
 
 <!-- =========================
-     NAVBAR WITH RESPONSIVE HAMBURGER
+     NAVBAR WITH RESPONSIVE HAMBURGER (Desktop Only)
 ==========================-->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
     <div class="container-fluid">
@@ -685,17 +765,17 @@
             {% endif %}
         </div>
 
-        <!-- Mobile Hamburger Button (visible only on mobile/tablet) -->
+        <!-- Mobile Hamburger Button (hidden on mobile since we have bottom nav) -->
         <button class="mobile-hamburger" id="mobileHamburgerBtn">
             <i class="bi bi-list"></i>
         </button>
     </div>
 </nav>
 
-<!-- Mobile Menu Overlay -->
+<!-- Mobile Menu Overlay (Hidden on mobile) -->
 <div class="mobile-overlay" id="mobileOverlay"></div>
 
-<!-- Mobile Menu Sidebar -->
+<!-- Mobile Menu Sidebar (Hidden on mobile) -->
 <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
         <h4><i class="bi bi-car-front"></i> Menu</h4>
@@ -755,6 +835,70 @@
 </div>
 
 <!-- =========================
+     BOTTOM NAVIGATION BAR (Mobile Only)
+==========================-->
+<div class="bottom-nav">
+    <div class="bottom-nav-items">
+        {% if user.is_authenticated %}
+            <!-- My Ads -->
+            <a href="{% url 'manage_ads' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'manage_ads' %}active{% endif %}">
+                <i class="bi bi-grid-fill"></i>
+                <span>My Ads</span>
+            </a>
+
+            <!-- Post Ad -->
+            <a href="{% url 'post_listing' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'post_listing' %}active{% endif %}">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Post Ad</span>
+            </a>
+
+            <!-- Profile -->
+            <a href="{% url 'seller_profile' user_id=user.id %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'seller_profile' %}active{% endif %}">
+                <i class="bi bi-person-fill"></i>
+                <span>Profile</span>
+            </a>
+
+            <!-- Verified Badge or Get Verified -->
+            {% if user.profile.is_verified %}
+                <div class="bottom-nav-item">
+                    <i class="bi bi-patch-check-fill" style="color: #10B981;"></i>
+                    <span>Verified</span>
+                </div>
+            {% else %}
+                <a href="{% url 'get_verified' %}" class="bottom-nav-item">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Verify</span>
+                </a>
+            {% endif %}
+
+            <!-- Logout -->
+            <a href="{% url 'logout' %}" class="bottom-nav-item" onclick="return confirm('Are you sure you want to logout?')">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+        {% else %}
+            <!-- Login -->
+            <a href="{% url 'login' %}" class="bottom-nav-item">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Login</span>
+            </a>
+
+            <!-- Register -->
+            <a href="{% url 'register' %}" class="bottom-nav-item">
+                <i class="bi bi-person-plus-fill"></i>
+                <span>Register</span>
+            </a>
+
+            <!-- Browse (for non-logged in users) -->
+            <a href="{% url 'browse_listings' %}" class="bottom-nav-item">
+                <i class="bi bi-search"></i>
+                <span>Browse</span>
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- =========================
      PAGE CONTENT
 ==========================-->
 <div class="main-container">
@@ -771,7 +915,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Mobile menu functionality
+    // Mobile menu functionality (for desktop/fallback)
     const hamburgerBtn = document.getElementById('mobileHamburgerBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileOverlay = document.getElementById('mobileOverlay');
@@ -806,6 +950,19 @@
         if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
             closeMobileMenu();
         }
+    });
+
+    // Highlight active bottom nav item based on current URL
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentUrl = window.location.pathname;
+        const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+        
+        bottomNavItems.forEach(item => {
+            const href = item.getAttribute('href');
+            if (href && currentUrl.includes(href)) {
+                item.classList.add('active');
+            }
+        });
     });
 </script>
 </body>
