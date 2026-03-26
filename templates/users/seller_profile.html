@@ -540,7 +540,7 @@
         color: var(--orange);
     }
 
-    /* Review Form */
+    /* Review Form - Mobile Fixed */
     .review-form {
         background: linear-gradient(135deg, rgba(249, 115, 22, 0.03) 0%, transparent 100%);
         position: relative;
@@ -565,6 +565,8 @@
         padding: 0.7rem 1rem;
         transition: all 0.3s ease;
         background: white;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .form-select:focus, .form-control:focus {
@@ -585,6 +587,8 @@
         justify-content: center;
         gap: 8px;
         transition: all 0.3s ease;
+        width: 100%;
+        cursor: pointer;
     }
 
     .btn-submit:hover {
@@ -653,7 +657,7 @@
         margin: 0;
     }
 
-    /* Responsive */
+    /* Mobile-specific fixes for review form */
     @media (max-width: 768px) {
         .profile-card {
             padding: 1.5rem;
@@ -697,6 +701,45 @@
 
         .stat-value {
             font-size: 1.4rem;
+        }
+
+        /* Mobile fix for select dropdown */
+        .form-select {
+            -webkit-appearance: menulist !important;
+            appearance: menulist !important;
+            background-color: white;
+            padding: 12px 15px !important;
+            min-height: 48px;
+            font-size: 16px !important;
+            cursor: pointer;
+        }
+
+        /* Fix for textarea on mobile */
+        textarea.form-control {
+            font-size: 16px !important;
+            padding: 12px;
+            min-height: 100px;
+        }
+
+        /* Fix for submit button on mobile */
+        .btn-submit {
+            min-height: 48px;
+            font-size: 16px !important;
+        }
+
+        /* Ensure form elements are clickable */
+        .review-form select,
+        .review-form textarea,
+        .review-form button {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Prevent zoom on iOS */
+        @supports (-webkit-touch-callout: none) {
+            select, textarea, button {
+                font-size: 16px !important;
+            }
         }
     }
 </style>
@@ -809,7 +852,7 @@
 
                     <!-- View Seller's Ads Button -->
                     <a href="{% url 'seller_listings' user_id=profile.user.id %}"
-                       class="btn-view-ads text-dark">
+                       class="btn-view-ads">
                         <i class="bi bi-grid-fill"></i>
                         View All Ads ({{ ads.count }})
                     </a>
@@ -945,23 +988,23 @@
                     {% endif %}
                 </div>
 
-                <!-- ADD REVIEW FORM -->
+                <!-- ADD REVIEW FORM - FIXED FOR MOBILE -->
                 {% if user.is_authenticated and user != profile.user %}
-                <div class="section-card review-form">
+                <div class="section-card review-form" id="reviewFormSection">
                     <div class="section-title">
                         <i class="bi bi-pencil-square"></i>
                         <h4>Write a Review</h4>
                     </div>
 
-                    <form method="POST" action="{% url 'add_review' profile.user.id %}">
+                    <form method="POST" action="{% url 'add_review' profile.user.id %}" id="reviewForm" novalidate>
                         {% csrf_token %}
 
                         <div class="mb-3">
-                            <label class="form-label">
+                            <label class="form-label" for="ratingSelect">
                                 <i class="bi bi-star-fill"></i>
                                 Your Rating
                             </label>
-                            <select name="rating" class="form-select" required>
+                            <select name="rating" class="form-select" id="ratingSelect" required>
                                 <option value="" disabled selected>Select rating</option>
                                 <option value="5">★★★★★ - Excellent</option>
                                 <option value="4">★★★★☆ - Very Good</option>
@@ -972,18 +1015,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">
+                            <label class="form-label" for="reviewComment">
                                 <i class="bi bi-chat"></i>
                                 Your Review
                             </label>
                             <textarea name="comment"
-                            class="form-control"
-                            rows="4"
-                            placeholder="Share your experience with this seller..."
-                            required></textarea>
+                                      id="reviewComment"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Share your experience with this seller..."
+                                      required></textarea>
                         </div>
 
-                        <button type="submit" class="btn-submit w-100">
+                        <button type="submit" class="btn-submit w-100" id="submitReviewBtn">
                             <i class="bi bi-check2-circle"></i>
                             Submit Review
                         </button>
@@ -1005,4 +1049,111 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get form elements
+        const reviewForm = document.getElementById('reviewForm');
+        const ratingSelect = document.getElementById('ratingSelect');
+        const reviewComment = document.getElementById('reviewComment');
+        const submitBtn = document.getElementById('submitReviewBtn');
+        
+        // Debug logging
+        console.log('Review form found:', !!reviewForm);
+        console.log('Rating select found:', !!ratingSelect);
+        console.log('Comment field found:', !!reviewComment);
+        
+        // Force dropdown to work on mobile
+        if (ratingSelect) {
+            // Remove any potential blocking attributes
+            ratingSelect.removeAttribute('readonly');
+            ratingSelect.removeAttribute('disabled');
+            
+            // Ensure it's clickable
+            ratingSelect.style.pointerEvents = 'auto';
+            ratingSelect.style.opacity = '1';
+            
+            // Add touch event for mobile
+            ratingSelect.addEventListener('touchstart', function(e) {
+                console.log('Rating select touched');
+                // Allow default behavior
+                return true;
+            });
+            
+            ratingSelect.addEventListener('click', function(e) {
+                console.log('Rating select clicked');
+            });
+            
+            ratingSelect.addEventListener('change', function() {
+                console.log('Rating changed to:', this.value);
+                // Visual feedback
+                this.style.borderColor = '#F97316';
+                setTimeout(() => {
+                    this.style.borderColor = '';
+                }, 500);
+            });
+        }
+        
+        // Fix for mobile keyboard on textarea
+        if (reviewComment) {
+            reviewComment.addEventListener('focus', function() {
+                console.log('Comment field focused');
+                // Small delay to allow keyboard to appear
+                setTimeout(() => {
+                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            });
+        }
+        
+        // Form validation and submission
+        if (reviewForm) {
+            // Remove any existing submit handlers to prevent conflicts
+            reviewForm.onsubmit = null;
+            
+            reviewForm.addEventListener('submit', function(e) {
+                console.log('Form submission triggered');
+                
+                // Validate rating
+                const rating = ratingSelect?.value;
+                if (!rating || rating === '') {
+                    e.preventDefault();
+                    alert('Please select a rating');
+                    ratingSelect?.focus();
+                    return false;
+                }
+                
+                // Validate comment
+                const comment = reviewComment?.value.trim();
+                if (!comment) {
+                    e.preventDefault();
+                    alert('Please write a review');
+                    reviewComment?.focus();
+                    return false;
+                }
+                
+                // Show loading state
+                if (submitBtn) {
+                    const originalHTML = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    // Store original content in case we need to restore
+                    submitBtn.setAttribute('data-original', originalHTML);
+                }
+                
+                console.log('Form validation passed, submitting...');
+                return true;
+            });
+        }
+        
+        // Check if there are any Django messages to display
+        const messages = document.querySelectorAll('.alert');
+        messages.forEach(msg => {
+            setTimeout(() => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 500);
+            }, 5000);
+        });
+    });
+</script>
 {% endblock %}
