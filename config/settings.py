@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'analytics',
     'payments',
     'django.contrib.humanize',
-    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -152,14 +151,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "vroomhubteam@gmail.com"
 EMAIL_HOST_PASSWORD = "xrbbmigxqzcytarr"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-# Google OAuth2
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-google-client-id'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-google-client-secret'
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
