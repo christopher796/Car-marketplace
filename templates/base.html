@@ -87,9 +87,28 @@
             gap: 0.75rem;
         }
 
-        /* Mobile hamburger - hidden on desktop */
+        /* Mobile hamburger - visible on mobile */
         .mobile-hamburger {
             display: none;
+            background: transparent;
+            border: 1px solid var(--orange);
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-hamburger:hover {
+            background: var(--orange);
+        }
+
+        .mobile-hamburger:hover i {
+            color: var(--charcoal-dark);
+        }
+
+        .mobile-hamburger i {
+            font-size: 1.5rem;
+            color: var(--orange);
         }
 
         /* =========================
@@ -105,14 +124,14 @@
             box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             display: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.5rem;
         }
 
         .bottom-nav-items {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.25rem;
         }
 
         .bottom-nav-item {
@@ -130,12 +149,12 @@
         }
 
         .bottom-nav-item i {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             transition: all 0.2s ease;
         }
 
         .bottom-nav-item span {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 500;
         }
 
@@ -153,16 +172,7 @@
             transform: translateY(-2px);
         }
 
-        .bottom-nav-item .badge-verified-mini {
-            background: #10B981;
-            color: white;
-            padding: 0.1rem 0.3rem;
-            border-radius: 10px;
-            font-size: 0.6rem;
-            margin-left: 4px;
-        }
-
-        /* Custom mobile menu styling - Keep for desktop */
+        /* Custom mobile menu styling */
         .mobile-menu {
             position: fixed;
             top: 0;
@@ -215,6 +225,21 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+        }
+
+        .mobile-menu-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--charcoal-light);
+        }
+
+        .mobile-menu-section-title {
+            color: var(--orange);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
         }
 
         .mobile-menu-items .btn {
@@ -571,14 +596,13 @@
                 display: none;
             }
             
-            /* Show bottom navigation on mobile */
+            /* Show bottom navigation and hamburger on mobile */
             .bottom-nav {
                 display: block;
             }
             
-            /* Hide mobile hamburger when bottom nav is shown */
             .mobile-hamburger {
-                display: none;
+                display: block;
             }
             
             /* Adjust body padding for bottom nav */
@@ -703,7 +727,7 @@
 <body>
 
 <!-- =========================
-     NAVBAR WITH RESPONSIVE HAMBURGER (Desktop Only)
+     NAVBAR WITH RESPONSIVE HAMBURGER
 ==========================-->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
     <div class="container-fluid">
@@ -765,23 +789,28 @@
             {% endif %}
         </div>
 
-        <!-- Mobile Hamburger Button (hidden on mobile since we have bottom nav) -->
+        <!-- Mobile Hamburger Button (visible on mobile) -->
         <button class="mobile-hamburger" id="mobileHamburgerBtn">
             <i class="bi bi-list"></i>
         </button>
     </div>
 </nav>
 
-<!-- Mobile Menu Overlay (Hidden on mobile) -->
+<!-- Mobile Menu Overlay -->
 <div class="mobile-overlay" id="mobileOverlay"></div>
 
-<!-- Mobile Menu Sidebar (Hidden on mobile) -->
+<!-- Mobile Menu Sidebar (Contains extra features) -->
 <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
-        <h4><i class="bi bi-car-front"></i> Menu</h4>
+        <h4><i class="bi bi-car-front"></i> Chrandi Motors</h4>
         <button class="close-menu" id="closeMobileMenuBtn">✕</button>
     </div>
     <div class="mobile-menu-items">
+        <!-- Main Navigation -->
+        <a href="{% url 'browse_listings' %}" class="btn btn-outline-light">
+            <i class="bi bi-search"></i> Browse Cars
+        </a>
+
         {% if user.is_authenticated %}
             <a href="{% url 'manage_ads' %}" class="btn btn-outline-light">
                 <i class="bi bi-grid me-1"></i> My Ads
@@ -792,7 +821,7 @@
             </a>
 
             <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-outline-light">
-                <i class="bi bi-person me-1"></i> Profile
+                <i class="bi bi-person me-1"></i> My Profile
             </a>
 
             {% if user.profile.is_verified %}
@@ -808,20 +837,26 @@
                 </a>
             {% endif %}
 
+            <!-- Admin/Staff Section -->
             {% if user.is_staff %}
-                <a href="/admin/" class="btn btn-warning">
-                    <i class="bi bi-shield-lock me-1"></i> Admin
-                </a>
-
-                <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">
-                    <i class="bi bi-speedometer2"></i>
-                    Dashboard
-                </a>
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-section-title">Admin Panel</div>
+                    <a href="/admin/" class="btn btn-warning">
+                        <i class="bi bi-shield-lock me-1"></i> Admin Dashboard
+                    </a>
+                    <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">
+                        <i class="bi bi-speedometer2"></i>
+                        Analytics Dashboard
+                    </a>
+                </div>
             {% endif %}
 
-            <a href="{% url 'logout' %}" class="btn btn-danger">
-                <i class="bi bi-box-arrow-right me-1"></i> Logout
-            </a>
+            <!-- Logout -->
+            <div class="mobile-menu-section">
+                <a href="{% url 'logout' %}" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                </a>
+            </div>
         {% else %}
             <a href="{% url 'login' %}" class="btn btn-outline-light">
                 <i class="bi bi-box-arrow-in-right me-1"></i> Login
@@ -831,11 +866,45 @@
                 <i class="bi bi-person-plus me-1"></i> Register
             </a>
         {% endif %}
+
+        <!-- Extra Features Section (Always Visible) -->
+        <div class="mobile-menu-section">
+            <div class="mobile-menu-section-title">Discover</div>
+            <a href="#">
+                <i class="bi bi-star-fill"></i> Featured Cars
+            </a>
+            <a href="#">
+                <i class="bi bi-cash-stack"></i> Under 1M KES
+            </a>
+            <a href="#">
+                <i class="bi bi-clock-history"></i> New Arrivals
+            </a>
+        </div>
+
+        <!-- Support & About -->
+        <div class="mobile-menu-section">
+            <div class="mobile-menu-section-title">Support</div>
+            <a href="#">
+                <i class="bi bi-question-circle"></i> Help Center
+            </a>
+            <a href="#">
+                <i class="bi bi-envelope"></i> Contact Us
+            </a>
+            <a href="#">
+                <i class="bi bi-info-circle"></i> About Chrandi Motors
+            </a>
+            <a href="#">
+                <i class="bi bi-file-text"></i> Terms & Conditions
+            </a>
+            <a href="#">
+                <i class="bi bi-shield-lock"></i> Privacy Policy
+            </a>
+        </div>
     </div>
 </div>
 
 <!-- =========================
-     BOTTOM NAVIGATION BAR (Mobile Only)
+     BOTTOM NAVIGATION BAR (Mobile Only - Quick Actions)
 ==========================-->
 <div class="bottom-nav">
     <div class="bottom-nav-items">
@@ -871,11 +940,11 @@
                 </a>
             {% endif %}
 
-            <!-- Logout -->
-            <a href="{% url 'logout' %}" class="bottom-nav-item" onclick="return confirm('Are you sure you want to logout?')">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
-            </a>
+            <!-- Menu (Opens hamburger) -->
+            <div class="bottom-nav-item" id="bottomMenuBtn">
+                <i class="bi bi-list"></i>
+                <span>Menu</span>
+            </div>
         {% else %}
             <!-- Login -->
             <a href="{% url 'login' %}" class="bottom-nav-item">
@@ -889,11 +958,17 @@
                 <span>Register</span>
             </a>
 
-            <!-- Browse (for non-logged in users) -->
+            <!-- Browse -->
             <a href="{% url 'browse_listings' %}" class="bottom-nav-item">
                 <i class="bi bi-search"></i>
                 <span>Browse</span>
             </a>
+
+            <!-- Menu (Opens hamburger) -->
+            <div class="bottom-nav-item" id="bottomMenuBtn">
+                <i class="bi bi-list"></i>
+                <span>Menu</span>
+            </div>
         {% endif %}
     </div>
 </div>
@@ -915,8 +990,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Mobile menu functionality (for desktop/fallback)
+    // Mobile menu functionality
     const hamburgerBtn = document.getElementById('mobileHamburgerBtn');
+    const bottomMenuBtn = document.getElementById('bottomMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileOverlay = document.getElementById('mobileOverlay');
     const closeMenuBtn = document.getElementById('closeMobileMenuBtn');
@@ -933,8 +1009,14 @@
         document.body.style.overflow = '';
     }
     
+    // Open from hamburger icon (top right)
     if (hamburgerBtn) {
         hamburgerBtn.addEventListener('click', openMobileMenu);
+    }
+    
+    // Open from bottom menu button
+    if (bottomMenuBtn) {
+        bottomMenuBtn.addEventListener('click', openMobileMenu);
     }
     
     if (closeMenuBtn) {
