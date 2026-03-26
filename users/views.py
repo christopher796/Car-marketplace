@@ -92,6 +92,7 @@ def seller_profile(request, user_id):
     })
 
 User = get_user_model()
+@login_required
 def add_review(request, user_id):
     seller = get_object_or_404(User, id=user_id)
 
