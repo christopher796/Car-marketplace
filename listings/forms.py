@@ -11,25 +11,5 @@ class ListingForm(forms.ModelForm):
             'features': forms.CheckboxSelectMultiple(),
         }
         help_texts = {
-            'chasis_number': "Optional – VroomHub will not display this to users."
+            'chasis_number': "Optional – Chrandi Motors will not display this to users."
         }
-
-class ListingImageForm(forms.Form):
-    # first 5 required
-    image1 = forms.ImageField(required=True)
-    image2 = forms.ImageField(required=True)
-    image3 = forms.ImageField(required=True)
-    image4 = forms.ImageField(required=True)
-    image5 = forms.ImageField(required=True)
-
-    # next 10 optional
-    image6 = forms.ImageField(required=False)
-    image7 = forms.ImageField(required=False)
-    image8 = forms.ImageField(required=False)
-    image9 = forms.ImageField(required=False)
-    image10 = forms.ImageField(required=False)
-    image11 = forms.ImageField(required=False)
-    image12 = forms.ImageField(required=False)
-    image13 = forms.ImageField(required=False)
-    image14 = forms.ImageField(required=False)
-    image15 = forms.ImageField(required=False)

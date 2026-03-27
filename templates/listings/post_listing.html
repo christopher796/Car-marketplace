@@ -197,10 +197,6 @@
         outline: none;
     }
 
-    .form-control.is-invalid {
-        border-color: #EF4444;
-    }
-
     .help-text {
         font-size: 0.75rem;
         color: var(--text-muted);
@@ -216,93 +212,135 @@
         font-size: 0.7rem;
     }
 
-    /* Two column layout for form fields */
     .form-row {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
     }
 
-    /* Image upload area */
+    /* Enhanced Image Upload Section */
     .image-upload-section {
         background: var(--white);
         border-radius: 24px;
         padding: 1.2rem;
         margin-top: 1.5rem;
-        overflow-x: auto;
     }
 
-    .image-grid {
+    /* Multi-file upload area */
+    .multi-upload-area {
+        border: 2px dashed var(--light-gray-dark);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: var(--light-gray);
+        margin-bottom: 1.5rem;
+    }
+
+    .multi-upload-area:hover {
+        border-color: var(--orange);
+        background: rgba(249, 115, 22, 0.05);
+    }
+
+    .multi-upload-area i {
+        font-size: 3rem;
+        color: var(--orange);
+        margin-bottom: 0.5rem;
+    }
+
+    .multi-upload-area p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    .multi-upload-area .upload-hint {
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Hidden file input */
+    #multiFileInput {
+        display: none;
+    }
+
+    /* Image Preview Grid */
+    .image-preview-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         gap: 0.8rem;
         margin: 1rem 0;
     }
 
-    .image-upload-box {
-        aspect-ratio: 1;
-        border: 2px dashed var(--light-gray-dark);
-        border-radius: 14px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        background: var(--light-gray);
+    .preview-item {
         position: relative;
+        aspect-ratio: 1;
+        border-radius: 12px;
         overflow: hidden;
-        padding: 0.5rem;
+        border: 2px solid var(--light-gray-dark);
+        background: var(--light-gray);
     }
 
-    .image-upload-box:hover {
-        border-color: var(--orange);
-        background: rgba(249, 115, 22, 0.05);
-        transform: translateY(-2px);
-    }
-
-    .image-upload-box i {
-        font-size: 1.5rem;
-        color: var(--orange);
-        margin-bottom: 0.3rem;
-    }
-
-    .image-upload-box span {
-        font-size: 0.65rem;
-        color: var(--text-muted);
-        font-weight: 500;
-        text-align: center;
-    }
-
-    .image-upload-box.required {
-        border-color: var(--orange);
-        background: rgba(249, 115, 22, 0.02);
-    }
-
-    .image-upload-box.required i {
-        color: var(--orange);
-    }
-
-    .image-preview {
-        position: absolute;
-        top: 0;
-        left: 0;
+    .preview-item img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    .image-count-badge {
+    .preview-item .remove-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 24px;
+        height: 24px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.2s ease;
+        border: none;
+    }
+
+    .preview-item .remove-btn:hover {
+        background: #EF4444;
+        transform: scale(1.1);
+    }
+
+    .preview-item.required {
+        border-color: var(--orange);
+    }
+
+    .image-count-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background: var(--light-gray);
+        border-radius: 12px;
+        font-size: 0.85rem;
+    }
+
+    .image-count-info .count-badge {
         background: var(--orange);
         color: white;
         padding: 0.2rem 0.6rem;
         border-radius: 20px;
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        margin-left: 0.5rem;
+    }
+
+    .image-count-info .warning {
+        color: #EF4444;
+    }
+
+    .image-count-info .success {
+        color: #10B981;
     }
 
     /* Chassis note */
@@ -364,10 +402,6 @@
         font-weight: 600;
     }
 
-    .terms-checkbox a:hover {
-        text-decoration: underline;
-    }
-
     /* Submit button */
     .submit-btn {
         background: var(--orange);
@@ -394,211 +428,37 @@
         box-shadow: 0 15px 30px rgba(249, 115, 22, 0.4);
     }
 
-    .submit-btn:active {
-        transform: translateY(0);
-    }
-
-    .submit-btn i {
-        font-size: 1.1rem;
-    }
-
-    .submit-btn.disabled,
-    .submit-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    /* File input styling */
-    input[type="file"] {
-        padding: 0.5rem;
-        border: 2px dashed var(--light-gray-dark);
-        background: var(--light-gray);
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 0.85rem;
-    }
-
-    input[type="file"]::file-selector-button {
-        background: var(--orange);
-        color: white;
-        border: none;
-        padding: 0.4rem 0.8rem;
-        border-radius: 30px;
-        margin-right: 0.8rem;
-        font-weight: 600;
-        font-size: 0.8rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    input[type="file"]::file-selector-button:hover {
-        background: var(--orange-hover);
-    }
-
-    /* Alert styling */
-    .alert-info {
-        background: #DBEAFE;
-        border: none;
-        border-radius: 14px;
-        padding: 0.8rem;
-        margin-bottom: 1rem;
-    }
-
-    /* Error messages */
-    .errorlist {
-        list-style: none;
-        padding: 0;
-        margin: 0.5rem 0 0;
-    }
-
-    .errorlist li {
-        background: #FEE2E2;
-        color: #991B1B;
-        padding: 0.4rem 0.8rem;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        word-break: break-word;
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
-        .posting-wrapper {
-            padding: 1rem 0;
-        }
-
         .posting-card {
             padding: 1.2rem;
             margin: 0 0.75rem;
-            border-radius: 30px;
         }
 
         .page-header h2 {
             font-size: 1.5rem;
         }
 
-        .page-header p {
-            font-size: 0.85rem;
-        }
-
-        .progress-steps {
-            gap: 0.5rem;
-        }
-
-        .step {
-            padding: 0.3rem 0.8rem;
-            font-size: 0.7rem;
-        }
-
-        .form-section {
-            padding: 1rem;
-        }
-
-        .section-title {
-            font-size: 1rem;
-        }
-
         .form-row {
             grid-template-columns: 1fr;
-            gap: 0;
         }
 
-        .form-group {
-            margin-bottom: 0.8rem;
-        }
-
-        .form-label {
-            font-size: 0.85rem;
-        }
-
-        .form-control, .form-select, textarea {
-            padding: 0.6rem 0.8rem;
-            font-size: 0.9rem;
-        }
-
-        .image-grid {
+        .image-preview-grid {
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 0.6rem;
         }
 
-        .image-upload-box i {
-            font-size: 1.2rem;
+        .multi-upload-area {
+            padding: 1.5rem;
         }
 
-        .image-upload-box span {
-            font-size: 0.6rem;
-        }
-
-        .chassis-note {
-            padding: 0.6rem 0.8rem;
-        }
-
-        .chassis-note i {
-            font-size: 1rem;
-        }
-
-        .chassis-note p {
-            font-size: 0.75rem;
-        }
-
-        .terms-checkbox {
-            padding: 0.8rem;
-        }
-
-        .terms-checkbox label {
-            font-size: 0.8rem;
-        }
-
-        .submit-btn {
-            padding: 0.8rem 1.2rem;
-            font-size: 0.9rem;
-        }
-
-        .alert-info {
-            padding: 0.6rem;
-        }
-
-        .alert-info div {
-            font-size: 0.8rem;
+        .multi-upload-area i {
+            font-size: 2rem;
         }
     }
 
-    /* Extra small devices */
     @media (max-width: 480px) {
-        .posting-card {
-            padding: 1rem;
-            margin: 0 0.5rem;
-        }
-
-        .image-grid {
+        .image-preview-grid {
             grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 0.5rem;
-        }
-
-        .image-upload-box i {
-            font-size: 1rem;
-        }
-
-        .image-upload-box span {
-            font-size: 0.55rem;
-        }
-
-        .progress-steps {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .step {
-            width: 100%;
-            justify-content: center;
-        }
-
-        .terms-checkbox {
-            flex-direction: column;
-            text-align: center;
         }
     }
 </style>
@@ -649,7 +509,6 @@
                         Vehicle Details
                     </div>
 
-                    <!-- Render Django form with improved layout -->
                     <div class="form-row">
                         {% for field in form %}
                             {% if field.name not in 'description' %}
@@ -673,7 +532,6 @@
                         {% endfor %}
                     </div>
 
-                    <!-- Description field (full width) -->
                     {% if form.description %}
                         <div class="form-group mt-2">
                             <label class="form-label" for="{{ form.description.id_for_label }}">
@@ -691,7 +549,7 @@
                     {% endif %}
                 </div>
 
-                <!-- Images Section -->
+                <!-- Enhanced Images Section with Multi-Select -->
                 <div class="image-upload-section">
                     <div class="section-title">
                         <i class="bi bi-images"></i>
@@ -703,11 +561,11 @@
 
                     <p class="text-muted mb-2" style="font-size: 0.85rem;">
                         <i class="bi bi-exclamation-triangle-fill" style="color: var(--orange);"></i>
-                        <strong>First 5 images are required</strong> — the rest are optional but recommended for better responses.
+                        <strong>First 5 images are required</strong> — the rest are optional but recommended.
                     </p>
 
-                    <!-- Image upload tips -->
-                    <div class="alert-info" style="background: #DBEAFE; border: none; border-radius: 14px; padding: 0.8rem;">
+                    <!-- Pro tips -->
+                    <div class="alert-info" style="background: #DBEAFE; border: none; border-radius: 14px; padding: 0.8rem; margin-bottom: 1rem;">
                         <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
                             <i class="bi bi-lightbulb-fill" style="color: var(--orange); font-size: 1.2rem;"></i>
                             <div style="flex: 1;">
@@ -717,30 +575,33 @@
                         </div>
                     </div>
 
-                    <!-- Image form -->
-                    {{ image_form.as_p }}
-
-                    <!-- Image preview grid (visual indicator) -->
-                    <div class="image-grid">
-                        {% for i in "12345" %}
-                        <div class="image-upload-box required">
-                            <i class="bi bi-camera-fill"></i>
-                            <span>Required {{ forloop.counter }}</span>
-                        </div>
-                        {% endfor %}
-                        {% for i in "6789101112131415"|make_list %}
-                        <div class="image-upload-box">
-                            <i class="bi bi-camera"></i>
-                            <span>Optional</span>
-                        </div>
-                        {% endfor %}
+                    <!-- Multi-file Upload Area -->
+                    <div class="multi-upload-area" id="uploadArea">
+                        <i class="bi bi-cloud-upload-fill"></i>
+                        <p><strong>Tap to select multiple images</strong></p>
+                        <p class="upload-hint">Select 5-15 images at once from your gallery</p>
+                        <p class="upload-hint" style="color: var(--orange);">✓ JPG, PNG, WEBP • Max 5MB each</p>
                     </div>
 
-                    <!-- Image requirements -->
-                    <div class="help-text mt-2">
-                        <i class="bi bi-check-circle-fill" style="color: #10B981;"></i>
-                        Allowed formats: JPG, PNG, WEBP. Max file size: 5MB per image.
+                    <!-- Hidden file input with multiple attribute -->
+                    <input type="file" id="multiFileInput" name="images" multiple accept="image/jpeg,image/png,image/webp" style="display: none;">
+
+                    <!-- Image Preview Grid -->
+                    <div id="imagePreviewGrid" class="image-preview-grid"></div>
+
+                    <!-- Image Count Info -->
+                    <div class="image-count-info">
+                        <span>
+                            <i class="bi bi-images"></i> Selected: 
+                            <strong id="selectedCount">0</strong> / 15
+                        </span>
+                        <span id="requiredWarning" class="warning">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Minimum 5 required
+                        </span>
                     </div>
+
+                    <!-- Hidden input to store selected files as JSON -->
+                    <input type="hidden" id="imageFilesData" name="image_files_data">
                 </div>
 
                 <!-- Terms and Conditions Checkbox -->
@@ -771,38 +632,191 @@
 </div>
 
 <script>
-    // Image preview functionality
     document.addEventListener('DOMContentLoaded', function() {
-        const fileInputs = document.querySelectorAll('input[type="file"]');
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('multiFileInput');
+        const previewGrid = document.getElementById('imagePreviewGrid');
+        const selectedCountSpan = document.getElementById('selectedCount');
+        const requiredWarning = document.getElementById('requiredWarning');
         const termsCheckbox = document.getElementById('termsCheckbox');
         const submitBtn = document.getElementById('submitBtn');
+        const listingForm = document.getElementById('listingForm');
         
-        fileInputs.forEach(input => {
-            input.addEventListener('change', function(e) {
-                const files = e.target.files;
-                console.log(`${files.length} images selected`);
-            });
-        });
-
-        // Enable/disable submit button based on terms checkbox
-        if (termsCheckbox && submitBtn) {
-            submitBtn.disabled = true;
+        let selectedFiles = []; // Array to store selected files
+        const MAX_FILES = 15;
+        const MIN_FILES = 5;
+        
+        // Update preview grid
+        function updatePreviewGrid() {
+            previewGrid.innerHTML = '';
+            selectedCountSpan.textContent = selectedFiles.length;
             
-            termsCheckbox.addEventListener('change', function() {
-                submitBtn.disabled = !this.checked;
-                if (this.checked) {
+            // Update warning message
+            if (selectedFiles.length < MIN_FILES) {
+                requiredWarning.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Minimum ' + MIN_FILES + ' images required';
+                requiredWarning.style.color = '#EF4444';
+            } else {
+                requiredWarning.innerHTML = '<i class="bi bi-check-circle-fill"></i> Minimum ' + MIN_FILES + ' images ✓';
+                requiredWarning.style.color = '#10B981';
+            }
+            
+            // Create preview items
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    if (index < MIN_FILES) {
+                        previewItem.classList.add('required');
+                    }
+                    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.innerHTML = '✕';
+                    removeBtn.title = 'Remove image';
+                    removeBtn.onclick = function(e) {
+                        e.stopPropagation();
+                        removeImage(index);
+                    };
+                    
+                    previewItem.appendChild(img);
+                    previewItem.appendChild(removeBtn);
+                    previewGrid.appendChild(previewItem);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Remove image from selection
+        function removeImage(index) {
+            selectedFiles.splice(index, 1);
+            updatePreviewGrid();
+            updateFileInput();
+        }
+        
+        // Update hidden file input with new FileList
+        function updateFileInput() {
+            // Create a new DataTransfer object to create a FileList
+            const dataTransfer = new DataTransfer();
+            selectedFiles.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            fileInput.files = dataTransfer.files;
+        }
+        
+        // Handle file selection
+        function handleFiles(files) {
+            const validFiles = [];
+            const invalidFiles = [];
+            const totalAfterAdd = selectedFiles.length + files.length;
+            
+            if (totalAfterAdd > MAX_FILES) {
+                alert(`You can only upload up to ${MAX_FILES} images. You already have ${selectedFiles.length} selected.`);
+                return;
+            }
+            
+            // Validate each file
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                
+                if (!validTypes.includes(file.type)) {
+                    invalidFiles.push(`${file.name} (Invalid format)`);
+                } else if (file.size > maxSize) {
+                    invalidFiles.push(`${file.name} (Max 5MB)`);
+                } else {
+                    validFiles.push(file);
+                }
+            }
+            
+            if (invalidFiles.length > 0) {
+                alert(`The following files were not added:\n${invalidFiles.join('\n')}`);
+            }
+            
+            // Add valid files
+            validFiles.forEach(file => {
+                selectedFiles.push(file);
+            });
+            
+            updatePreviewGrid();
+            updateFileInput();
+            
+            // Enable/disable submit button based on terms and image count
+            if (submitBtn) {
+                if (termsCheckbox.checked && selectedFiles.length >= MIN_FILES) {
+                    submitBtn.disabled = false;
                     submitBtn.classList.remove('disabled');
                 } else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('disabled');
+                }
+            }
+        }
+        
+        // Click upload area to trigger file input
+        if (uploadArea) {
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+        }
+        
+        // Handle file selection from input
+        if (fileInput) {
+            fileInput.addEventListener('change', function(e) {
+                handleFiles(Array.from(e.target.files));
+                // Reset the input so the same files can be selected again if needed
+                fileInput.value = '';
+            });
+        }
+        
+        // Drag and drop support
+        if (uploadArea) {
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--orange)';
+                uploadArea.style.background = 'rgba(249, 115, 22, 0.1)';
+            });
+            
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '';
+                uploadArea.style.background = '';
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '';
+                uploadArea.style.background = '';
+                const files = Array.from(e.dataTransfer.files);
+                handleFiles(files);
+            });
+        }
+        
+        // Terms checkbox validation
+        if (termsCheckbox && submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('disabled');
+            
+            termsCheckbox.addEventListener('change', function() {
+                if (this.checked && selectedFiles.length >= MIN_FILES) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('disabled');
+                } else {
+                    submitBtn.disabled = true;
                     submitBtn.classList.add('disabled');
                 }
             });
         }
-
-        // Form validation animation
-        const form = document.getElementById('listingForm');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                // Check if terms checkbox is checked
+        
+        // Form submission validation
+        if (listingForm) {
+            listingForm.addEventListener('submit', function(e) {
                 if (!termsCheckbox.checked) {
                     e.preventDefault();
                     alert('Please agree to the Terms of Service and Privacy Policy before publishing.');
@@ -810,10 +824,55 @@
                     return false;
                 }
                 
-                const submitBtn = this.querySelector('.submit-btn');
-                submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing...';
-                submitBtn.disabled = true;
-                return true;
+                if (selectedFiles.length < MIN_FILES) {
+                    e.preventDefault();
+                    alert(`Please select at least ${MIN_FILES} images. You have selected ${selectedFiles.length}.`);
+                    return false;
+                }
+                
+                // Create a FormData object to send all files
+                const formData = new FormData();
+                
+                // Add all form fields
+                const formFields = listingForm.querySelectorAll('input, select, textarea');
+                formFields.forEach(field => {
+                    if (field.name && field.name !== 'images' && field.name !== 'image_files_data') {
+                        formData.append(field.name, field.value);
+                    }
+                });
+                
+                // Add all images
+                selectedFiles.forEach((file, index) => {
+                    formData.append(`image_${index + 1}`, file);
+                });
+                formData.append('image_count', selectedFiles.length);
+                
+                // Replace the original form submission
+                e.preventDefault();
+                
+                const submitButton = listingForm.querySelector('.submit-btn');
+                submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing...';
+                submitButton.disabled = true;
+                
+                // Submit via fetch
+                fetch(listingForm.action || window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                }).then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.text();
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    submitButton.innerHTML = '<i class="bi bi-cloud-upload-fill"></i> Publish Listing';
+                    submitButton.disabled = false;
+                    alert('An error occurred. Please try again.');
+                });
             });
         }
     });

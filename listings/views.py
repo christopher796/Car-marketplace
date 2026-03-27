@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ListingForm, ListingImageForm
+from .forms import ListingForm
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from .models import Listing, ListingImage
@@ -17,30 +17,60 @@ from django.utils import timezone
 def post_listing(request):
     if request.method == 'POST':
         form = ListingForm(request.POST)
-        image_form = ListingImageForm(request.POST, request.FILES)
-        if form.is_valid() and image_form.is_valid():
 
+        if form.is_valid():
             listing = form.save(commit=False)
             listing.user = request.user
             listing.save()
-            form.save_m2m() # Required for features
+            form.save_m2m()   # save ManyToMany (features)
 
-            # Loop through uploaded images
-            for i in range(1, 16):
-                img = image_form.cleaned_data.get(f"image{i}")
-                if img:
-                    ListingImage.objects.create(listing=listing, image=img)
+            # Get all images from the request – they are sent under the name "images"
+            uploaded_files = request.FILES.getlist('images')
 
-            messages.success(request, 'Your listing has been posted successfully!')
-            return redirect('browse_listings')
+            # Validate count
+            if len(uploaded_files) < 5:
+                messages.error(request, f'Please upload at least 5 images. You uploaded {len(uploaded_files)}.')
+                listing.delete()
+                return redirect('post_listing')
+
+            if len(uploaded_files) > 15:
+                messages.error(request, f'Maximum 15 images allowed. You uploaded {len(uploaded_files)}.')
+                listing.delete()
+                return redirect('post_listing')
+
+            valid_types = ['image/jpeg', 'image/png', 'image/webp']
+            max_size = 5 * 1024 * 1024   # 5MB
+            saved_count = 0
+            errors = []
+
+            for img in uploaded_files:
+                if img.content_type not in valid_types:
+                    errors.append(f'{img.name} is not a valid image format. Use JPG, PNG, or WEBP.')
+                    continue
+                if img.size > max_size:
+                    errors.append(f'{img.name} exceeds 5MB limit.')
+                    continue
+
+                ListingImage.objects.create(listing=listing, image=img)
+                saved_count += 1
+
+            if saved_count >= 5:
+                messages.success(request, f'✅ Your listing "{listing.title}" has been posted! {saved_count} images uploaded.')
+                return redirect('browse_listings')
+            else:
+                messages.error(request, f'❌ Only {saved_count} valid images. At least 5 are required.')
+                for err in errors[:3]:
+                    messages.error(request, err)
+                listing.delete()
+                return redirect('post_listing')
+        else:
+            for field, errors in form.errors.items():
+                for err in errors:
+                    messages.error(request, f'{field}: {err}')
     else:
         form = ListingForm()
-        image_form = ListingImageForm()
-    return render(request, 'listings/post_listing.html', {
-        'form': form,
-        'image_form': image_form
-    })
 
+    return render(request, 'listings/post_listing.html', {'form': form})
 
 def browse_listings(request):
     # Start with approved & active listings that are available (not sold)
