@@ -330,6 +330,44 @@
         flex: 1;
     }
 
+    /* Terms checkbox */
+    .terms-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background: var(--light-gray);
+        border-radius: 16px;
+        border: 1px solid var(--light-gray-dark);
+    }
+
+    .terms-checkbox input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--orange);
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .terms-checkbox label {
+        font-size: 0.9rem;
+        color: var(--charcoal-dark);
+        cursor: pointer;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    .terms-checkbox a {
+        color: var(--orange);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .terms-checkbox a:hover {
+        text-decoration: underline;
+    }
+
     /* Submit button */
     .submit-btn {
         background: var(--orange);
@@ -345,7 +383,7 @@
         justify-content: center;
         gap: 8px;
         transition: all 0.3s ease;
-        margin-top: 1.5rem;
+        margin-top: 1rem;
         box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
         cursor: pointer;
     }
@@ -362,6 +400,13 @@
 
     .submit-btn i {
         font-size: 1.1rem;
+    }
+
+    .submit-btn.disabled,
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
     }
 
     /* File input styling */
@@ -499,6 +544,14 @@
             font-size: 0.75rem;
         }
 
+        .terms-checkbox {
+            padding: 0.8rem;
+        }
+
+        .terms-checkbox label {
+            font-size: 0.8rem;
+        }
+
         .submit-btn {
             padding: 0.8rem 1.2rem;
             font-size: 0.9rem;
@@ -541,6 +594,11 @@
         .step {
             width: 100%;
             justify-content: center;
+        }
+
+        .terms-checkbox {
+            flex-direction: column;
+            text-align: center;
         }
     }
 </style>
@@ -685,8 +743,19 @@
                     </div>
                 </div>
 
+                <!-- Terms and Conditions Checkbox -->
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="termsCheckbox" required>
+                    <label for="termsCheckbox">
+                        I confirm that the vehicle information is accurate and I agree to the 
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" style="color: var(--orange);">Terms of Service</a> and 
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" style="color: var(--orange);">Privacy Policy</a>. 
+                        I understand that false information may result in listing removal.
+                    </label>
+                </div>
+
                 <!-- Submit button -->
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="submitBtn">
                     <i class="bi bi-cloud-upload-fill"></i>
                     Publish Listing
                 </button>
@@ -695,7 +764,7 @@
             <!-- Footer note -->
             <p class="text-center text-muted mt-3 small" style="font-size: 0.7rem;">
                 <i class="bi bi-shield-check"></i>
-                By posting, you agree to our <a href="#" style="color: var(--orange);">Terms of Service</a> and confirm that this vehicle is available for sale.
+                By posting, you agree to our <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" style="color: var(--orange);">Terms of Service</a> and confirm that this vehicle is available for sale.
             </p>
         </div>
     </div>
@@ -705,6 +774,8 @@
     // Image preview functionality
     document.addEventListener('DOMContentLoaded', function() {
         const fileInputs = document.querySelectorAll('input[type="file"]');
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        const submitBtn = document.getElementById('submitBtn');
         
         fileInputs.forEach(input => {
             input.addEventListener('change', function(e) {
@@ -713,13 +784,36 @@
             });
         });
 
+        // Enable/disable submit button based on terms checkbox
+        if (termsCheckbox && submitBtn) {
+            submitBtn.disabled = true;
+            
+            termsCheckbox.addEventListener('change', function() {
+                submitBtn.disabled = !this.checked;
+                if (this.checked) {
+                    submitBtn.classList.remove('disabled');
+                } else {
+                    submitBtn.classList.add('disabled');
+                }
+            });
+        }
+
         // Form validation animation
         const form = document.getElementById('listingForm');
         if (form) {
             form.addEventListener('submit', function(e) {
+                // Check if terms checkbox is checked
+                if (!termsCheckbox.checked) {
+                    e.preventDefault();
+                    alert('Please agree to the Terms of Service and Privacy Policy before publishing.');
+                    termsCheckbox.focus();
+                    return false;
+                }
+                
                 const submitBtn = this.querySelector('.submit-btn');
                 submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing...';
                 submitBtn.disabled = true;
+                return true;
             });
         }
     });

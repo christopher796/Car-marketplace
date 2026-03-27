@@ -48,7 +48,7 @@
             overflow-x: hidden;
             min-height: 100vh;
             line-height: 1.6;
-            padding-bottom: 65px; /* Space for compact bottom navigation on mobile */
+            padding-bottom: 65px;
         }
 
         /* Import Inter font */
@@ -578,7 +578,7 @@
         }
 
         /* =========================
-           FOOTER (optional)
+           FOOTER
         ==========================*/
         .footer {
             background: var(--charcoal-dark);
@@ -588,16 +588,140 @@
             border-top: 3px solid var(--orange);
         }
 
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-links a:hover {
+            color: var(--orange);
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 24px;
+            border: 2px solid var(--orange);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--charcoal-dark) 0%, var(--charcoal) 100%);
+            color: white;
+            border-bottom: 2px solid var(--orange);
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-title {
+            font-weight: 800;
+        }
+
+        .modal-title i {
+            color: var(--orange);
+            margin-right: 8px;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: var(--light-gray-dark);
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--orange);
+            border-radius: 10px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--light-gray-dark);
+        }
+
+        .modal-content h4 {
+            color: var(--orange);
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .modal-content h4:first-of-type {
+            margin-top: 0;
+        }
+
+        .modal-content p {
+            color: var(--charcoal-dark);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info-card {
+            background: var(--light-gray);
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .contact-info-card p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info-card i {
+            color: var(--orange);
+            width: 25px;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .faq-answer {
+            color: var(--charcoal-dark);
+            padding-left: 1rem;
+            border-left: 3px solid var(--orange-light);
+        }
+
         /* =========================
            RESPONSIVE DESIGN
         ==========================*/
         @media (max-width: 991px) {
-            /* Hide desktop navigation on tablet/mobile */
             .desktop-nav {
                 display: none;
             }
             
-            /* Show bottom navigation and hamburger on mobile */
             .bottom-nav {
                 display: block;
             }
@@ -606,12 +730,10 @@
                 display: block;
             }
             
-            /* Adjust body padding for compact bottom nav */
             body {
                 padding-bottom: 58px;
             }
             
-            /* Navbar container adjustments for mobile */
             .navbar .container-fluid {
                 display: flex;
                 justify-content: space-between;
@@ -624,7 +746,6 @@
         }
         
         @media (min-width: 992px) {
-            /* On desktop, hide mobile elements */
             .mobile-hamburger,
             .mobile-menu,
             .mobile-overlay,
@@ -662,11 +783,12 @@
             .card-price {
                 font-size: 1.3rem;
             }
+
+            .modal-body {
+                padding: 1rem;
+            }
         }
 
-        /* =========================
-           ANIMATIONS
-        ==========================*/
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -677,21 +799,14 @@
         }
 
         @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-            to {
-                transform: translateY(0);
-            }
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         .bottom-nav {
             animation: slideUp 0.3s ease-out;
         }
 
-        /* =========================
-           UTILITY CLASSES
-        ==========================*/
         .bg-orange {
             background: var(--orange);
         }
@@ -732,50 +847,39 @@
 ==========================-->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
     <div class="container-fluid">
-        <!-- Brand on the left -->
         <a class="navbar-brand" href="{% url 'browse_listings' %}">
             CHRANDI MOTORS
         </a>
 
-        <!-- Desktop Navigation (visible on large screens) -->
         <div class="desktop-nav">
             {% if user.is_authenticated %}
                 <a href="{% url 'manage_ads' %}" class="btn btn-outline-light btn-sm">
                     <i class="bi bi-grid me-1"></i> My Ads
                 </a>
-
                 <a href="{% url 'post_listing' %}" class="btn btn-primary btn-sm">
                     <i class="bi bi-plus-circle me-1"></i> Post Ad
                 </a>
-
                 <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-outline-light btn-sm">
                     <i class="bi bi-person me-1"></i> Profile
                 </a>
-
                 {% if user.profile.is_verified %}
                     <span class="badge badge-verified">
                         <i class="bi bi-patch-check-fill me-1"></i> Verified
                     </span>
                 {% endif %}
-
                 {% if user.is_authenticated and not user.profile.is_verified %}
                     <a href="{% url 'get_verified' %}" class="btn-get-verified">
-                        <i class="bi bi-patch-check-fill"></i>
-                        Get Verified
+                        <i class="bi bi-patch-check-fill"></i> Get Verified
                     </a>
                 {% endif %}
-
                 {% if user.is_staff %}
                     <a href="/admin/" class="btn btn-warning btn-sm">
                         <i class="bi bi-shield-lock me-1"></i> Admin
                     </a>
-
                     <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">
-                        <i class="bi bi-speedometer2"></i>
-                        Dashboard
+                        <i class="bi bi-speedometer2"></i> Dashboard
                     </a>
                 {% endif %}
-
                 <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">
                     <i class="bi bi-box-arrow-right me-1"></i> Logout
                 </a>
@@ -783,14 +887,12 @@
                 <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Login
                 </a>
-
                 <a href="{% url 'register' %}" class="btn btn-primary btn-sm">
                     <i class="bi bi-person-plus me-1"></i> Register
                 </a>
             {% endif %}
         </div>
 
-        <!-- Mobile Hamburger Button (visible on mobile) -->
         <button class="mobile-hamburger" id="mobileHamburgerBtn">
             <i class="bi bi-list"></i>
         </button>
@@ -800,14 +902,13 @@
 <!-- Mobile Menu Overlay -->
 <div class="mobile-overlay" id="mobileOverlay"></div>
 
-<!-- Mobile Menu Sidebar (Contains extra features) -->
+<!-- Mobile Menu Sidebar -->
 <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
         <h4><i class="bi bi-car-front"></i> Chrandi Motors</h4>
         <button class="close-menu" id="closeMobileMenuBtn">✕</button>
     </div>
     <div class="mobile-menu-items">
-        <!-- Main Navigation -->
         <a href="{% url 'browse_listings' %}" class="btn btn-outline-light">
             <i class="bi bi-search"></i> Browse Cars
         </a>
@@ -816,160 +917,83 @@
             <a href="{% url 'manage_ads' %}" class="btn btn-outline-light">
                 <i class="bi bi-grid me-1"></i> My Ads
             </a>
-
             <a href="{% url 'post_listing' %}" class="btn btn-primary">
                 <i class="bi bi-plus-circle me-1"></i> Post Ad
             </a>
-
             <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-outline-light">
                 <i class="bi bi-person me-1"></i> My Profile
             </a>
-
             {% if user.profile.is_verified %}
                 <div class="badge badge-verified text-center" style="margin: 0 auto;">
                     <i class="bi bi-patch-check-fill me-1"></i> Verified Seller
                 </div>
             {% endif %}
-
             {% if user.is_authenticated and not user.profile.is_verified %}
                 <a href="{% url 'get_verified' %}" class="btn-get-verified">
-                    <i class="bi bi-patch-check-fill"></i>
-                    Get Verified
+                    <i class="bi bi-patch-check-fill"></i> Get Verified
                 </a>
             {% endif %}
-
-            <!-- Admin/Staff Section -->
             {% if user.is_staff %}
                 <div class="mobile-menu-section">
                     <div class="mobile-menu-section-title">Admin Panel</div>
-                    <a href="/admin/" class="btn btn-warning">
-                        <i class="bi bi-shield-lock me-1"></i> Admin Dashboard
-                    </a>
-                    <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">
-                        <i class="bi bi-speedometer2"></i>
-                        Analytics Dashboard
-                    </a>
+                    <a href="/admin/" class="btn btn-warning">Admin Dashboard</a>
+                    <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">Analytics Dashboard</a>
                 </div>
             {% endif %}
-
-            <!-- Logout -->
             <div class="mobile-menu-section">
-                <a href="{% url 'logout' %}" class="btn btn-danger">
-                    <i class="bi bi-box-arrow-right me-1"></i> Logout
-                </a>
+                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
             </div>
         {% else %}
-            <a href="{% url 'login' %}" class="btn btn-outline-light">
-                <i class="bi bi-box-arrow-in-right me-1"></i> Login
-            </a>
-
-            <a href="{% url 'register' %}" class="btn btn-primary">
-                <i class="bi bi-person-plus me-1"></i> Register
-            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
         {% endif %}
 
-        <!-- Extra Features Section (Always Visible) -->
         <div class="mobile-menu-section">
             <div class="mobile-menu-section-title">Discover</div>
-            <a href="#">
-                <i class="bi bi-star-fill"></i> Featured Cars
-            </a>
-            <a href="#">
-                <i class="bi bi-cash-stack"></i> Under 1M KES
-            </a>
-            <a href="#">
-                <i class="bi bi-clock-history"></i> New Arrivals
-            </a>
+            <a href="#"><i class="bi bi-star-fill"></i> Featured Cars</a>
+            <a href="#"><i class="bi bi-cash-stack"></i> Under 1M KES</a>
+            <a href="#"><i class="bi bi-clock-history"></i> New Arrivals</a>
         </div>
 
-        <!-- Support & About -->
         <div class="mobile-menu-section">
-            <div class="mobile-menu-section-title">Support</div>
-            <a href="#">
-                <i class="bi bi-question-circle"></i> Help Center
-            </a>
-            <a href="#">
-                <i class="bi bi-envelope"></i> Contact Us
-            </a>
-            <a href="#">
-                <i class="bi bi-info-circle"></i> About Chrandi Motors
-            </a>
-            <a href="#">
-                <i class="bi bi-file-text"></i> Terms & Conditions
-            </a>
-            <a href="#">
-                <i class="bi bi-shield-lock"></i> Privacy Policy
-            </a>
+            <div class="mobile-menu-section-title">Support & Legal</div>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="bi bi-question-circle"></i> Help Center</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal"><i class="bi bi-envelope"></i> Contact Us</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="bi bi-info-circle"></i> About Us</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal"><i class="bi bi-file-text"></i> Terms & Conditions</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal"><i class="bi bi-shield-lock"></i> Privacy Policy</a>
         </div>
     </div>
 </div>
 
 <!-- =========================
-     BOTTOM NAVIGATION BAR (Mobile Only - Compact & Quick Actions)
+     BOTTOM NAVIGATION BAR (Mobile Only)
 ==========================-->
 <div class="bottom-nav">
     <div class="bottom-nav-items">
         {% if user.is_authenticated %}
-            <!-- Home Button (First) -->
             <a href="{% url 'browse_listings' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'browse_listings' %}active{% endif %}">
-                <i class="bi bi-house-fill"></i>
-                <span>Home</span>
+                <i class="bi bi-house-fill"></i><span>Home</span>
             </a>
-
-            <!-- My Ads -->
             <a href="{% url 'manage_ads' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'manage_ads' %}active{% endif %}">
-                <i class="bi bi-grid-fill"></i>
-                <span>My Ads</span>
+                <i class="bi bi-grid-fill"></i><span>My Ads</span>
             </a>
-
-            <!-- Post Ad -->
             <a href="{% url 'post_listing' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'post_listing' %}active{% endif %}">
-                <i class="bi bi-plus-circle-fill"></i>
-                <span>Post Ad</span>
+                <i class="bi bi-plus-circle-fill"></i><span>Post Ad</span>
             </a>
-
-            <!-- Profile -->
             <a href="{% url 'seller_profile' user_id=user.id %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'seller_profile' %}active{% endif %}">
-                <i class="bi bi-person-fill"></i>
-                <span>Profile</span>
+                <i class="bi bi-person-fill"></i><span>Profile</span>
             </a>
-
-            <!-- Verified Badge or Get Verified -->
             {% if user.profile.is_verified %}
-                <div class="bottom-nav-item">
-                    <i class="bi bi-patch-check-fill" style="color: #10B981;"></i>
-                    <span>Verified</span>
-                </div>
+                <div class="bottom-nav-item"><i class="bi bi-patch-check-fill" style="color: #10B981;"></i><span>Verified</span></div>
             {% else %}
-                <a href="{% url 'get_verified' %}" class="bottom-nav-item">
-                    <i class="bi bi-shield-check"></i>
-                    <span>Verify</span>
-                </a>
+                <a href="{% url 'get_verified' %}" class="bottom-nav-item"><i class="bi bi-shield-check"></i><span>Verify</span></a>
             {% endif %}
         {% else %}
-            <!-- Home Button (First for non-logged in) -->
-            <a href="{% url 'browse_listings' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'browse_listings' %}active{% endif %}">
-                <i class="bi bi-house-fill"></i>
-                <span>Home</span>
-            </a>
-
-            <!-- Login -->
-            <a href="{% url 'login' %}" class="bottom-nav-item">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login</span>
-            </a>
-
-            <!-- Register -->
-            <a href="{% url 'register' %}" class="bottom-nav-item">
-                <i class="bi bi-person-plus-fill"></i>
-                <span>Register</span>
-            </a>
-
-            <!-- Browse (alternative) -->
-            <a href="{% url 'browse_listings' %}" class="bottom-nav-item">
-                <i class="bi bi-search"></i>
-                <span>Browse</span>
-            </a>
+            <a href="{% url 'browse_listings' %}" class="bottom-nav-item"><i class="bi bi-house-fill"></i><span>Home</span></a>
+            <a href="{% url 'login' %}" class="bottom-nav-item"><i class="bi bi-box-arrow-in-right"></i><span>Login</span></a>
+            <a href="{% url 'register' %}" class="bottom-nav-item"><i class="bi bi-person-plus-fill"></i><span>Register</span></a>
+            <a href="{% url 'browse_listings' %}" class="bottom-nav-item"><i class="bi bi-search"></i><span>Browse</span></a>
         {% endif %}
     </div>
 </div>
@@ -981,12 +1005,277 @@
     {% block content %}{% endblock %}
 </div>
 
-<!-- Optional Footer -->
-<footer class="footer d-none d-md-block">
-    <div class="container text-center">
-        <p class="mb-0">© 2026 CHRANDI MOTORS — Connecting Sellers & Buyers</p>
+<!-- =========================
+     FOOTER (Desktop Only)
+==========================-->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-links">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="bi bi-info-circle"></i> About Us</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal"><i class="bi bi-envelope"></i> Contact Us</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="bi bi-question-circle"></i> Help Center</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal"><i class="bi bi-file-text"></i> Terms & Conditions</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal"><i class="bi bi-shield-lock"></i> Privacy Policy</a>
+        </div>
+        <div class="text-center">
+            <p class="mb-0">© 2026 CHRANDI MOTORS — Connecting Sellers & Buyers</p>
+        </div>
     </div>
 </footer>
+
+<!-- =========================
+     MODALS (Terms, Privacy, About, Help, Contact)
+==========================-->
+
+<!-- Terms & Conditions Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-file-text-fill"></i> Terms & Conditions</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h4><i class="bi bi-car-front"></i> 1. Introduction</h4>
+                <p>Welcome to Chrandi Motors. By accessing or using our platform, you agree to be bound by these Terms and Conditions. Please read them carefully before using our services.</p>
+                
+                <h4><i class="bi bi-person-check"></i> 2. User Accounts</h4>
+                <p>2.1. You must be at least 18 years old to create an account.<br>
+                2.2. You are responsible for maintaining the confidentiality of your account credentials.<br>
+                2.3. You agree to provide accurate and complete information when creating your account.<br>
+                2.4. You are solely responsible for all activities that occur under your account.</p>
+                
+                <h4><i class="bi bi-car-front-fill"></i> 3. Vehicle Listings</h4>
+                <p>3.1. Sellers must provide accurate and truthful information about their vehicles.<br>
+                3.2. All listings must include clear photos and accurate descriptions.<br>
+                3.3. Sellers are responsible for ensuring their listings comply with all applicable laws.<br>
+                3.4. Chrandi Motors reserves the right to remove any listing that violates our policies.<br>
+                3.5. Vehicle prices must be listed in Kenyan Shillings (KES).<br>
+                3.6. Sellers must disclose any known defects or issues with the vehicle.</p>
+                
+                <h4><i class="bi bi-shield-check"></i> 4. Verification and Trust</h4>
+                <p>4.1. Sellers may apply for verification to enhance trust.<br>
+                4.2. Verification requires submission of valid identification documents.<br>
+                4.3. Chrandi Motors reviews all verification requests within 24-48 hours.<br>
+                4.4. Verified sellers receive a badge on their profile and listings.<br>
+                4.5. We reserve the right to revoke verification status if terms are violated.</p>
+                
+                <h4><i class="bi bi-chat-dots"></i> 5. User Conduct</h4>
+                <p>5.1. You agree to communicate respectfully with other users.<br>
+                5.2. Harassment, spam, or fraudulent activities are strictly prohibited.<br>
+                5.3. Do not post false, misleading, or deceptive information.<br>
+                5.4. Respect the intellectual property rights of others.<br>
+                5.5. Do not use our platform for any illegal activities.</p>
+                
+                <h4><i class="bi bi-cash-stack"></i> 6. Transactions and Payments</h4>
+                <p>6.1. Chrandi Motors is a platform for connecting buyers and sellers.<br>
+                6.2. We do not handle payments directly between parties.<br>
+                6.3. All financial transactions are between the buyer and seller.<br>
+                6.4. We strongly recommend meeting in public places for transactions.<br>
+                6.5. Inspect vehicles thoroughly before making any payment.</p>
+                
+                <h4><i class="bi bi-shield-lock"></i> 7. Privacy and Data Protection</h4>
+                <p>7.1. We collect and process personal data in accordance with our Privacy Policy.<br>
+                7.2. Your contact information is only shared with potential buyers when you initiate contact.<br>
+                7.3. We use industry-standard security measures to protect your data.<br>
+                7.4. You have the right to request deletion of your account and associated data.</p>
+                
+                <h4><i class="bi bi-gavel"></i> 8. Termination</h4>
+                <p>8.1. We reserve the right to suspend or terminate accounts that violate these terms.<br>
+                8.2. Users may delete their account at any time through account settings.<br>
+                8.3. Upon termination, listings will be removed from the platform.</p>
+                
+                <div class="alert alert-info mt-4" style="background: rgba(249, 115, 22, 0.1); border: 1px solid var(--orange);">
+                    <i class="bi bi-calendar-check"></i> <strong>Last Updated:</strong> March 27, 2026
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-shield-lock-fill"></i> Privacy Policy</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h4><i class="bi bi-info-circle"></i> 1. Information We Collect</h4>
+                <p>We collect information you provide when creating an account, posting listings, and communicating with other users. This includes name, email, phone number, location, and vehicle details.</p>
+                
+                <h4><i class="bi bi-database"></i> 2. How We Use Your Information</h4>
+                <p>2.1. To facilitate vehicle transactions between buyers and sellers.<br>
+                2.2. To verify seller identities and prevent fraud.<br>
+                2.3. To communicate important updates about your account and listings.<br>
+                2.4. To improve our platform and user experience.<br>
+                2.5. To comply with legal obligations.</p>
+                
+                <h4><i class="bi bi-share"></i> 3. Information Sharing</h4>
+                <p>3.1. We do not sell your personal information to third parties.<br>
+                3.2. Your contact information is only shared when you initiate contact with another user.<br>
+                3.3. We may share information with law enforcement when required by law.<br>
+                3.4. Aggregated, anonymized data may be used for analytics and research.</p>
+                
+                <h4><i class="bi bi-shield"></i> 4. Data Security</h4>
+                <p>We implement industry-standard security measures to protect your data, including encryption, secure servers, and regular security audits. However, no method of transmission over the Internet is 100% secure.</p>
+                
+                <h4><i class="bi bi-clock-history"></i> 5. Data Retention</h4>
+                <p>We retain your information as long as your account is active. When you delete your account, we remove your personal information within 30 days, except where required for legal compliance.</p>
+                
+                <h4><i class="bi bi-person-check"></i> 6. Your Rights</h4>
+                <p>You have the right to access, correct, or delete your personal information. Contact us at the email below to exercise these rights.</p>
+                
+                <div class="contact-info-card">
+                    <p><i class="bi bi-envelope"></i> <strong>Email:</strong> <span id="privacyEmail">privacy@chrandimotors.co.ke</span> <button class="btn btn-sm btn-outline-orange ms-2" onclick="copyToClipboard('privacyEmail')">Copy</button></p>
+                    <p><i class="bi bi-telephone"></i> <strong>Phone:</strong> 0115082675</p>
+                </div>
+                
+                <div class="alert alert-info mt-3" style="background: rgba(249, 115, 22, 0.1); border: 1px solid var(--orange);">
+                    <i class="bi bi-calendar-check"></i> <strong>Last Updated:</strong> March 27, 2026
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Chrandi Motors Modal -->
+<div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-info-circle-fill"></i> About Chrandi Motors</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-car-front-fill" style="font-size: 4rem; color: var(--orange);"></i>
+                </div>
+                <h4>Our Story</h4>
+                <p>Chrandi Motors was founded with a simple vision: to make buying and selling cars in Kenya easier, safer, and more transparent. Since our launch, we've helped thousands of Kenyans find their perfect vehicle and connect with trusted sellers across all 47 counties.</p>
+                
+                <h4>Our Mission</h4>
+                <p>To create Kenya's most trusted automotive marketplace where buyers and sellers can connect with confidence, transparency, and ease.</p>
+                
+                <h4>Why Choose Us?</h4>
+                <p>✓ <strong>Verified Sellers</strong> - We verify seller identities to build trust<br>
+                ✓ <strong>Nationwide Reach</strong> - Connect with buyers and sellers across all counties<br>
+                ✓ <strong>Safe Transactions</strong> - We provide safety tips and best practices<br>
+                ✓ <strong>24/7 Support</strong> - Our team is here to help when you need it<br>
+                ✓ <strong>Free to List</strong> - Post your vehicles at no cost</p>
+                
+                <h4>Our Values</h4>
+                <p><strong>Trust:</strong> We prioritize safety and transparency in every interaction.<br>
+                <strong>Innovation:</strong> We continuously improve our platform to serve you better.<br>
+                <strong>Community:</strong> We believe in empowering Kenyan car enthusiasts and dealers.<br>
+                <strong>Integrity:</strong> We operate with honesty and accountability.</p>
+                
+                <div class="contact-info-card mt-3">
+                    <p><i class="bi bi-geo-alt"></i> <strong>Location:</strong> Nairobi, Kenya</p>
+                    <p><i class="bi bi-envelope"></i> <strong>Email:</strong> <span id="aboutEmail">info@chrandimotors.co.ke</span></p>
+                    <p><i class="bi bi-telephone"></i> <strong>Phone:</strong> 0115082675</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Help Center Modal -->
+<div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-question-circle-fill"></i> Help Center</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="faq-item">
+                    <div class="faq-question"><i class="bi bi-question-circle"></i> How do I create an account?</div>
+                    <div class="faq-answer">Click "Register" on the top right, fill in your details, and verify your email address. It's free and takes less than a minute!</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question"><i class="bi bi-plus-circle"></i> How do I post a vehicle for sale?</div>
+                    <div class="faq-answer">Once logged in, click "Post Ad" in the navigation menu. Fill in your vehicle details, upload clear photos, and publish your listing. All listings are reviewed within 24 hours.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question"><i class="bi bi-patch-check"></i> What does "Verified Seller" mean?</div>
+                    <div class="faq-answer">Verified Sellers have submitted valid identification documents that we've reviewed and approved. This badge builds trust and helps buyers feel confident.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question"><i class="bi bi-cash-stack"></i> Is it free to list a vehicle?</div>
+                    <div class="faq-answer">Yes! Listing vehicles on Chrandi Motors is completely free. There are no hidden fees or commissions.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question"><i class="bi bi-shield"></i> How do I stay safe when buying a car?</div>
+                    <div class="faq-answer">Always meet in a public place, inspect the vehicle thoroughly, test drive before purchasing, and never send money without seeing the vehicle first.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question"><i class="bi bi-pencil"></i> How do I edit or delete my listing?</div>
+                    <div class="faq-answer">Go to "My Ads" in your profile, find the listing, and click the edit or delete button.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question"><i class="bi bi-star"></i> How are ratings calculated?</div>
+                    <div class="faq-answer">Ratings are based on reviews from verified buyers. The average rating is displayed on seller profiles.</div>
+                </div>
+                
+                <div class="alert alert-warning mt-3" style="background: #FEF3C7; border: none;">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <strong>Still need help?</strong> Contact our support team at <strong>0115082675</strong> or email <strong>support@chrandimotors.co.ke</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Us Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-envelope-fill"></i> Contact Us</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-headset" style="font-size: 3rem; color: var(--orange);"></i>
+                </div>
+                
+                <div class="contact-info-card">
+                    <p><i class="bi bi-telephone-fill"></i> <strong>Phone:</strong> <a href="tel:0115082675" style="color: var(--orange);">0115082675</a></p>
+                    <p><i class="bi bi-whatsapp"></i> <strong>WhatsApp:</strong> <a href="https://wa.me/254115082675" target="_blank" style="color: #25D366;">0115082675</a></p>
+                    <p><i class="bi bi-envelope"></i> <strong>Email:</strong> <span id="contactEmail">info@chrandimotors.co.ke</span> <button class="btn btn-sm btn-outline-orange ms-2" onclick="copyToClipboard('contactEmail')">Copy</button></p>
+                    <p><i class="bi bi-clock"></i> <strong>Support Hours:</strong> Monday - Friday, 8:00 AM - 6:00 PM</p>
+                    <p><i class="bi bi-geo-alt-fill"></i> <strong>Address:</strong> Nairobi, Kenya</p>
+                </div>
+                
+                <div class="alert alert-info mt-3" style="background: rgba(249, 115, 22, 0.1); border: 1px solid var(--orange);">
+                    <i class="bi bi-chat-dots"></i> We're here to help! Reach out to us via phone, WhatsApp, or email, and we'll get back to you within 24 hours.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -1009,7 +1298,6 @@
         document.body.style.overflow = '';
     }
     
-    // Open from hamburger icon (top right)
     if (hamburgerBtn) {
         hamburgerBtn.addEventListener('click', openMobileMenu);
     }
@@ -1022,14 +1310,12 @@
         mobileOverlay.addEventListener('click', closeMobileMenu);
     }
     
-    // Close menu on escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
             closeMobileMenu();
         }
     });
 
-    // Highlight active bottom nav item based on current URL
     document.addEventListener('DOMContentLoaded', function() {
         const currentUrl = window.location.pathname;
         const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
@@ -1041,6 +1327,23 @@
             }
         });
     });
+    
+    // Copy to clipboard function
+    function copyToClipboard(elementId) {
+        const textElement = document.getElementById(elementId);
+        const text = textElement.innerText;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        }).catch(() => {
+            alert('Could not copy. Please copy manually.');
+        });
+    }
 </script>
 </body>
 </html>

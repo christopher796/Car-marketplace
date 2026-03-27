@@ -752,11 +752,12 @@
                 </div>
             </div>
 
-            <!-- Terms and conditions -->
+            <!-- Terms and conditions - Updated with modal links -->
             <div class="terms-checkbox">
                 <input type="checkbox" id="terms" required>
                 <label for="terms">
-                    I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" style="color: var(--orange); text-decoration: none;">Terms of Service</a> and 
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" style="color: var(--orange); text-decoration: none;">Privacy Policy</a>
                 </label>
             </div>
 
@@ -787,7 +788,7 @@
 </div>
 
 <!-- Password strength checker -->
- <script>
+<script>
    document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('passwordField');
     if (!passwordInput) return;
@@ -895,6 +896,6 @@
             registerBtn.disabled = true;
         });
     });
- </script>
+</script>
 
 {% endblock %}
