@@ -1010,10 +1010,10 @@
             <div class="card-footer-info">
                 <div class="seller-info">
                     <div class="seller-avatar">
-                        {{ listing.seller.username|first|upper }}
+                        {{ listing.user.username|first|upper }}
                     </div>
                     <span class="seller-name">{{ listing.seller.username|truncatechars:8 }}</span>
-                    {% if listing.seller.profile.is_verified %}
+                    {% if listing.user.profile.is_verified %}
                     <i class="bi bi-patch-check-fill verified-badge" title="Verified Seller"></i>
                     {% endif %}
                 </div>
