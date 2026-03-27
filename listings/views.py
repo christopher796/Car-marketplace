@@ -2,41 +2,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ListingForm, ListingImageForm
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
-from  .models import Listing, ListingImage
-from django.db.models import F, Avg
+from .models import Listing, ListingImage
+from django.db.models import F, Avg, Q, Case, When, IntegerField, Sum
+from django.contrib import messages
 import re
-from django.db.models import Q, Case, When, IntegerField
 from django.contrib.auth.models import User
 from urllib.parse import quote
+from datetime import timedelta
+from django.utils import timezone
 
 
-
-# Post a new listing
-"""@login_required
-def post_listing(request):
-    ImageFormSet = modelformset_factory(ListingImage, form=ListingImageForm, extra=3)
-    
-    if request.method == 'POST':
-        form = ListingForm(request.POST)
-        formset = ImageFormSet(request.POST, request.FILES, queryset=ListingImage.objects.none())
-        
-        if form.is_valid() and formset.is_valid():
-            listing = form.save(commit=False)
-            listing.user = request.user
-            listing.is_approved = False
-            listing.save()
-            
-            for f in formset.cleaned_data:
-                if f:
-                    image = f['image']
-                    photo = ListingImage(listing=listing, image=image)
-                    photo.save()
-            return redirect('home')
-    else:
-        form = ListingForm()
-        formset = ImageFormSet(queryset=ListingImage.objects.none())
-    
-    return render(request, 'listings/post_listing.html', {'form': form, 'formset': formset})"""
 
 @login_required
 def post_listing(request):
@@ -56,6 +31,7 @@ def post_listing(request):
                 if img:
                     ListingImage.objects.create(listing=listing, image=img)
 
+            messages.success(request, 'Your listing has been posted successfully!')
             return redirect('browse_listings')
     else:
         form = ListingForm()
@@ -67,8 +43,8 @@ def post_listing(request):
 
 
 def browse_listings(request):
-    # Start with approved & active listings
-    listings = Listing.objects.filter(is_approved=True, is_active=True)
+    # Start with approved & active listings that are available (not sold)
+    listings = Listing.objects.filter(is_approved=True, is_active=True, status='available')
 
     # Annotate with 'featured_order: 0 if featured & active, 1 otherwise
     listings = listings.annotate(featured_order=Case(
@@ -104,8 +80,6 @@ def browse_listings(request):
     
     # ==================== 2. NEW ARRIVALS FILTER ====================
     if condition == 'new':
-        from datetime import timedelta
-        from django.utils import timezone
         days_limit = timezone.now() - timedelta(days=30)
         listings = listings.filter(created_at__gte=days_limit)
     
@@ -263,6 +237,7 @@ def edit_listing(request, listing_id):
         form = ListingForm(request.POST, instance=listing)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Listing updated successfully!')
             return redirect('listing_detail', listing_id=listing.id)
     else:
         form = ListingForm(instance=listing)
@@ -274,20 +249,70 @@ def delete_listing(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id, user=request.user)
     listing.is_active=False
     listing.save()
+    messages.success(request, 'Listing deleted successfully!')
     return redirect('browse_listings')
 
 # Seller manage ads
 @login_required
 def manage_ads(request):
     listings = Listing.objects.filter(user=request.user)
-    return render(request, 'listings/manage_ads.html', {'listings': listings})
     
+    # Calculate counts for stats
+    total_listings = listings.count()
+    total_views = listings.aggregate(total=Sum('views_count'))['total'] or 0
+    approved_count = listings.filter(is_approved=True).count()
+    pending_count = listings.filter(is_approved=False).count()
+    
+    # Get filter from URL
+    filter_type = request.GET.get('filter', 'all')
+    
+    if filter_type == 'approved':
+        listings = listings.filter(is_approved=True)
+    elif filter_type == 'pending':
+        listings = listings.filter(is_approved=False)
+    elif filter_type == 'sold':
+        listings = listings.filter(status='sold')
+    else:
+        listings = listings  # 'all' - show all listings
+    
+    return render(request, 'listings/manage_ads.html', {
+        'listings': listings,
+        'total_views': total_views,
+        'approved_count': approved_count,
+        'pending_count': pending_count,
+        'active_filter': filter_type
+    })
+
+# NEW: Mark listing as sold
+@login_required
+def mark_as_sold(request, listing_id):
+    listing = get_object_or_404(Listing, id=listing_id, user=request.user)
+    
+    # Only allow marking as sold if it's not already sold
+    if listing.status == 'sold':
+        messages.warning(request, 'This listing is already marked as sold.')
+    else:
+        listing.status = 'sold'
+        listing.save()
+        messages.success(request, f'"{listing.title}" has been marked as sold. It will no longer appear in search results.')
+    
+    return redirect('manage_ads')
+
+# NEW: Mark listing as available (if you want to allow reverting)
+@login_required
+def mark_as_available(request, listing_id):
+    listing = get_object_or_404(Listing, id=listing_id, user=request.user)
+    
+    listing.status = 'available'
+    listing.save()
+    messages.success(request, f'"{listing.title}" has been marked as available again.')
+    
+    return redirect('manage_ads')
+
 def seller_listings(request, user_id):
     seller = get_object_or_404(User, id=user_id)
-    listings = Listing.objects.filter(user=seller, is_approved=True, is_active=True)
+    listings = Listing.objects.filter(user=seller, is_approved=True, is_active=True, status='available')
     return render(request, 'listings/seller_listings.html', {
         'seller': seller,
         'listings': listings
     })
-
-    

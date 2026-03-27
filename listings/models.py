@@ -45,7 +45,6 @@ class Listing(models.Model):
         ('suv', 'SUV'),
         ('crossover', 'Crossover'),
         ('coupe', 'Coupe'),
-        ('coupe', 'Coupe'),
         ('convertible', 'Convertible'),
         ('pickup', 'Pickup'),
         ('van', 'Van'),
@@ -69,8 +68,12 @@ class Listing(models.Model):
         ('yes', 'Yes'),
         ('no', 'No')
     ]
-
-
+    
+    # NEW: Status choices for listing
+    STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('sold', 'Sold')
+    ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -89,7 +92,7 @@ class Listing(models.Model):
     color = models.CharField(max_length=50)
     interior_color = models.CharField(max_length=50)
     features = models.ManyToManyField(Feature, blank=True)
-    chasis_number = models.CharField(max_length=100, blank=True, null=True, help_text="VroomHub will not display this to users")
+    chasis_number = models.CharField(max_length=100, blank=True, null=True, help_text="Chrandi Motors will not display this to users")
     registered_car = models.CharField(max_length=10, choices=REGISTER_CHOICES)
     exchange_possible = models.CharField(max_length=10, choices=EXCHANGE_CHOICES)
     body = models.CharField(max_length=50, choices=BODY_CHOICES)
@@ -105,9 +108,12 @@ class Listing(models.Model):
     views_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    # NEW: Status field - default is 'available'
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
 
     def __str__(self):
-        return f"{self.brand} {self.model} ({self.year})"
+        return f"{self.brand} {self.model} ({self.year}) - {self.get_status_display()}"
 
     def get_absolute_url(self):
         from django.urls import reverse

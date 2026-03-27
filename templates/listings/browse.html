@@ -120,7 +120,7 @@
         color: var(--orange);
     }
 
-    /* Budget Filter Section - Like the screenshot */
+    /* Budget Filter Section */
     .budget-filter-section {
         background: var(--white);
         border-radius: 24px;
@@ -204,7 +204,7 @@
         gap: 8px;
     }
 
-    /* Filter chips (quick filters) */
+    /* Filter chips */
     .filter-chips-container {
         position: relative;
         margin: 1rem 0 1.5rem;
@@ -223,7 +223,6 @@
         margin: 0;
     }
 
-    /* Custom scrollbar styling */
     .filter-chips::-webkit-scrollbar {
         height: 4px;
     }
@@ -242,7 +241,6 @@
         background: var(--orange-hover);
     }
 
-    /* Individual filter chip styling */
     .filter-chip {
         padding: 0.7rem 1.8rem;
         background: var(--white);
@@ -258,8 +256,6 @@
         align-items: center;
         gap: 8px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        position: relative;
-        overflow: hidden;
         white-space: nowrap;
         flex-shrink: 0;
     }
@@ -288,7 +284,6 @@
         transition: color 0.3s ease;
     }
 
-    /* Scroll buttons for desktop */
     .scroll-btn {
         position: absolute;
         top: 50%;
@@ -321,7 +316,6 @@
         right: -10px;
     }
 
-    /* Hide scroll buttons on mobile */
     @media (max-width: 768px) {
         .scroll-btn {
             display: none !important;
@@ -338,7 +332,6 @@
         }
     }
 
-    /* Clear filters button */
     .clear-filters-btn {
         display: inline-flex;
         align-items: center;
@@ -366,7 +359,6 @@
         color: white !important;
     }
 
-    /* Mobile optimization for filter chips container */
     @media (max-width: 768px) {
         .filter-chips-container {
             margin: 1rem -0.75rem 1.5rem -0.75rem;
@@ -374,7 +366,7 @@
         }
     }
 
-    /* Enhanced card grid - 2 columns on mobile */
+    /* Card Grid */
     .listings-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -419,6 +411,7 @@
         transform: scale(1.05);
     }
 
+    /* Featured Badge - Top Left */
     .featured-badge {
         position: absolute;
         top: 12px;
@@ -435,8 +428,35 @@
         gap: 4px;
     }
 
-    .featured-badge i {
+    /* Status Badge - Top Left (below featured if both exist) */
+    .status-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
         font-size: 0.7rem;
+        font-weight: 700;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        backdrop-filter: blur(4px);
+    }
+
+    .status-badge.available {
+        background: #10B981;
+    }
+
+    .status-badge.sold {
+        background: #EF4444;
+    }
+
+    /* If both featured and status badges exist */
+    .featured-badge + .status-badge {
+        top: 52px;
     }
 
     .image-count-badge {
@@ -559,7 +579,9 @@
 
     .verified-badge {
         color: #10B981;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
     }
 
     .view-btn {
@@ -697,7 +719,6 @@
             font-size: 0.75rem;
         }
 
-        /* 2 columns on mobile */
         .listings-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 0.8rem;
@@ -759,7 +780,7 @@
         }
 
         .verified-badge {
-            font-size: 0.6rem;
+            font-size: 0.7rem;
         }
 
         .view-btn {
@@ -776,7 +797,8 @@
             font-size: 0.6rem;
         }
 
-        .featured-badge i {
+        .status-badge {
+            padding: 0.2rem 0.5rem;
             font-size: 0.6rem;
         }
 
@@ -825,7 +847,7 @@
     }
 </style>
 
-<!-- Search Section with enhanced styling -->
+<!-- Search Section -->
 <div class="search-wrapper">
     <form method="GET" action="{% url 'browse_listings' %}" class="search-form" id="searchForm">
         <input type="search" name="q" class="form-control" 
@@ -870,7 +892,7 @@
     </div>
 </div>
 
-<!-- Filter Chips (Quick filters) - Horizontally scrollable on mobile -->
+<!-- Filter Chips -->
 <div class="filter-chips-container">
     <div class="scroll-btn scroll-left" id="scrollLeftBtn" style="display: none;">
         <i class="bi bi-chevron-left"></i>
@@ -931,6 +953,17 @@
             {% if listing.feature and listing.feature.active %}
             <div class="featured-badge">
                 <i class="bi bi-star-fill"></i> FEATURED
+            </div>
+            {% endif %}
+
+            <!-- Status Badge (Available/Sold) -->
+            {% if listing.status == 'sold' %}
+            <div class="status-badge sold">
+                <i class="bi bi-tag-fill"></i> SOLD
+            </div>
+            {% else %}
+            <div class="status-badge available">
+                <i class="bi bi-check-lg"></i> AVAILABLE
             </div>
             {% endif %}
 
@@ -1050,7 +1083,7 @@
 {% endif %}
 
 <script>
-    // Horizontal scroll functionality for filter chips (optional desktop scroll buttons)
+    // Filter chips scroll functionality
     const filterChips = document.getElementById('filterChips');
     const scrollLeftBtn = document.getElementById('scrollLeftBtn');
     const scrollRightBtn = document.getElementById('scrollRightBtn');

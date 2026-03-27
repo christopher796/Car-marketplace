@@ -372,6 +372,35 @@
         border: 1px solid rgba(239, 68, 68, 0.2);
     }
 
+    .status-available {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10B981;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    /* NEW: Mark as Sold Button */
+    .btn-mark-sold {
+        background: rgba(239, 68, 68, 0.1);
+        color: #EF4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 30px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-mark-sold:hover {
+        background: #EF4444;
+        color: white;
+        transform: translateY(-2px);
+    }
+
     /* Card Actions */
     .card-actions {
         display: flex;
@@ -628,6 +657,11 @@
         .action-btn i {
             font-size: 0.9rem;
         }
+
+        .btn-mark-sold {
+            padding: 0.2rem 0.6rem;
+            font-size: 0.65rem;
+        }
     }
 
     /* Extra small devices */
@@ -706,7 +740,7 @@
                     {{ listings|length }} Total
                 </span>
             </div>
-            <a href="{% url 'post_listing' %}" class="add-new-btn text-dark">
+            <a href="{% url 'post_listing' %}" class="add-new-btn">
                 <i class="bi bi-plus-circle-fill"></i>
                 Add New
             </a>
@@ -811,14 +845,23 @@
 
                 <!-- Status & Actions -->
                 <div class="listing-right">
-                    <!-- Status Badge -->
-                    <span class="status-badge 
-                        {% if l.is_approved %}status-approved
-                        {% else %}status-pending
-                        {% endif %}">
-                        <i class="bi {% if l.is_approved %}bi-check-circle-fill{% else %}bi-hourglass-split{% endif %}"></i>
-                        {% if l.is_approved %}Approved{% else %}Pending{% endif %}
-                    </span>
+                    <!-- Status Badge - Shows both approval and sale status -->
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <!-- Approval Status Badge -->
+                        <span class="status-badge 
+                            {% if l.is_approved %}status-approved
+                            {% else %}status-pending
+                            {% endif %}">
+                            <i class="bi {% if l.is_approved %}bi-check-circle-fill{% else %}bi-hourglass-split{% endif %}"></i>
+                            {% if l.is_approved %}Approved{% else %}Pending{% endif %}
+                        </span>
+                        
+                        <!-- Sale Status Badge (NEW) -->
+                        <span class="status-badge {% if l.status == 'sold' %}status-sold{% else %}status-available{% endif %}">
+                            <i class="bi {% if l.status == 'sold' %}bi-tag-fill{% else %}bi-check-lg{% endif %}"></i>
+                            {% if l.status == 'sold' %}Sold{% else %}Available{% endif %}
+                        </span>
+                    </div>
 
                     <!-- Action Buttons -->
                     <div class="card-actions">
@@ -828,6 +871,13 @@
                         <a href="{% url 'edit_listing' l.id %}" class="action-btn btn-edit" title="Edit listing">
                             <i class="bi bi-pencil"></i>
                         </a>
+                        <!-- NEW: Mark as Sold Button (only show if listing is not already sold) -->
+                        {% if l.status != 'sold' %}
+                        <a href="{% url 'mark_as_sold' l.id %}" class="btn-mark-sold" title="Mark as Sold" 
+                           onclick= "return confirm('Are you sure you want to mark {{ l.title }} as sold? This listing will no longer appear in search results.')">
+                            <i class="bi bi-tag"></i> Sold
+                        </a>
+                        {% endif %}
                         <a href="{% url 'delete_listing' l.id %}" class="action-btn btn-delete" title="Delete listing" 
                            onclick="return confirm('Are you sure you want to delete this listing? This action cannot be undone.')">
                             <i class="bi bi-trash"></i>
