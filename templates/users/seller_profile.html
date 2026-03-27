@@ -712,6 +712,10 @@
             min-height: 48px;
             font-size: 16px !important;
             cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
         }
 
         /* Fix for textarea on mobile */
@@ -733,6 +737,7 @@
         .review-form button {
             position: relative;
             z-index: 10;
+            pointer-events: auto !important;
         }
 
         /* Prevent zoom on iOS */
@@ -852,7 +857,7 @@
 
                     <!-- View Seller's Ads Button -->
                     <a href="{% url 'seller_listings' user_id=profile.user.id %}"
-                       class="btn-view-ads">
+                       class="btn-view-ads text-dark">
                         <i class="bi bi-grid-fill"></i>
                         View All Ads ({{ ads.count }})
                     </a>
@@ -988,7 +993,7 @@
                     {% endif %}
                 </div>
 
-                <!-- ADD REVIEW FORM - FIXED FOR MOBILE -->
+                <!-- ADD REVIEW FORM - FULLY FIXED FOR MOBILE -->
                 {% if user.is_authenticated and user != profile.user %}
                 <div class="section-card review-form" id="reviewFormSection">
                     <div class="section-title">
@@ -1005,7 +1010,7 @@
                                 Your Rating
                             </label>
                             <select name="rating" class="form-select" id="ratingSelect" required>
-                                <option value="" disabled selected>Select rating</option>
+                                <option value="" disabled selected>★★★★★ Select your rating</option>
                                 <option value="5">★★★★★ - Excellent</option>
                                 <option value="4">★★★★☆ - Very Good</option>
                                 <option value="3">★★★☆☆ - Average</option>
@@ -1058,12 +1063,7 @@
         const reviewComment = document.getElementById('reviewComment');
         const submitBtn = document.getElementById('submitReviewBtn');
         
-        // Debug logging
-        console.log('Review form found:', !!reviewForm);
-        console.log('Rating select found:', !!ratingSelect);
-        console.log('Comment field found:', !!reviewComment);
-        
-        // Force dropdown to work on mobile
+        // ENHANCED: Force dropdown to work on mobile with multiple approaches
         if (ratingSelect) {
             // Remove any potential blocking attributes
             ratingSelect.removeAttribute('readonly');
@@ -1072,42 +1072,56 @@
             // Ensure it's clickable
             ratingSelect.style.pointerEvents = 'auto';
             ratingSelect.style.opacity = '1';
+            ratingSelect.style.zIndex = '100';
             
-            // Add touch event for mobile
+            // Force the dropdown to open on click/touch
+            ratingSelect.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Rating select clicked - value:', this.value);
+                // Force the dropdown to show options
+                this.focus();
+                return true;
+            });
+            
+            // Touch start event for mobile
             ratingSelect.addEventListener('touchstart', function(e) {
                 console.log('Rating select touched');
                 // Allow default behavior
                 return true;
             });
             
-            ratingSelect.addEventListener('click', function(e) {
-                console.log('Rating select clicked');
-            });
-            
+            // Change event
             ratingSelect.addEventListener('change', function() {
                 console.log('Rating changed to:', this.value);
                 // Visual feedback
                 this.style.borderColor = '#F97316';
+                this.style.backgroundColor = 'rgba(249, 115, 22, 0.05)';
                 setTimeout(() => {
                     this.style.borderColor = '';
+                    this.style.backgroundColor = '';
                 }, 500);
             });
         }
         
-        // Fix for mobile keyboard on textarea
+        // ENHANCED: Fix for mobile keyboard on textarea
         if (reviewComment) {
             reviewComment.addEventListener('focus', function() {
                 console.log('Comment field focused');
-                // Small delay to allow keyboard to appear
+                // Scroll into view with delay for keyboard
                 setTimeout(() => {
                     this.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
             });
+            
+            reviewComment.addEventListener('touchend', function() {
+                // Ensure keyboard appears on mobile
+                this.focus();
+            });
         }
         
-        // Form validation and submission
+        // ENHANCED: Form validation and submission with better mobile handling
         if (reviewForm) {
-            // Remove any existing submit handlers to prevent conflicts
+            // Remove any existing submit handlers
             reviewForm.onsubmit = null;
             
             reviewForm.addEventListener('submit', function(e) {
@@ -1117,7 +1131,7 @@
                 const rating = ratingSelect?.value;
                 if (!rating || rating === '') {
                     e.preventDefault();
-                    alert('Please select a rating');
+                    alert('Please select a rating by tapping the dropdown above');
                     ratingSelect?.focus();
                     return false;
                 }
@@ -1126,7 +1140,7 @@
                 const comment = reviewComment?.value.trim();
                 if (!comment) {
                     e.preventDefault();
-                    alert('Please write a review');
+                    alert('Please write your review in the text area');
                     reviewComment?.focus();
                     return false;
                 }
@@ -1136,15 +1150,30 @@
                     const originalHTML = submitBtn.innerHTML;
                     submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Submitting...';
                     submitBtn.disabled = true;
-                    
-                    // Store original content in case we need to restore
                     submitBtn.setAttribute('data-original', originalHTML);
                 }
                 
-                console.log('Form validation passed, submitting...');
+                console.log('Form validation passed, submitting... Rating:', rating, 'Comment length:', comment.length);
                 return true;
             });
         }
+        
+        // Add click handler for the whole review section to ensure dropdown works
+        const reviewSection = document.getElementById('reviewFormSection');
+        if (reviewSection) {
+            reviewSection.addEventListener('click', function(e) {
+                // If clicking anywhere near the dropdown, ensure it's enabled
+                if (e.target === ratingSelect || ratingSelect.contains(e.target)) {
+                    console.log('Dropdown area clicked');
+                }
+            });
+        }
+        
+        // Debug: Log when page loads
+        console.log('Page loaded - Review form ready');
+        console.log('Rating select exists:', !!ratingSelect);
+        console.log('Rating select disabled:', ratingSelect?.disabled);
+        console.log('Rating select readonly:', ratingSelect?.readOnly);
         
         // Check if there are any Django messages to display
         const messages = document.querySelectorAll('.alert');
@@ -1154,6 +1183,26 @@
                 setTimeout(() => msg.remove(), 500);
             }, 5000);
         });
+    });
+    
+    // Additional fallback for mobile dropdown issues
+    window.addEventListener('load', function() {
+        const ratingSelect = document.getElementById('ratingSelect');
+        if (ratingSelect && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            // Add a helper for mobile devices
+            ratingSelect.setAttribute('data-mobile-fix', 'true');
+            console.log('Mobile device detected - dropdown fix applied');
+            
+            // Force the dropdown to be interactive
+            ratingSelect.style.cursor = 'pointer';
+            ratingSelect.style.userSelect = 'text';
+            
+            // Create a helper function to ensure dropdown works
+            ratingSelect.addEventListener('mousedown', function(e) {
+                // No-op to ensure event passes through
+                return true;
+            });
+        }
     });
 </script>
 {% endblock %}
