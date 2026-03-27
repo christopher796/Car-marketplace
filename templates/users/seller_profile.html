@@ -435,55 +435,143 @@
         font-size: 0.85rem;
     }
 
-    /* Simple Review Form - Works on mobile */
+    /* ========== COMPLETELY FIXED REVIEW FORM ========== */
     .review-form {
         background: linear-gradient(135deg, rgba(249, 115, 22, 0.03) 0%, transparent 100%);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
     }
 
     .form-label {
         font-weight: 600;
         color: var(--charcoal-dark);
-        margin-bottom: 0.5rem;
-        display: block;
+        margin-bottom: 0.6rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
     }
 
     .form-label i {
         color: var(--orange);
-        margin-right: 5px;
+        font-size: 1rem;
     }
 
-    .form-select, .form-control {
+    /* Custom Styled Dropdown - Fully Clickable */
+    .custom-select {
+        position: relative;
+        width: 100%;
+    }
+
+    .custom-select select {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 16px;
+        background: white;
         border: 2px solid var(--light-gray-dark);
         border-radius: 20px;
-        padding: 0.8rem 1rem;
-        font-size: 16px !important;
-        background: white;
-        width: 100%;
-        box-sizing: border-box;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        background-size: 18px;
+        color: var(--charcoal-dark);
+        font-weight: 500;
     }
 
-    .form-select:focus, .form-control:focus {
+    .custom-select select:focus {
         border-color: var(--orange);
-        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
         outline: none;
     }
 
-    .btn-submit {
-        background: var(--orange);
+    .custom-select select:hover {
+        border-color: var(--orange);
+        background-color: rgba(249, 115, 22, 0.02);
+    }
+
+    /* Custom Styled Textarea - Fully Clickable */
+    .custom-textarea {
+        width: 100%;
+    }
+
+    .custom-textarea textarea {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 16px;
+        background: white;
+        border: 2px solid var(--light-gray-dark);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        resize: vertical;
+        font-family: inherit;
+        line-height: 1.5;
+    }
+
+    .custom-textarea textarea:focus {
+        border-color: var(--orange);
+        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+        outline: none;
+    }
+
+    .custom-textarea textarea:hover {
+        border-color: var(--orange-light);
+        background-color: rgba(249, 115, 22, 0.01);
+    }
+
+    /* Custom Submit Button */
+    .custom-submit-btn {
+        background: linear-gradient(135deg, var(--orange) 0%, var(--orange-hover) 100%);
         color: white;
         border: none;
-        border-radius: 30px;
-        padding: 0.9rem;
+        border-radius: 50px;
+        padding: 14px 20px;
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 700;
         width: 100%;
         cursor: pointer;
         transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
     }
 
-    .btn-submit:hover {
-        background: var(--orange-hover);
+    .custom-submit-btn:hover {
         transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
+    }
+
+    .custom-submit-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Ensure clickable area is full width */
+    .review-form select,
+    .review-form textarea,
+    .review-form button {
+        display: block;
+        width: 100%;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+    }
+
+    /* Remove any overlays that might block clicks */
+    .review-form {
+        position: relative;
+        z-index: 10;
+    }
+
+    .review-form * {
+        position: relative;
+        z-index: 11;
     }
 
     .stats-row {
@@ -566,14 +654,15 @@
             font-size: 1.4rem;
         }
 
-        .form-select, .form-control {
-            font-size: 16px !important;
-            padding: 12px;
+        .custom-select select,
+        .custom-textarea textarea {
+            padding: 14px;
+            font-size: 16px;
         }
 
-        .btn-submit {
+        .custom-submit-btn {
             padding: 12px;
-            font-size: 16px;
+            font-size: 15px;
         }
     }
 </style>
@@ -653,7 +742,7 @@
                                 </a>
                             {% endfor %}
                         </div>
-                        {% if ads.count > 4 %}<div class="text-center mt-4"><a href="{% url 'seller_listings' user_id=profile.user.id %}" class="btn btn-dark btn-sm rounded-pill px-4 py-2 text-dark">View All {{ ads.count }} Listings <i class="bi bi-arrow-right ms-2"></i></a></div>{% endif %}
+                        {% if ads.count > 4 %}<div class="text-center mt-4"><a href="{% url 'seller_listings' user_id=profile.user.id %}" class="btn btn-dark btn-sm rounded-pill px-4 py-2">View All {{ ads.count }} Listings <i class="bi bi-arrow-right ms-2"></i></a></div>{% endif %}
                     {% else %}<div class="empty-state"><i class="bi bi-car-front"></i><p>No listings posted yet</p></div>{% endif %}
                 </div>
                 
@@ -676,28 +765,41 @@
                     {% else %}<div class="empty-state"><i class="bi bi-chat-dots"></i><p>No reviews yet. Be the first to leave a review!</p></div>{% endif %}
                 </div>
                 
-                <!-- ADD REVIEW FORM - SIMPLE VERSION THAT WORKS -->
+                <!-- ADD REVIEW FORM - FULLY FIXED WITH CUSTOM STYLING -->
                 {% if user.is_authenticated and user != profile.user %}
                 <div class="section-card review-form">
                     <div class="section-title"><i class="bi bi-pencil-square"></i><h4>Write a Review</h4></div>
                     <form method="POST" action="{% url 'add_review' profile.user.id %}">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <label class="form-label"><i class="bi bi-star-fill"></i> Your Rating</label>
-                            <select name="rating" class="form-select" style="font-size: 16px;" required>
-                                <option value="" disabled selected>★★★★★ Tap to select rating</option>
-                                <option value="5">★★★★★ - Excellent</option>
-                                <option value="4">★★★★☆ - Very Good</option>
-                                <option value="3">★★★☆☆ - Average</option>
-                                <option value="2">★★☆☆☆ - Poor</option>
-                                <option value="1">★☆☆☆☆ - Terrible</option>
-                            </select>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="bi bi-star-fill"></i> Your Rating
+                            </label>
+                            <div class="custom-select">
+                                <select name="rating" required>
+                                    <option value="" disabled selected>★★★★★ Tap to select rating</option>
+                                    <option value="5">★★★★★ - Excellent</option>
+                                    <option value="4">★★★★☆ - Very Good</option>
+                                    <option value="3">★★★☆☆ - Average</option>
+                                    <option value="2">★★☆☆☆ - Poor</option>
+                                    <option value="1">★☆☆☆☆ - Terrible</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label"><i class="bi bi-chat"></i> Your Review</label>
-                            <textarea name="comment" class="form-control" rows="4" placeholder="Share your experience with this seller..." style="font-size: 16px;" required></textarea>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="bi bi-chat"></i> Your Review
+                            </label>
+                            <div class="custom-textarea">
+                                <textarea name="comment" rows="4" placeholder="Share your experience with this seller..." required></textarea>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-submit"><i class="bi bi-check2-circle"></i> Submit Review</button>
+                        
+                        <button type="submit" class="custom-submit-btn">
+                            <i class="bi bi-check2-circle"></i> Submit Review
+                        </button>
                     </form>
                 </div>
                 {% elif not user.is_authenticated %}
@@ -714,30 +816,54 @@
 </div>
 
 <script>
-    // SIMPLE FIX: Ensure dropdown and textarea work on mobile
     document.addEventListener('DOMContentLoaded', function() {
-        // Force all selects to be interactive
-        var selects = document.querySelectorAll('select');
-        selects.forEach(function(select) {
+        // Get all form elements
+        const selects = document.querySelectorAll('.custom-select select');
+        const textareas = document.querySelectorAll('.custom-textarea textarea');
+        const buttons = document.querySelectorAll('.custom-submit-btn');
+        
+        // Ensure all elements are fully clickable
+        selects.forEach(select => {
             select.style.pointerEvents = 'auto';
-            select.style.opacity = '1';
-            select.style.zIndex = '999';
+            select.style.cursor = 'pointer';
+            select.style.position = 'relative';
+            select.style.zIndex = '100';
+            
+            // Add click handler for debugging
+            select.addEventListener('click', function(e) {
+                console.log('Dropdown clicked - should open');
+                e.stopPropagation();
+            });
+            
+            select.addEventListener('touchstart', function(e) {
+                console.log('Dropdown touched');
+                return true;
+            });
         });
         
-        // Force all textareas to be interactive
-        var textareas = document.querySelectorAll('textarea');
-        textareas.forEach(function(textarea) {
+        textareas.forEach(textarea => {
             textarea.style.pointerEvents = 'auto';
+            textarea.style.cursor = 'text';
+            
+            textarea.addEventListener('focus', function() {
+                console.log('Textarea focused - keyboard should appear');
+                setTimeout(() => {
+                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            });
         });
         
-        console.log('Mobile fixes applied - dropdowns and textareas should work');
-        
-        // Remove any blocking event listeners
-        var forms = document.querySelectorAll('form');
-        forms.forEach(function(form) {
-            var oldSubmit = form.onsubmit;
-            form.onsubmit = null;
+        buttons.forEach(btn => {
+            btn.style.pointerEvents = 'auto';
+            btn.style.cursor = 'pointer';
         });
+        
+        // Remove any global click blockers
+        document.querySelectorAll('.review-form, .review-form *').forEach(el => {
+            el.style.pointerEvents = 'auto';
+        });
+        
+        console.log('✅ Review form fully enabled - tap anywhere on dropdown or textarea should work');
     });
 </script>
 {% endblock %}
