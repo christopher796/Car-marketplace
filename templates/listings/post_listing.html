@@ -235,7 +235,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         background: var(--light-gray);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .multi-upload-area:hover {
@@ -260,9 +260,31 @@
         margin-top: 0.5rem;
     }
 
-    /* Hidden file input */
-    #multiFileInput {
-        display: none;
+    /* Visible file input */
+    .file-input-visible {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid var(--light-gray-dark);
+        border-radius: 14px;
+        background: var(--white);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+
+    .file-input-visible::-webkit-file-upload-button {
+        background: var(--orange);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        margin-right: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .file-input-visible::-webkit-file-upload-button:hover {
+        background: var(--orange-hover);
     }
 
     /* Image Preview Grid */
@@ -320,19 +342,12 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 1rem;
-        padding: 0.5rem;
+        padding: 0.8rem;
         background: var(--light-gray);
         border-radius: 12px;
         font-size: 0.85rem;
-    }
-
-    .image-count-info .count-badge {
-        background: var(--orange);
-        color: white;
-        padding: 0.2rem 0.6rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
+        flex-wrap: wrap;
+        gap: 0.5rem;
     }
 
     .image-count-info .warning {
@@ -378,6 +393,7 @@
         background: var(--light-gray);
         border-radius: 16px;
         border: 1px solid var(--light-gray-dark);
+        flex-wrap: wrap;
     }
 
     .terms-checkbox input[type="checkbox"] {
@@ -394,6 +410,7 @@
         cursor: pointer;
         margin: 0;
         line-height: 1.4;
+        flex: 1;
     }
 
     .terms-checkbox a {
@@ -428,37 +445,145 @@
         box-shadow: 0 15px 30px rgba(249, 115, 22, 0.4);
     }
 
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
     /* Responsive */
+    @media (max-width: 992px) {
+        .posting-card {
+            padding: 1.5rem;
+            margin: 0 1rem;
+        }
+    }
+
     @media (max-width: 768px) {
         .posting-card {
-            padding: 1.2rem;
+            padding: 1rem;
             margin: 0 0.75rem;
+            border-radius: 30px;
         }
 
         .page-header h2 {
             font-size: 1.5rem;
         }
 
-        .form-row {
-            grid-template-columns: 1fr;
+        .page-header p {
+            font-size: 0.85rem;
         }
 
-        .image-preview-grid {
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        .progress-steps {
+            gap: 0.5rem;
+        }
+
+        .step {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.7rem;
+        }
+
+        .form-section {
+            padding: 1rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+        }
+
+        .form-control, .form-select, textarea {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.9rem;
         }
 
         .multi-upload-area {
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .multi-upload-area i {
             font-size: 2rem;
         }
+
+        .multi-upload-area p {
+            font-size: 0.8rem;
+        }
+
+        .image-preview-grid {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .image-count-info {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .chassis-note {
+            padding: 0.6rem 0.8rem;
+        }
+
+        .chassis-note i {
+            font-size: 1rem;
+        }
+
+        .chassis-note p {
+            font-size: 0.75rem;
+        }
+
+        .terms-checkbox {
+            padding: 0.8rem;
+        }
+
+        .terms-checkbox label {
+            font-size: 0.8rem;
+        }
+
+        .submit-btn {
+            padding: 0.8rem 1.2rem;
+            font-size: 0.9rem;
+        }
     }
 
     @media (max-width: 480px) {
+        .posting-card {
+            padding: 0.8rem;
+            margin: 0 0.5rem;
+        }
+
         .image-preview-grid {
             grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .multi-upload-area {
+            padding: 0.8rem;
+        }
+
+        .multi-upload-area i {
+            font-size: 1.5rem;
+        }
+
+        .progress-steps {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step {
+            width: 100%;
+            justify-content: center;
         }
     }
 </style>
@@ -578,13 +703,13 @@
                     <!-- Multi-file Upload Area -->
                     <div class="multi-upload-area" id="uploadArea">
                         <i class="bi bi-cloud-upload-fill"></i>
-                        <p><strong>Tap to select multiple images</strong></p>
+                        <p><strong>Tap or click to select multiple images</strong></p>
                         <p class="upload-hint">Select 5-15 images at once from your gallery</p>
                         <p class="upload-hint" style="color: var(--orange);">✓ JPG, PNG, WEBP • Max 5MB each</p>
                     </div>
 
-                    <!-- Hidden file input with multiple attribute -->
-                    <input type="file" id="multiFileInput" name="images" multiple accept="image/jpeg,image/png,image/webp" style="display: none;">
+                    <!-- Visible file input -->
+                    <input type="file" id="multiFileInput" name="images" multiple accept="image/jpeg,image/png,image/webp" class="file-input-visible">
 
                     <!-- Image Preview Grid -->
                     <div id="imagePreviewGrid" class="image-preview-grid"></div>
@@ -696,7 +821,7 @@
             updateFileInput();
         }
         
-        // Update hidden file input with new FileList
+        // Update file input with selected files
         function updateFileInput() {
             const dataTransfer = new DataTransfer();
             selectedFiles.forEach(file => {
@@ -766,8 +891,7 @@
         if (fileInput) {
             fileInput.addEventListener('change', function(e) {
                 handleFiles(Array.from(e.target.files));
-                // Reset the input so the same files can be selected again if needed
-                fileInput.value = '';
+                // Don't clear the input value - keep it for reference
             });
         }
         

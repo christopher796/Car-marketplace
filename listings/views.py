@@ -21,6 +21,8 @@ def post_listing(request):
         if form.is_valid():
             listing = form.save(commit=False)
             listing.user = request.user
+            listing.is_approved = False  # IMPORTANT: Set to False for admin approval
+            listing.is_active = True     # Ensure it's active
             listing.save()
             form.save_m2m()   # save ManyToMany (features)
 
@@ -55,7 +57,7 @@ def post_listing(request):
                 saved_count += 1
 
             if saved_count >= 5:
-                messages.success(request, f'✅ Your listing "{listing.title}" has been posted! {saved_count} images uploaded.')
+                messages.success(request, f'✅ Your listing "{listing.title}" has been submitted for admin approval! You will be notified once approved.')
                 return redirect('browse_listings')
             else:
                 messages.error(request, f'❌ Only {saved_count} valid images. At least 5 are required.')
@@ -72,6 +74,7 @@ def post_listing(request):
 
     return render(request, 'listings/post_listing.html', {'form': form})
 
+    
 def browse_listings(request):
     # Start with approved & active listings that are available (not sold)
     listings = Listing.objects.filter(is_approved=True, is_active=True, status='available')
