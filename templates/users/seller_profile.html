@@ -540,7 +540,113 @@
         color: var(--orange);
     }
 
-    /* Review Form - Mobile Fixed */
+    /* Custom Rating Modal */
+    .rating-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .rating-modal-content {
+        background: white;
+        border-radius: 30px;
+        max-width: 320px;
+        width: 90%;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: default;
+        animation: modalSlideUp 0.3s ease;
+    }
+
+    @keyframes modalSlideUp {
+        from {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .rating-modal-header {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--charcoal-dark);
+        margin-bottom: 1rem;
+    }
+
+    .rating-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin: 1.5rem 0;
+    }
+
+    .rating-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.8rem 1.2rem;
+        background: var(--light-gray);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+    }
+
+    .rating-option:hover {
+        background: rgba(249, 115, 22, 0.1);
+        transform: translateX(5px);
+    }
+
+    .rating-option.selected {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: white;
+    }
+
+    .rating-option.selected .rating-stars {
+        color: white;
+    }
+
+    .rating-stars {
+        color: #FFB800;
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .rating-value {
+        font-weight: 700;
+    }
+
+    .rating-modal-close {
+        background: var(--orange);
+        color: white;
+        border: none;
+        border-radius: 40px;
+        padding: 0.8rem;
+        width: 100%;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 0.5rem;
+    }
+
+    .rating-modal-close:hover {
+        background: var(--orange-hover);
+        transform: translateY(-2px);
+    }
+
+    /* Review Form */
     .review-form {
         background: linear-gradient(135deg, rgba(249, 115, 22, 0.03) 0%, transparent 100%);
         position: relative;
@@ -559,7 +665,36 @@
         color: var(--orange);
     }
 
-    .form-select, .form-control {
+    .rating-display-btn {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        background: white;
+        border: 2px solid var(--light-gray-dark);
+        border-radius: 20px;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+    }
+
+    .rating-display-btn:hover {
+        border-color: var(--orange);
+        background: rgba(249, 115, 22, 0.05);
+    }
+
+    .rating-display-btn .selected-rating {
+        color: var(--orange);
+        font-weight: 600;
+    }
+
+    .rating-display-btn i {
+        color: var(--orange);
+    }
+
+    .form-control {
         border: 2px solid var(--light-gray-dark);
         border-radius: 20px;
         padding: 0.7rem 1rem;
@@ -569,7 +704,7 @@
         box-sizing: border-box;
     }
 
-    .form-select:focus, .form-control:focus {
+    .form-control:focus {
         border-color: var(--orange);
         box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
         outline: none;
@@ -657,7 +792,7 @@
         margin: 0;
     }
 
-    /* Mobile-specific fixes for review form */
+    /* Mobile-specific fixes */
     @media (max-width: 768px) {
         .profile-card {
             padding: 1.5rem;
@@ -703,48 +838,9 @@
             font-size: 1.4rem;
         }
 
-        /* Mobile fix for select dropdown */
-        .form-select {
-            -webkit-appearance: menulist !important;
-            appearance: menulist !important;
-            background-color: white;
-            padding: 12px 15px !important;
-            min-height: 48px;
-            font-size: 16px !important;
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 16px;
-        }
-
-        /* Fix for textarea on mobile */
-        textarea.form-control {
-            font-size: 16px !important;
-            padding: 12px;
-            min-height: 100px;
-        }
-
-        /* Fix for submit button on mobile */
-        .btn-submit {
-            min-height: 48px;
-            font-size: 16px !important;
-        }
-
-        /* Ensure form elements are clickable */
-        .review-form select,
-        .review-form textarea,
-        .review-form button {
-            position: relative;
-            z-index: 10;
-            pointer-events: auto !important;
-        }
-
-        /* Prevent zoom on iOS */
-        @supports (-webkit-touch-callout: none) {
-            select, textarea, button {
-                font-size: 16px !important;
-            }
+        .rating-modal-content {
+            max-width: 280px;
+            padding: 1.2rem;
         }
     }
 </style>
@@ -769,7 +865,6 @@
                             </div>
                         {% endif %}
 
-                        <!-- Verified Badge -->
                         {% if profile.is_verified %}
                             <div class="verified-badge-large" title="Verified Seller">
                                 <i class="bi bi-patch-check-fill"></i>
@@ -777,19 +872,16 @@
                         {% endif %}
                     </div>
 
-                    <!-- Username -->
                     <h4 class="profile-name">
                         <span>{{ profile.user.username }}</span>
                     </h4>
 
-                    <!-- Bio Section -->
                     {% if profile.bio %}
                     <div class="bio-section">
                         <p><i class="bi bi-quote"></i> {{ profile.bio }}</p>
                     </div>
                     {% endif %}
 
-                    <!-- Contact Info -->
                     <div class="contact-info">
                         {% if profile.phone %}
                         <div class="info-item">
@@ -818,7 +910,6 @@
                         </div>
                     </div>
 
-                    <!-- Contact Action Buttons -->
                     {% if profile.whatsapp or profile.phone %}
                     <div class="contact-actions">
                         {% if profile.whatsapp %}
@@ -831,7 +922,6 @@
                     </div>
                     {% endif %}
 
-                    <!-- Rating Display -->
                     <div class="rating-display">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="stars">
@@ -855,14 +945,12 @@
                         </div>
                     </div>
 
-                    <!-- View Seller's Ads Button -->
                     <a href="{% url 'seller_listings' user_id=profile.user.id %}"
                        class="btn-view-ads text-dark">
                         <i class="bi bi-grid-fill"></i>
                         View All Ads ({{ ads.count }})
                     </a>
 
-                    <!-- Seller Stats -->
                     <div class="stats-row">
                         <div class="stat-item">
                             <div class="stat-value">{{ ads.count }}</div>
@@ -878,7 +966,6 @@
                         </div>
                     </div>
 
-                    <!-- Edit Profile Button (for own profile) -->
                     {% if user == profile.user %}
                     <div class="mt-3">
                         <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary w-100 rounded-pill">
@@ -993,7 +1080,7 @@
                     {% endif %}
                 </div>
 
-                <!-- ADD REVIEW FORM - FULLY FIXED FOR MOBILE -->
+                <!-- ADD REVIEW FORM WITH CUSTOM MODAL -->
                 {% if user.is_authenticated and user != profile.user %}
                 <div class="section-card review-form" id="reviewFormSection">
                     <div class="section-title">
@@ -1005,18 +1092,15 @@
                         {% csrf_token %}
 
                         <div class="mb-3">
-                            <label class="form-label" for="ratingSelect">
+                            <label class="form-label">
                                 <i class="bi bi-star-fill"></i>
                                 Your Rating
                             </label>
-                            <select name="rating" class="form-select" id="ratingSelect" required>
-                                <option value="" disabled selected>★★★★★ Select your rating</option>
-                                <option value="5">★★★★★ - Excellent</option>
-                                <option value="4">★★★★☆ - Very Good</option>
-                                <option value="3">★★★☆☆ - Average</option>
-                                <option value="2">★★☆☆☆ - Poor</option>
-                                <option value="1">★☆☆☆☆ - Terrible</option>
-                            </select>
+                            <button type="button" class="rating-display-btn" id="openRatingModalBtn">
+                                <span id="selectedRatingText">Select rating</span>
+                                <i class="bi bi-chevron-down"></i>
+                            </button>
+                            <input type="hidden" name="rating" id="selectedRatingValue" required>
                         </div>
 
                         <div class="mb-3">
@@ -1038,6 +1122,38 @@
                         </button>
                     </form>
                 </div>
+
+                <!-- Custom Rating Modal -->
+                <div id="ratingModal" class="rating-modal">
+                    <div class="rating-modal-content">
+                        <div class="rating-modal-header">
+                            <i class="bi bi-star-fill" style="color: var(--orange);"></i> Select Rating
+                        </div>
+                        <div class="rating-options">
+                            <div class="rating-option" data-rating="5">
+                                <span class="rating-stars">★★★★★</span>
+                                <span class="rating-value">Excellent</span>
+                            </div>
+                            <div class="rating-option" data-rating="4">
+                                <span class="rating-stars">★★★★☆</span>
+                                <span class="rating-value">Very Good</span>
+                            </div>
+                            <div class="rating-option" data-rating="3">
+                                <span class="rating-stars">★★★☆☆</span>
+                                <span class="rating-value">Average</span>
+                            </div>
+                            <div class="rating-option" data-rating="2">
+                                <span class="rating-stars">★★☆☆☆</span>
+                                <span class="rating-value">Poor</span>
+                            </div>
+                            <div class="rating-option" data-rating="1">
+                                <span class="rating-stars">★☆☆☆☆</span>
+                                <span class="rating-value">Terrible</span>
+                            </div>
+                        </div>
+                        <button class="rating-modal-close" id="closeRatingModalBtn">Cancel</button>
+                    </div>
+                </div>
                 {% elif not user.is_authenticated %}
                 <div class="section-card text-center">
                     <i class="bi bi-box-arrow-in-right fs-1 text-orange mb-3 d-block"></i>
@@ -1057,150 +1173,110 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get form elements
+        // Rating Modal Elements
+        const modal = document.getElementById('ratingModal');
+        const openModalBtn = document.getElementById('openRatingModalBtn');
+        const closeModalBtn = document.getElementById('closeRatingModalBtn');
+        const ratingOptions = document.querySelectorAll('.rating-option');
+        const selectedRatingText = document.getElementById('selectedRatingText');
+        const selectedRatingValue = document.getElementById('selectedRatingValue');
+        
+        let selectedRating = null;
+        
+        // Open modal
+        if (openModalBtn) {
+            openModalBtn.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        
+        // Close modal
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Handle rating selection
+        ratingOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                ratingOptions.forEach(opt => opt.classList.remove('selected'));
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                // Get rating value
+                const rating = this.getAttribute('data-rating');
+                const ratingText = this.querySelector('.rating-value').innerText;
+                const ratingStars = this.querySelector('.rating-stars').innerHTML;
+                
+                selectedRating = rating;
+                
+                // Update display button
+                selectedRatingText.innerHTML = `${ratingStars} - ${ratingText}`;
+                selectedRatingValue.value = rating;
+                
+                // Visual feedback
+                selectedRatingText.style.color = '#F97316';
+                selectedRatingText.style.fontWeight = '600';
+                
+                // Auto close modal after selection
+                setTimeout(() => {
+                    closeModal();
+                }, 300);
+            });
+        });
+        
+        // Form validation
         const reviewForm = document.getElementById('reviewForm');
-        const ratingSelect = document.getElementById('ratingSelect');
         const reviewComment = document.getElementById('reviewComment');
         const submitBtn = document.getElementById('submitReviewBtn');
         
-        // ENHANCED: Force dropdown to work on mobile with multiple approaches
-        if (ratingSelect) {
-            // Remove any potential blocking attributes
-            ratingSelect.removeAttribute('readonly');
-            ratingSelect.removeAttribute('disabled');
-            
-            // Ensure it's clickable
-            ratingSelect.style.pointerEvents = 'auto';
-            ratingSelect.style.opacity = '1';
-            ratingSelect.style.zIndex = '100';
-            
-            // Force the dropdown to open on click/touch
-            ratingSelect.addEventListener('click', function(e) {
-                e.stopPropagation();
-                console.log('Rating select clicked - value:', this.value);
-                // Force the dropdown to show options
-                this.focus();
-                return true;
-            });
-            
-            // Touch start event for mobile
-            ratingSelect.addEventListener('touchstart', function(e) {
-                console.log('Rating select touched');
-                // Allow default behavior
-                return true;
-            });
-            
-            // Change event
-            ratingSelect.addEventListener('change', function() {
-                console.log('Rating changed to:', this.value);
-                // Visual feedback
-                this.style.borderColor = '#F97316';
-                this.style.backgroundColor = 'rgba(249, 115, 22, 0.05)';
-                setTimeout(() => {
-                    this.style.borderColor = '';
-                    this.style.backgroundColor = '';
-                }, 500);
-            });
-        }
-        
-        // ENHANCED: Fix for mobile keyboard on textarea
-        if (reviewComment) {
-            reviewComment.addEventListener('focus', function() {
-                console.log('Comment field focused');
-                // Scroll into view with delay for keyboard
-                setTimeout(() => {
-                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            });
-            
-            reviewComment.addEventListener('touchend', function() {
-                // Ensure keyboard appears on mobile
-                this.focus();
-            });
-        }
-        
-        // ENHANCED: Form validation and submission with better mobile handling
         if (reviewForm) {
-            // Remove any existing submit handlers
-            reviewForm.onsubmit = null;
-            
             reviewForm.addEventListener('submit', function(e) {
-                console.log('Form submission triggered');
+                const rating = selectedRatingValue?.value;
+                const comment = reviewComment?.value.trim();
                 
-                // Validate rating
-                const rating = ratingSelect?.value;
-                if (!rating || rating === '') {
+                if (!rating) {
                     e.preventDefault();
-                    alert('Please select a rating by tapping the dropdown above');
-                    ratingSelect?.focus();
+                    alert('Please select a rating by tapping the rating button above');
+                    openModalBtn?.click();
                     return false;
                 }
                 
-                // Validate comment
-                const comment = reviewComment?.value.trim();
                 if (!comment) {
                     e.preventDefault();
-                    alert('Please write your review in the text area');
+                    alert('Please write your review');
                     reviewComment?.focus();
                     return false;
                 }
                 
-                // Show loading state
                 if (submitBtn) {
-                    const originalHTML = submitBtn.innerHTML;
                     submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Submitting...';
                     submitBtn.disabled = true;
-                    submitBtn.setAttribute('data-original', originalHTML);
                 }
                 
-                console.log('Form validation passed, submitting... Rating:', rating, 'Comment length:', comment.length);
                 return true;
             });
         }
         
-        // Add click handler for the whole review section to ensure dropdown works
-        const reviewSection = document.getElementById('reviewFormSection');
-        if (reviewSection) {
-            reviewSection.addEventListener('click', function(e) {
-                // If clicking anywhere near the dropdown, ensure it's enabled
-                if (e.target === ratingSelect || ratingSelect.contains(e.target)) {
-                    console.log('Dropdown area clicked');
-                }
-            });
-        }
-        
-        // Debug: Log when page loads
-        console.log('Page loaded - Review form ready');
-        console.log('Rating select exists:', !!ratingSelect);
-        console.log('Rating select disabled:', ratingSelect?.disabled);
-        console.log('Rating select readonly:', ratingSelect?.readOnly);
-        
-        // Check if there are any Django messages to display
-        const messages = document.querySelectorAll('.alert');
-        messages.forEach(msg => {
-            setTimeout(() => {
-                msg.style.opacity = '0';
-                setTimeout(() => msg.remove(), 500);
-            }, 5000);
-        });
-    });
-    
-    // Additional fallback for mobile dropdown issues
-    window.addEventListener('load', function() {
-        const ratingSelect = document.getElementById('ratingSelect');
-        if (ratingSelect && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            // Add a helper for mobile devices
-            ratingSelect.setAttribute('data-mobile-fix', 'true');
-            console.log('Mobile device detected - dropdown fix applied');
-            
-            // Force the dropdown to be interactive
-            ratingSelect.style.cursor = 'pointer';
-            ratingSelect.style.userSelect = 'text';
-            
-            // Create a helper function to ensure dropdown works
-            ratingSelect.addEventListener('mousedown', function(e) {
-                // No-op to ensure event passes through
-                return true;
+        // Mobile keyboard handling
+        if (reviewComment) {
+            reviewComment.addEventListener('focus', function() {
+                setTimeout(() => {
+                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
             });
         }
     });
