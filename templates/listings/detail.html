@@ -4,1013 +4,1054 @@
 {% load static %}
 
 <style>
-    /* Modern Hero Section */
-    .listing-hero {
-        background: linear-gradient(135deg, var(--charcoal-dark) 0%, var(--charcoal) 100%);
-        color: white;
-        padding: 3rem 0;
-        margin-bottom: 2rem;
+    /* =========================================
+       LISTING DETAIL — DARK LUXURY THEME
+    ========================================= */
+
+    .main-container { padding: 0 !important; max-width: 100% !important; }
+
+    /* ---- HERO BANNER ---- */
+    .detail-hero {
+        background: var(--navy-mid);
+        border-bottom: 1px solid var(--border);
+        padding: 2.5rem 2rem 2rem;
         position: relative;
         overflow: hidden;
     }
 
-    .listing-hero::before {
-        content: '🚗';
+    .detail-hero::before {
+        content: '';
         position: absolute;
-        top: -20%;
-        right: -5%;
-        font-size: 20rem;
-        opacity: 0.05;
-        transform: rotate(-15deg);
-        animation: floatCar 10s ease-in-out infinite;
-    }
-
-    .listing-hero::after {
-        content: '⭐';
-        position: absolute;
-        bottom: -20%;
-        left: -5%;
-        font-size: 15rem;
-        opacity: 0.05;
-        transform: rotate(10deg);
-        animation: floatStar 12s ease-in-out infinite reverse;
-    }
-
-    @keyframes floatCar {
-        0%, 100% { transform: translateY(0) rotate(-15deg); }
-        50% { transform: translateY(-20px) rotate(-10deg); }
-    }
-
-    @keyframes floatStar {
-        0%, 100% { transform: translateY(0) rotate(10deg); }
-        50% { transform: translateY(-20px) rotate(15deg); }
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 2rem;
-    }
-
-    .car-title {
-        color: white !important;
-        font-size: 3rem;
-        font-weight: 800;
-        margin-bottom: 1rem;
-        letter-spacing: -1px;
-    }
-
-    .car-title span {
-        color: var(--orange);
-        background: rgba(255, 255, 255, 0.1);
-        padding: 0.3rem 1rem;
-        border-radius: 50px;
-        font-size: 1.2rem;
-        margin-left: 1rem;
-        font-weight: 600;
-    }
-
-    .price-tag {
-        font-size: 2.8rem;
-        font-weight: 800;
-        color: var(--orange);
-        background: rgba(255, 255, 255, 0.1);
-        display: inline-block;
-        padding: 0.5rem 2rem;
-        border-radius: 50px;
-        backdrop-filter: blur(10px);
-        border: 2px solid rgba(249, 115, 22, 0.3);
-        margin-top: 1rem;
-    }
-
-    /* Stats Bar */
-    .stats-bar {
-        display: flex;
-        gap: 2rem;
-        margin-top: 1rem;
-        flex-wrap: wrap;
-    }
-
-    .stat-pill {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 0.5rem 1.2rem;
-        border-radius: 40px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.9rem;
-        backdrop-filter: blur(5px);
-    }
-
-    /* Image Gallery - Modern Layout */
-    .gallery-container {
-        background: white;
-        border-radius: 30px;
-        padding: 1.5rem;
-        box-shadow: var(--shadow-lg);
-        margin-bottom: 2rem;
-    }
-
-    .main-image {
-        border-radius: 20px;
-        overflow: hidden;
-        margin-bottom: 1rem;
-        position: relative;
-        cursor: pointer;
-        height: 500px;
-        background: var(--light-gray);
-    }
-
-    .main-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .main-image:hover img {
-        transform: scale(1.03);
-    }
-
-    .image-count-badge {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 30px;
-        font-size: 0.85rem;
-        backdrop-filter: blur(5px);
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .image-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.8rem;
-    }
-
-    .image-grid img {
-        width: 100%;
-        height: 90px;
-        object-fit: cover;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border: 2px solid transparent;
-    }
-
-    .image-grid img:hover,
-    .image-grid img.active {
-        border-color: var(--orange);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    /* Content Layout */
-    .content-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 2rem;
-    }
-
-    /* Section Headers */
-    .section-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 2rem 0 1.5rem;
-        padding-bottom: 0.8rem;
-        border-bottom: 2px solid var(--orange-light);
-    }
-
-    .section-header i {
-        color: var(--orange);
-        font-size: 1.5rem;
-        background: rgba(249, 115, 22, 0.1);
-        padding: 0.5rem;
-        border-radius: 12px;
-    }
-
-    .section-header h4 {
-        font-size: 1.4rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--charcoal-dark);
-    }
-
-    /* Specs Grid */
-    .specs-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 1rem;
-    }
-
-    .spec-item {
-        background: var(--light-gray);
-        padding: 1rem 1.2rem;
-        border-radius: 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid var(--light-gray-dark);
-        transition: all 0.2s ease;
-    }
-
-    .spec-item:hover {
-        border-color: var(--orange);
-        transform: translateX(5px);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .spec-label {
-        font-size: 0.85rem;
-        color: var(--text-muted);
-        font-weight: 500;
-    }
-
-    .spec-value {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--charcoal-dark);
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .spec-value i {
-        color: var(--orange);
-    }
-
-    /* Features Container */
-    .features-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-        margin: 1rem 0;
-    }
-
-    .feature-tag {
-        background: white;
-        border: 2px solid var(--orange-light);
-        color: var(--orange-hover);
-        padding: 0.5rem 1.2rem;
-        border-radius: 40px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .feature-tag i {
-        color: var(--orange);
-    }
-
-    .feature-tag:hover {
-        background: var(--orange);
-        border-color: var(--orange);
-        color: white;
-        transform: translateY(-2px);
-    }
-
-    .feature-tag:hover i {
-        color: white;
-    }
-
-    /* Description Box */
-    .description-box {
-        background: var(--light-gray);
-        border-radius: 20px;
-        padding: 1.8rem;
-        border: 1px solid var(--light-gray-dark);
-        line-height: 1.8;
-        font-size: 1rem;
-        color: var(--charcoal-dark);
-    }
-
-    /* Seller Card - Modern */
-    .seller-card {
-        background: white;
-        border-radius: 28px;
-        padding: 1.8rem;
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--light-gray-dark);
-        position: sticky;
-        top: 100px;
-        transition: all 0.3s ease;
-    }
-
-    .seller-card:hover {
-        box-shadow: var(--shadow-lg);
-        border-color: var(--orange-light);
-    }
-
-    .seller-header {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 2px dashed var(--light-gray-dark);
-    }
-
-    .seller-avatar-large {
-        width: 70px;
-        height: 70px;
+        top: -80px; right: -80px;
+        width: 400px; height: 400px;
+        background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 65%);
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--orange-light), var(--orange));
+        pointer-events: none;
+    }
+
+    .detail-hero-inner {
+        max-width: 1320px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-row {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        font-weight: 700;
-        color: white;
-        overflow: hidden;
-        flex-shrink: 0;
+        gap: 6px;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-bottom: 0.85rem;
+        flex-wrap: wrap;
     }
 
-    .seller-avatar-large img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .breadcrumb-row a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
     }
 
-    .seller-info h4 {
-        font-size: 1.2rem;
-        font-weight: 700;
+    .breadcrumb-row a:hover { color: var(--gold-light); }
+    .breadcrumb-row i { font-size: 0.65rem; }
+    .breadcrumb-row span { color: var(--gold-light); }
+
+    /* Title */
+    .hero-make-model {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 400;
+        color: var(--white);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 0.6rem;
+    }
+
+    .hero-year-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(201,168,76,0.12);
+        border: 1px solid rgba(201,168,76,0.3);
+        color: var(--gold-light);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        padding: 0.3rem 0.85rem;
+        border-radius: 4px;
+        margin-left: 0.75rem;
+        vertical-align: middle;
+    }
+
+    /* Meta pills */
+    .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 0.85rem;
+    }
+
+    .meta-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--border-soft);
+        color: var(--muted-light);
+        font-size: 0.78rem;
+        padding: 0.35rem 0.85rem;
+        border-radius: 5px;
+    }
+
+    .meta-pill i { color: var(--gold-dim); font-size: 0.75rem; }
+
+    /* Price */
+    .hero-price-block { text-align: right; }
+
+    .price-label {
+        font-size: 0.7rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
         margin-bottom: 0.3rem;
     }
 
-    .seller-info .verified {
-        color: #10B981;
+    .hero-price {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2rem, 5vw, 3rem);
+        color: var(--gold-light);
+        letter-spacing: -0.02em;
+        line-height: 1;
+    }
+
+    .hero-price-currency {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 1rem;
         font-weight: 600;
-        font-size: 0.85rem;
-        display: inline-flex;
+        color: var(--gold-dim);
+        margin-right: 4px;
+    }
+
+    .price-negotiable {
+        font-size: 0.75rem;
+        color: var(--green);
+        margin-top: 0.3rem;
+        display: flex;
         align-items: center;
+        justify-content: flex-end;
         gap: 4px;
     }
 
-    /* Seller Bio */
-    .seller-bio {
-        background: var(--light-gray);
-        border-radius: 16px;
-        padding: 1rem;
-        margin: 1rem 0;
-        border-left: 3px solid var(--orange);
-    }
-
-    .seller-bio i {
-        color: var(--orange);
-        margin-right: 5px;
-    }
-
-    .seller-bio p {
-        margin: 0;
-        font-size: 0.9rem;
-        color: var(--charcoal-dark);
-    }
-
-    /* Contact Info */
-    .seller-contact-info {
-        margin: 1rem 0;
-        padding: 0.8rem;
-        background: var(--light-gray);
-        border-radius: 16px;
-    }
-
-    .contact-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 0.6rem;
-        font-size: 0.9rem;
-    }
-
-    .contact-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .contact-item i {
-        color: var(--orange);
-        width: 24px;
-    }
-
-    /* Seller Stats */
-    .seller-stats {
+    /* ---- PAGE BODY ---- */
+    .detail-body {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 2rem;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.8rem;
-        margin: 1rem 0;
-        text-align: center;
+        grid-template-columns: 1fr 360px;
+        gap: 2rem;
+        align-items: start;
     }
 
-    .stat-box {
-        background: var(--light-gray);
-        padding: 0.8rem;
-        border-radius: 16px;
+    /* ---- GALLERY ---- */
+    .gallery-wrap {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 2rem;
     }
 
-    .stat-number {
-        font-size: 1.2rem;
-        font-weight: 800;
-        color: var(--orange);
+    .main-img-wrap {
+        position: relative;
+        height: 460px;
+        background: var(--navy-soft);
+        cursor: pointer;
+        overflow: hidden;
     }
 
-    .stat-label {
-        font-size: 0.7rem;
-        color: var(--text-muted);
+    .main-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
     }
 
-    /* Action Buttons */
-    .action-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-        margin-top: 1rem;
+    .main-img-wrap:hover img { transform: scale(1.04); }
+
+    .img-overlay-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(10,15,30,0.5) 0%, transparent 40%);
+        pointer-events: none;
     }
 
-    .action-btn {
-        padding: 0.9rem;
-        border-radius: 50px;
-        font-weight: 700;
+    .img-count-badge {
+        position: absolute;
+        bottom: 14px; right: 14px;
+        background: rgba(10,15,30,0.75);
+        backdrop-filter: blur(8px);
+        color: var(--muted-light);
+        font-size: 0.72rem;
+        font-weight: 500;
+        padding: 0.3rem 0.75rem;
+        border-radius: 5px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        border: none;
+        gap: 5px;
         cursor: pointer;
     }
 
-    .btn-call {
-        background: var(--orange);
-        color: white;
-    }
-
-    .btn-call:hover {
-        background: var(--orange-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
-    }
-
-    .btn-whatsapp {
-        background: #25D366;
-        color: white;
-    }
-
-    .btn-whatsapp:hover {
-        background: #128C7E;
-        transform: translateY(-2px);
-    }
-
-    .btn-profile {
-        background: var(--charcoal);
-        color: white;
-    }
-
-    .btn-profile:hover {
-        background: var(--charcoal-light);
-        transform: translateY(-2px);
-    }
-
-    /* Share Section */
-    .share-section {
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 2px solid var(--light-gray-dark);
-    }
-
-    .share-title {
-        font-weight: 600;
-        margin-bottom: 1rem;
-        font-size: 0.9rem;
-    }
-
-    .share-buttons {
+    .img-expand-hint {
+        position: absolute;
+        bottom: 14px; left: 14px;
+        background: rgba(201,168,76,0.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(201,168,76,0.3);
+        color: var(--gold-light);
+        font-size: 0.7rem;
+        font-weight: 500;
+        padding: 0.3rem 0.75rem;
+        border-radius: 5px;
         display: flex;
-        gap: 0.8rem;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Thumbnails */
+    .thumb-strip {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
+        background: var(--navy);
+        padding: 2px;
+    }
+
+    .thumb-strip img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        cursor: pointer;
+        transition: all 0.2s;
+        opacity: 0.55;
+        filter: brightness(0.85);
+    }
+
+    .thumb-strip img:hover,
+    .thumb-strip img.active {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    .thumb-strip img.active {
+        outline: 2px solid var(--gold);
+        outline-offset: -2px;
+    }
+
+    /* ---- SECTION HEADER ---- */
+    .sec-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border-soft);
+    }
+
+    .sec-head-icon {
+        width: 32px; height: 32px;
+        background: rgba(201,168,76,0.1);
+        border: 1px solid rgba(201,168,76,0.2);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+
+    .sec-head h4 {
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--platinum);
+        margin: 0;
+    }
+
+    /* ---- SPECS GRID ---- */
+    .specs-section { margin-bottom: 2rem; }
+
+    .specs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1px;
+        background: var(--border-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .spec-cell {
+        background: var(--navy-card);
+        padding: 0.9rem 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        transition: background 0.2s;
+    }
+
+    .spec-cell:hover { background: var(--navy-soft); }
+
+    .spec-lbl {
+        font-size: 0.68rem;
+        color: var(--muted);
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .spec-val {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .spec-val i { color: var(--gold-dim); font-size: 0.85rem; }
+
+    /* ---- FEATURES ---- */
+    .features-section { margin-bottom: 2rem; }
+
+    .features-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+
+    .feat-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(46,204,138,0.06);
+        border: 1px solid rgba(46,204,138,0.18);
+        color: #6EE7B7;
+        font-size: 0.8rem;
+        font-weight: 500;
+        padding: 0.4rem 0.9rem;
+        border-radius: 5px;
+        transition: all 0.2s;
+    }
+
+    .feat-tag i { color: var(--green); font-size: 0.8rem; }
+
+    .feat-tag:hover {
+        background: rgba(46,204,138,0.1);
+        border-color: rgba(46,204,138,0.3);
+    }
+
+    /* ---- DESCRIPTION ---- */
+    .desc-section { margin-bottom: 2rem; }
+
+    .desc-box {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        padding: 1.5rem;
+        color: var(--muted-light);
+        font-size: 0.92rem;
+        line-height: 1.8;
+    }
+
+    /* ---- SELLER CARD (sticky sidebar) ---- */
+    .seller-sidebar {
+        position: sticky;
+        top: 84px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .seller-card {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .seller-card-head {
+        background: var(--navy-soft);
+        padding: 1.25rem;
+        border-bottom: 1px solid var(--border-soft);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .seller-avatar-lg {
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+        color: var(--navy);
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 2px solid rgba(201,168,76,0.3);
+    }
+
+    .seller-avatar-lg img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+    }
+
+    .seller-meta-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: 3px;
+    }
+
+    .seller-verified {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--green);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .seller-member {
+        color: var(--muted);
+        font-size: 0.75rem;
+    }
+
+    /* Seller stats strip */
+    .seller-stats-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-bottom: 1px solid var(--border-soft);
+    }
+
+    .sstat {
+        padding: 0.85rem;
+        text-align: center;
+        border-right: 1px solid var(--border-soft);
+    }
+
+    .sstat:last-child { border-right: none; }
+
+    .sstat-num {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.25rem;
+        color: var(--gold-light);
+        display: block;
+        line-height: 1;
+        margin-bottom: 3px;
+    }
+
+    .sstat-lbl {
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    /* Seller contact items */
+    .seller-body { padding: 1.1rem; }
+
+    .contact-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border-soft);
+        font-size: 0.85rem;
+        color: var(--muted-light);
+    }
+
+    .contact-row:last-child { border-bottom: none; }
+
+    .contact-row i { color: var(--gold); width: 16px; font-size: 0.85rem; flex-shrink: 0; }
+
+    /* Seller bio */
+    .seller-bio-box {
+        background: var(--navy-soft);
+        border-left: 2px solid var(--gold-dim);
+        border-radius: 0 6px 6px 0;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.82rem;
+        color: var(--muted-light);
+        font-style: italic;
+        line-height: 1.6;
+    }
+
+    /* Action buttons */
+    .cta-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 1rem 1.1rem;
+        border-top: 1px solid var(--border-soft);
+    }
+
+    .cta-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 0.8rem;
+        border-radius: 7px;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        font-size: 0.88rem;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.22s;
+    }
+
+    .cta-call {
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
+        box-shadow: 0 4px 16px rgba(201,168,76,0.25);
+    }
+
+    .cta-call:hover {
+        box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+        transform: translateY(-2px);
+        color: var(--navy) !important;
+    }
+
+    .cta-whatsapp {
+        background: rgba(37,211,102,0.1);
+        border: 1px solid rgba(37,211,102,0.25);
+        color: #4ADE80 !important;
+    }
+
+    .cta-whatsapp:hover {
+        background: rgba(37,211,102,0.18);
+        border-color: rgba(37,211,102,0.45);
+        transform: translateY(-2px);
+    }
+
+    .cta-profile {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border-soft);
+        color: var(--muted-light) !important;
+    }
+
+    .cta-profile:hover {
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.15);
+        color: var(--platinum) !important;
+    }
+
+    /* Safety tip */
+    .safety-box {
+        background: rgba(201,168,76,0.06);
+        border: 1px solid rgba(201,168,76,0.15);
+        border-radius: 7px;
+        padding: 0.8rem 1rem;
+        display: flex;
+        gap: 10px;
+        font-size: 0.78rem;
+        color: var(--muted-light);
+        line-height: 1.5;
+        margin: 0 1.1rem 1rem;
+    }
+
+    .safety-box i { color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+    /* Share card */
+    .share-card {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 12px;
+        padding: 1.1rem;
+    }
+
+    .share-label {
+        font-size: 0.7rem;
+        color: var(--muted);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 0.85rem;
+    }
+
+    .share-row {
+        display: flex;
+        gap: 0.6rem;
         flex-wrap: wrap;
     }
 
     .share-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
+        width: 38px; height: 38px;
+        border-radius: 7px;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s ease;
-        cursor: pointer;
+        font-size: 0.95rem;
         border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
     }
 
-    .share-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-    }
+    .share-btn:hover { transform: translateY(-3px); filter: brightness(1.15); }
 
-    .share-wa {
-        background: #25D366;
-        color: white;
-    }
+    .sh-wa       { background: rgba(37,211,102,0.12); border: 1px solid rgba(37,211,102,0.25); color: #4ADE80 !important; }
+    .sh-fb       { background: rgba(24,119,242,0.12); border: 1px solid rgba(24,119,242,0.25); color: #60A5FA !important; }
+    .sh-twitter  { background: rgba(29,161,242,0.12); border: 1px solid rgba(29,161,242,0.25); color: #7DD3FC !important; }
+    .sh-copy     { background: rgba(255,255,255,0.05); border: 1px solid var(--border-soft); color: var(--muted-light) !important; }
 
-    .share-fb {
-        background: #1877F2;
-        color: white;
-    }
-
-    .share-twitter {
-        background: #1DA1F2;
-        color: white;
-    }
-
-    .share-copy {
-        background: var(--charcoal);
-        color: white;
-    }
-
-    /* Safety Tip */
-    .safety-tip {
-        background: #FEF3C7;
-        border-radius: 16px;
-        padding: 1rem;
-        margin-top: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.85rem;
-    }
-
-    .safety-tip i {
-        color: #F59E0B;
-        font-size: 1.2rem;
-    }
-
-    /* Modal */
-    .image-modal {
+    /* ---- LIGHTBOX ---- */
+    .lightbox {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.95);
-        z-index: 9999;
-        cursor: pointer;
+        inset: 0;
+        background: rgba(5,8,15,0.97);
+        z-index: 9000;
+        align-items: center;
+        justify-content: center;
+        cursor: zoom-out;
     }
 
-    .image-modal img {
-        max-width: 90%;
-        max-height: 90%;
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+        max-width: 92vw;
+        max-height: 90vh;
+        border-radius: 8px;
+        object-fit: contain;
+        box-shadow: 0 0 80px rgba(0,0,0,0.8);
+    }
+
+    .lightbox-close {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 12px;
+        top: 1.25rem; right: 1.5rem;
+        color: var(--muted-light);
+        font-size: 1.8rem;
+        cursor: pointer;
+        transition: color 0.2s;
+        background: none;
+        border: none;
+        line-height: 1;
     }
 
-    /* Responsive */
-    @media (max-width: 992px) {
-        .content-wrapper {
+    .lightbox-close:hover { color: var(--white); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 1024px) {
+        .detail-body {
             grid-template-columns: 1fr;
         }
-        
-        .seller-card {
-            position: static;
-            margin-top: 2rem;
-        }
-        
-        .car-title {
-            font-size: 2rem;
-        }
-        
-        .price-tag {
-            font-size: 2rem;
-        }
+        .seller-sidebar { position: static; }
     }
 
     @media (max-width: 768px) {
-        .hero-content {
-            padding: 0 1rem;
-        }
-        
-        .car-title {
-            font-size: 1.6rem;
-        }
-        
-        .car-title span {
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-top: 0.5rem;
-        }
-        
-        .price-tag {
-            font-size: 1.5rem;
-            padding: 0.3rem 1rem;
-        }
-        
-        .main-image {
-            height: 300px;
-        }
-        
-        .image-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-        
-        .image-grid img {
-            height: 70px;
-        }
-        
-        .specs-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .stats-bar {
-            gap: 0.8rem;
-        }
-        
-        .stat-pill {
-            font-size: 0.75rem;
-            padding: 0.3rem 0.8rem;
-        }
+        .detail-hero { padding: 1.75rem 1.25rem 1.5rem; }
+        .hero-price-block { text-align: left; width: 100%; }
+        .detail-body { padding: 1.25rem 1rem; gap: 1.5rem; }
+        .main-img-wrap { height: 260px; }
+        .thumb-strip { grid-template-columns: repeat(5, 1fr); }
+        .specs-grid { grid-template-columns: repeat(2, 1fr); }
+        .hero-make-model { font-size: 1.6rem; }
+        .hero-price { font-size: 1.9rem; }
+    }
+
+    @media (max-width: 480px) {
+        .thumb-strip { grid-template-columns: repeat(4, 1fr); }
+        .specs-grid { grid-template-columns: 1fr 1fr; }
+        .hero-make-model { font-size: 1.4rem; }
     }
 </style>
 
-<!-- Modern Hero Section -->
-<div class="listing-hero">
-    <div class="hero-content">
-        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
-            <div>
-                <h1 class="car-title">
-                    {{ listing.brand }} {{ listing.model }}
-                    <span>{{ listing.year }}</span>
-                </h1>
-                <div class="stats-bar">
-                    <span class="stat-pill">
-                        <i class="bi bi-eye-fill"></i> {{ listing.views_count }} views
-                    </span>
-                    <span class="stat-pill">
-                        <i class="bi bi-calendar3"></i> Posted: {{ listing.created_at|date:"d M Y" }}
-                    </span>
-                    <span class="stat-pill">
-                        <i class="bi bi-geo-alt-fill"></i> {{ listing.location|default:"Kenya" }}
-                    </span>
-                </div>
+<!-- =========================================
+     HERO BANNER
+========================================= -->
+<div class="detail-hero">
+    <div class="detail-hero-inner">
+        <div>
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-row">
+                <a href="{% url 'browse_listings' %}">Browse</a>
+                <i class="bi bi-chevron-right"></i>
+                <a href="{% url 'browse_listings' %}">{{ listing.brand }}</a>
+                <i class="bi bi-chevron-right"></i>
+                <span>{{ listing.model }}</span>
             </div>
-            <div class="price-tag">
-                KES {{ listing.price|intcomma }}
+
+            <!-- Title -->
+            <h1 class="hero-make-model">
+                {{ listing.brand }} {{ listing.model }}
+                <span class="hero-year-badge">{{ listing.year }}</span>
+            </h1>
+
+            <!-- Meta pills -->
+            <div class="hero-meta">
+                <span class="meta-pill"><i class="bi bi-eye"></i> {{ listing.views_count }} views</span>
+                <span class="meta-pill"><i class="bi bi-calendar3"></i> {{ listing.created_at|date:"d M Y" }}</span>
+                <span class="meta-pill"><i class="bi bi-geo-alt-fill"></i> {{ listing.location|default:"Kenya" }}</span>
+                {% if listing.status == 'sold' %}
+                <span class="meta-pill" style="color:#F87171;border-color:rgba(217,79,79,0.3);">
+                    <i class="bi bi-tag-fill" style="color:#F87171;"></i> Sold
+                </span>
+                {% else %}
+                <span class="meta-pill" style="color:var(--green);border-color:rgba(46,204,138,0.3);">
+                    <i class="bi bi-check-circle-fill" style="color:var(--green);"></i> Available
+                </span>
+                {% endif %}
             </div>
+        </div>
+
+        <!-- Price -->
+        <div class="hero-price-block">
+            <div class="price-label">Asking Price</div>
+            <div class="hero-price">
+                <span class="hero-price-currency">KES</span>{{ listing.price|intcomma }}
+            </div>
+            {% if listing.negotiation %}
+            <div class="price-negotiable">
+                <i class="bi bi-check-circle-fill"></i> Negotiable
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
 
-<div class="container my-4">
-    <!-- Image Gallery -->
-    {% if listing.images.all %}
-    <div class="gallery-container">
-        <div class="main-image" onclick="openModal(this.querySelector('img').src)">
-            <img src="{{ listing.images.all.0.image.url }}" alt="{{ listing.brand }} {{ listing.model }}" id="mainImage">
-            <div class="image-count-badge">
-                <i class="bi bi-camera"></i> {{ listing.images.count }} photos
-            </div>
-        </div>
-        
-        {% if listing.images.count > 1 %}
-        <div class="image-grid">
-            {% for img in listing.images.all %}
-            <img src="{{ img.image.url }}" 
-                 alt="Gallery image {{ forloop.counter }}" 
-                 onclick="changeMainImage(this.src); highlightThumbnail(this)"
-                 class="{% if forloop.first %}active{% endif %}">
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
-    {% endif %}
+<!-- =========================================
+     BODY
+========================================= -->
+<div class="detail-body">
 
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Left Column - Details -->
-        <div>
-            <!-- Vehicle Specifications -->
-            <div class="section-header">
-                <i class="bi bi-info-circle-fill"></i>
-                <h4>Vehicle Specifications</h4>
-            </div>
-            <div class="specs-grid">
-                <div class="spec-item">
-                    <span class="spec-label">Condition</span>
-                    <span class="spec-value"><i class="bi bi-star-fill"></i> {{ listing.condition }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Transmission</span>
-                    <span class="spec-value"><i class="bi bi-gear"></i> {{ listing.transmission }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Fuel Type</span>
-                    <span class="spec-value"><i class="bi bi-fuel-pump"></i> {{ listing.fuel_type }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Mileage</span>
-                    <span class="spec-value"><i class="bi bi-speedometer2"></i> {{ listing.mileage|intcomma }} km</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Body Type</span>
-                    <span class="spec-value"><i class="bi bi-car-front"></i> {{ listing.body }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Engine</span>
-                    <span class="spec-value"><i class="bi bi-engine"></i> {{ listing.engine_size }}cc</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Horsepower</span>
-                    <span class="spec-value"><i class="bi bi-lightning-charge"></i> {{ listing.horse_power }}hp</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Drive Train</span>
-                    <span class="spec-value"><i class="bi bi-grid-3x3-gap-fill"></i> {{ listing.drive_train }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Exterior Color</span>
-                    <span class="spec-value"><i class="bi bi-palette-fill"></i> {{ listing.color }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Interior Color</span>
-                    <span class="spec-value"><i class="bi bi-palette"></i> {{ listing.interior_color }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Seats</span>
-                    <span class="spec-value"><i class="bi bi-people-fill"></i> {{ listing.seats_number }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Registration</span>
-                    <span class="spec-value"><i class="bi bi-file-text-fill"></i> {{ listing.registered_car }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Negotiable</span>
-                    <span class="spec-value"><i class="bi bi-cash-stack"></i> {{ listing.negotiation }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Trim Level</span>
-                    <span class="spec-value"><i class="bi bi-tag-fill"></i> {{ listing.trim|default:"Standard" }}</span>
-                </div>
-            </div>
+    <!-- =========================================
+         LEFT COLUMN
+    ========================================= -->
+    <div class="left-col">
 
-            <!-- Key Features -->
-            {% if listing.features.exists %}
-            <div class="section-header">
-                <i class="bi bi-stars"></i>
-                <h4>Key Features</h4>
+        <!-- Gallery -->
+        {% if listing.images.all %}
+        <div class="gallery-wrap">
+            <div class="main-img-wrap" onclick="openLightbox(document.getElementById('mainImg').src)">
+                <img src="{{ listing.images.all.0.image.url }}" alt="{{ listing.brand }} {{ listing.model }}" id="mainImg">
+                <div class="img-overlay-gradient"></div>
+                <div class="img-count-badge">
+                    <i class="bi bi-camera"></i> {{ listing.images.count }} photos
+                </div>
+                <div class="img-expand-hint">
+                    <i class="bi bi-arrows-fullscreen"></i> Click to expand
+                </div>
             </div>
-            <div class="features-container">
-                {% for f in listing.features.all %}
-                <span class="feature-tag">
-                    <i class="bi bi-check-lg"></i> {{ f.name }}
-                </span>
+            {% if listing.images.count > 1 %}
+            <div class="thumb-strip">
+                {% for img in listing.images.all %}
+                <img
+                    src="{{ img.image.url }}"
+                    alt="Photo {{ forloop.counter }}"
+                    class="{% if forloop.first %}active{% endif %}"
+                    onclick="swapMain(this)"
+                    loading="lazy"
+                >
                 {% endfor %}
             </div>
             {% endif %}
+        </div>
+        {% endif %}
 
-            <!-- Description -->
-            <div class="section-header">
-                <i class="bi bi-file-text-fill"></i>
-                <h4>Description</h4>
+        <!-- Specs -->
+        <div class="specs-section">
+            <div class="sec-head">
+                <div class="sec-head-icon"><i class="bi bi-list-check"></i></div>
+                <h4>Vehicle Specifications</h4>
             </div>
-            <div class="description-box">
+            <div class="specs-grid">
+                <div class="spec-cell">
+                    <span class="spec-lbl">Condition</span>
+                    <span class="spec-val"><i class="bi bi-star-fill"></i> {{ listing.condition }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Transmission</span>
+                    <span class="spec-val"><i class="bi bi-gear"></i> {{ listing.transmission }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Fuel Type</span>
+                    <span class="spec-val"><i class="bi bi-fuel-pump"></i> {{ listing.fuel_type }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Mileage</span>
+                    <span class="spec-val"><i class="bi bi-speedometer2"></i> {{ listing.mileage|intcomma }} km</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Body Type</span>
+                    <span class="spec-val"><i class="bi bi-car-front"></i> {{ listing.body }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Engine Size</span>
+                    <span class="spec-val"><i class="bi bi-cpu"></i> {{ listing.engine_size }} cc</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Horsepower</span>
+                    <span class="spec-val"><i class="bi bi-lightning-charge-fill"></i> {{ listing.horse_power }} hp</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Drive Train</span>
+                    <span class="spec-val"><i class="bi bi-grid-3x3-gap-fill"></i> {{ listing.drive_train }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Exterior Color</span>
+                    <span class="spec-val"><i class="bi bi-palette-fill"></i> {{ listing.color }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Interior Color</span>
+                    <span class="spec-val"><i class="bi bi-palette"></i> {{ listing.interior_color }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Seats</span>
+                    <span class="spec-val"><i class="bi bi-people-fill"></i> {{ listing.seats_number }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Registration</span>
+                    <span class="spec-val"><i class="bi bi-file-earmark-text-fill"></i> {{ listing.registered_car }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Negotiable</span>
+                    <span class="spec-val"><i class="bi bi-cash-coin"></i> {{ listing.negotiation }}</span>
+                </div>
+                <div class="spec-cell">
+                    <span class="spec-lbl">Trim Level</span>
+                    <span class="spec-val"><i class="bi bi-tag-fill"></i> {{ listing.trim|default:"Standard" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        {% if listing.features.exists %}
+        <div class="features-section">
+            <div class="sec-head">
+                <div class="sec-head-icon"><i class="bi bi-stars"></i></div>
+                <h4>Key Features</h4>
+            </div>
+            <div class="features-grid">
+                {% for f in listing.features.all %}
+                <span class="feat-tag">
+                    <i class="bi bi-check-circle-fill"></i> {{ f.name }}
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Description -->
+        <div class="desc-section">
+            <div class="sec-head">
+                <div class="sec-head-icon"><i class="bi bi-file-text-fill"></i></div>
+                <h4>Seller's Description</h4>
+            </div>
+            <div class="desc-box">
                 {{ listing.description|linebreaksbr|default:"No description provided." }}
             </div>
         </div>
+    </div>
 
-        <!-- Right Column - Seller Card -->
-        <div>
-            <div class="seller-card">
-                <div class="seller-header">
-                    <div class="seller-avatar-large">
-                        {% if listing.user.profile.profile_pic %}
-                            <img src="{{ listing.user.profile.profile_pic.url }}" alt="{{ listing.user.username }}">
-                        {% else %}
-                            {{ listing.user.username|first|upper }}
-                        {% endif %}
-                    </div>
-                    <div class="seller-info">
-                        <h4>{{ listing.user.username }}</h4>
-                        {% if listing.user.profile.is_verified %}
-                        <span class="verified">
-                            <i class="bi bi-patch-check-fill"></i> Verified Seller
-                        </span>
-                        {% else %}
-                        <span class="text-muted">
-                            <i class="bi bi-clock-history"></i> Member since {{ listing.user.date_joined|date:"M Y" }}
-                        </span>
-                        {% endif %}
-                    </div>
+    <!-- =========================================
+         RIGHT COLUMN — Seller Sidebar
+    ========================================= -->
+    <div class="seller-sidebar">
+
+        <!-- Seller Card -->
+        <div class="seller-card">
+            <!-- Head -->
+            <div class="seller-card-head">
+                <div class="seller-avatar-lg">
+                    {% if listing.user.profile.profile_pic %}
+                        <img src="{{ listing.user.profile.profile_pic.url }}" alt="{{ listing.user.username }}">
+                    {% else %}
+                        {{ listing.user.username|first|upper }}
+                    {% endif %}
                 </div>
+                <div>
+                    <div class="seller-meta-name">{{ listing.user.username }}</div>
+                    {% if listing.user.profile.is_verified %}
+                    <div class="seller-verified">
+                        <i class="bi bi-patch-check-fill"></i> Verified Seller
+                    </div>
+                    {% else %}
+                    <div class="seller-member">
+                        <i class="bi bi-clock-history"></i> Since {{ listing.user.date_joined|date:"M Y" }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
 
+            <!-- Stats strip -->
+            <div class="seller-stats-strip">
+                <div class="sstat">
+                    <span class="sstat-num">{{ user_listings_count|default:"0" }}</span>
+                    <div class="sstat-lbl">Listings</div>
+                </div>
+                <div class="sstat">
+                    <span class="sstat-num">{{ seller_rating|default:"5.0"|floatformat:1 }}</span>
+                    <div class="sstat-lbl">Rating</div>
+                </div>
+                <div class="sstat">
+                    <span class="sstat-num">{{ listing.user.date_joined|date:"Y" }}</span>
+                    <div class="sstat-lbl">Joined</div>
+                </div>
+            </div>
+
+            <!-- Contact & bio -->
+            <div class="seller-body">
                 {% if listing.user.profile.bio %}
-                <div class="seller-bio">
-                    <i class="bi bi-quote"></i>
-                    <p>{{ listing.user.profile.bio|truncatechars:100 }}</p>
+                <div class="seller-bio-box">
+                    "{{ listing.user.profile.bio|truncatechars:120 }}"
                 </div>
                 {% endif %}
 
-                <div class="seller-contact-info">
-                    {% if listing.user.profile.phone %}
-                    <div class="contact-item">
-                        <i class="bi bi-telephone-fill"></i>
-                        <span>{{ listing.user.profile.phone }}</span>
-                    </div>
-                    {% endif %}
-                    {% if listing.user.profile.whatsapp %}
-                    <div class="contact-item">
-                        <i class="bi bi-whatsapp"></i>
-                        <span>{{ listing.user.profile.whatsapp }}</span>
-                    </div>
-                    {% endif %}
-                    {% if listing.user.profile.location %}
-                    <div class="contact-item">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        <span>{{ listing.user.profile.location }}</span>
-                    </div>
-                    {% endif %}
+                {% if listing.phone_number %}
+                <div class="contact-row">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>{{ listing.phone_number }}</span>
                 </div>
+                {% endif %}
+                {% if listing.user.profile.whatsapp %}
+                <div class="contact-row">
+                    <i class="bi bi-whatsapp"></i>
+                    <span>{{ listing.user.profile.whatsapp }}</span>
+                </div>
+                {% endif %}
+                {% if listing.user.profile.location %}
+                <div class="contact-row">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>{{ listing.user.profile.location }}</span>
+                </div>
+                {% endif %}
+            </div>
 
-                <div class="seller-stats">
-                    <div class="stat-box">
-                        <div class="stat-number">{{ user_listings_count|default:"0" }}</div>
-                        <div class="stat-label">Listings</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">{{ seller_rating|default:"5.0"|floatformat:1 }}</div>
-                        <div class="stat-label">Rating</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">{{ listing.user.date_joined|date:"Y" }}</div>
-                        <div class="stat-label">Joined</div>
-                    </div>
-                </div>
+            <!-- CTA Buttons -->
+            <div class="cta-stack">
+                <a href="tel:{{ listing.phone_number|cut:' '|cut:'-' }}" class="cta-btn cta-call">
+                    <i class="bi bi-telephone-fill"></i> Call Seller
+                </a>
+                <a href="{{ whatsapp_link }}" target="_blank" class="cta-btn cta-whatsapp">
+                    <i class="bi bi-whatsapp"></i> Message on WhatsApp
+                </a>
+                <a href="{% url 'seller_profile' listing.user.id %}" class="cta-btn cta-profile">
+                    <i class="bi bi-person"></i> View Full Profile
+                </a>
+            </div>
 
-                <div class="action-buttons">
-                    <a href="tel:{{ listing.phone_number|cut:' '|cut:'-' }}" class="action-btn btn-call text-dark">
-                        <i class="bi bi-telephone-fill"></i> Call Seller
-                    </a>
-                    <a href="{{ whatsapp_link }}" target="_blank" class="action-btn btn-whatsapp text-dark">
-                        <i class="bi bi-whatsapp"></i> WhatsApp
-                    </a>
-                    <a href="{% url 'seller_profile' listing.user.id %}" class="action-btn btn-profile">
-                        <i class="bi bi-person"></i> View Full Profile
-                    </a>
-                </div>
-
-                <div class="safety-tip">
-                    <i class="bi bi-shield-check"></i>
-                    <span><strong>Safety Tip:</strong> Meet in a public place and inspect the vehicle before paying.</span>
-                </div>
-
-                <div class="share-section">
-                    <div class="share-title">Share this listing</div>
-                    <div class="share-buttons">
-                        <a href="{{ whatsapp_share }}" target="_blank" class="share-btn share-wa">
-                            <i class="bi bi-whatsapp"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}" target="_blank" class="share-btn share-fb">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a href="https://twitter.com/intent/tweet?url={{ current_url }}&text=Check out this {{ listing.brand }} {{ listing.model }}" target="_blank" class="share-btn share-twitter">
-                            <i class="bi bi-twitter"></i>
-                        </a>
-                        <button class="share-btn share-copy" onclick="copyToClipboard('{{ current_url }}')">
-                            <i class="bi bi-link"></i>
-                        </button>
-                    </div>
-                </div>
+            <!-- Safety tip -->
+            <div class="safety-box">
+                <i class="bi bi-shield-check"></i>
+                <span><strong style="color:var(--gold-light);">Safety tip:</strong> Always meet in a public place and inspect the vehicle thoroughly before making any payment.</span>
             </div>
         </div>
-    </div>
+
+        <!-- Share card -->
+        <div class="share-card">
+            <div class="share-label">Share this listing</div>
+            <div class="share-row">
+                <a href="{{ whatsapp_share }}" target="_blank" class="share-btn sh-wa" title="Share on WhatsApp">
+                    <i class="bi bi-whatsapp"></i>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}" target="_blank" class="share-btn sh-fb" title="Share on Facebook">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url={{ current_url }}&text=Check out this {{ listing.brand }} {{ listing.model }}" target="_blank" class="share-btn sh-twitter" title="Share on Twitter">
+                    <i class="bi bi-twitter-x"></i>
+                </a>
+                <button class="share-btn sh-copy" onclick="copyLink()" id="copyBtn" title="Copy link">
+                    <i class="bi bi-link-45deg"></i>
+                </button>
+            </div>
+        </div>
+
+    </div><!-- /seller-sidebar -->
+</div><!-- /detail-body -->
+
+<!-- =========================================
+     LIGHTBOX
+========================================= -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <img id="lightboxImg" src="" alt="Full size">
 </div>
 
-<!-- Image Modal -->
-<div class="image-modal" id="imageModal" onclick="closeModal()">
-    <img id="modalImage" src="" alt="Full size image">
-</div>
+<!-- Toast -->
+<div id="toast" style="
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background:var(--navy-card); border:1px solid var(--border);
+    color:var(--platinum); padding:0.65rem 1.5rem;
+    border-radius:7px; font-size:0.83rem; font-weight:500;
+    z-index:9999; opacity:0; transition:opacity 0.3s;
+    pointer-events:none; white-space:nowrap;
+"></div>
 
 <script>
-    function changeMainImage(src) {
-        document.getElementById('mainImage').src = src;
+    /* Gallery */
+    function swapMain(thumb) {
+        document.getElementById('mainImg').src = thumb.src;
+        document.querySelectorAll('.thumb-strip img').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
     }
 
-    function highlightThumbnail(element) {
-        document.querySelectorAll('.image-grid img').forEach(img => {
-            img.classList.remove('active');
-        });
-        element.classList.add('active');
-    }
-
-    function openModal(src) {
-        document.getElementById('modalImage').src = src;
-        document.getElementById('imageModal').style.display = 'block';
+    /* Lightbox */
+    function openLightbox(src) {
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightbox').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeModal() {
-        document.getElementById('imageModal').style.display = 'none';
-        document.body.style.overflow = 'auto';
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
     }
 
-    function copyToClipboard(url) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(function() {
-                showCopySuccess();
-            }).catch(function(err) {
-                fallbackCopyToClipboard(url);
-            });
-        } else {
-            fallbackCopyToClipboard(url);
-        }
-    }
-    
-    function fallbackCopyToClipboard(text) {
-        var textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            var successful = document.execCommand('copy');
-            if (successful) {
-                showCopySuccess();
-            } else {
-                showCopyError();
-            }
-        } catch (err) {
-            showCopyError();
-        }
-        
-        document.body.removeChild(textarea);
-    }
-    
-    function showCopySuccess() {
-        const button = document.querySelector('.share-btn.share-copy');
-        const originalIcon = button.innerHTML;
-        
-        button.innerHTML = '<i class="bi bi-check-lg"></i>';
-        button.style.background = '#10B981';
-        
-        showToast('Link copied to clipboard!', 'success');
-        
-        setTimeout(function() {
-            button.innerHTML = originalIcon;
-            button.style.background = '';
-        }, 2000);
-    }
-    
-    function showCopyError() {
-        showToast('Failed to copy. Please try again.', 'error');
-    }
-    
-    function showToast(message, type) {
-        let toast = document.getElementById('copyToast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.id = 'copyToast';
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: ${type === 'success' ? '#10B981' : '#EF4444'};
-                color: white;
-                padding: 12px 24px;
-                border-radius: 50px;
-                font-size: 14px;
-                font-weight: 600;
-                z-index: 9999;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                pointer-events: none;
-            `;
-            document.body.appendChild(toast);
-        }
-        
-        toast.textContent = message;
-        toast.style.backgroundColor = type === 'success' ? '#10B981' : '#EF4444';
-        toast.style.opacity = '1';
-        
-        setTimeout(() => {
-            toast.style.opacity = '0';
-        }, 2000);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    /* Copy link */
+    function copyLink() {
+        const url = window.location.href;
+        const btn = document.getElementById('copyBtn');
+        navigator.clipboard.writeText(url).then(() => {
+            btn.innerHTML = '<i class="bi bi-check-lg" style="color:var(--green)"></i>';
+            showToast('Link copied!');
+            setTimeout(() => btn.innerHTML = '<i class="bi bi-link-45deg"></i>', 2000);
+        }).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = url;
+            ta.style.cssText = 'position:fixed;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('Link copied!');
+        });
     }
 
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeModal();
-    });
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.opacity = '1';
+        setTimeout(() => t.style.opacity = '0', 2200);
+    }
 </script>
+
 {% endblock %}

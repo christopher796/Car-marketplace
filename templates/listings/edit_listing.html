@@ -3,9 +3,14 @@
 {% load static %}
 
 <style>
+    /* =========================================
+       EDIT LISTING — DARK NAVY / GOLD LUXURY THEME
+       Matching Chrandi Motors design system
+    ========================================= */
+
     .edit-wrapper {
         min-height: 80vh;
-        background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+        background: var(--navy);
         padding: 2rem 0;
         position: relative;
         overflow: hidden;
@@ -19,23 +24,43 @@
         right: -10%;
         width: 500px;
         height: 500px;
-        background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
         border-radius: 50%;
         z-index: 0;
+        pointer-events: none;
+    }
+
+    .edit-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: -20%;
+        left: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
     }
 
     .edit-card {
-        background: rgba(255, 255, 255, 0.95);
+        background: var(--navy-card);
         backdrop-filter: blur(10px);
-        border-radius: 40px;
-        border: 2px solid rgba(249, 115, 22, 0.1);
-        box-shadow: var(--shadow-lg);
+        border-radius: 20px;
+        border: 1px solid var(--border-soft);
+        box-shadow: var(--shadow-card);
         padding: 2.5rem;
         position: relative;
         z-index: 2;
         animation: slideUp 0.5s ease-out;
         max-width: 800px;
         margin: 0 auto;
+        transition: all 0.3s ease;
+    }
+
+    .edit-card:hover {
+        border-color: var(--border);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
     }
 
     @keyframes slideUp {
@@ -52,29 +77,30 @@
     /* Header */
     .edit-header {
         text-align: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
         position: relative;
     }
 
     .edit-header h2 {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.5rem;
         letter-spacing: -0.5px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .edit-header h2 i {
-        color: var(--orange);
-        font-size: 2rem;
+        color: var(--gold);
+        font-size: 1.8rem;
     }
 
     .edit-header h2 span {
-        color: var(--orange);
+        color: var(--gold-light);
         position: relative;
     }
 
@@ -84,25 +110,29 @@
         bottom: 5px;
         left: 0;
         width: 100%;
-        height: 8px;
-        background: rgba(249, 115, 22, 0.2);
+        height: 3px;
+        background: linear-gradient(90deg, var(--gold), var(--gold-dim));
         z-index: -1;
-        border-radius: 4px;
+        border-radius: 2px;
     }
 
     .edit-header p {
-        color: var(--text-muted);
-        font-size: 1.1rem;
+        color: var(--muted);
+        font-size: 0.95rem;
         max-width: 500px;
         margin: 1rem auto 0;
     }
 
+    .edit-header p i {
+        color: var(--gold);
+    }
+
     /* Alert/Warning Box */
     .edit-alert {
-        background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
-        border: 1px solid rgba(249, 115, 22, 0.2);
-        border-radius: 20px;
-        padding: 1.2rem 1.5rem;
+        background: rgba(201,168,76,0.08);
+        border: 1px solid rgba(201,168,76,0.25);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
         margin-bottom: 2rem;
         display: flex;
         align-items: center;
@@ -111,8 +141,8 @@
     }
 
     .edit-alert i {
-        color: var(--orange);
-        font-size: 1.8rem;
+        color: var(--gold);
+        font-size: 1.5rem;
     }
 
     .edit-alert-content {
@@ -121,93 +151,110 @@
 
     .edit-alert-title {
         font-weight: 700;
-        color: var(--charcoal-dark);
+        color: var(--gold-light);
         margin-bottom: 0.3rem;
+        font-size: 0.9rem;
+        letter-spacing: 0.03em;
     }
 
     .edit-alert-text {
-        color: var(--text-muted);
-        font-size: 0.95rem;
+        color: var(--muted);
+        font-size: 0.85rem;
         margin: 0;
     }
 
     /* Form Styling */
     .form-section {
-        background: var(--light-gray);
-        border-radius: 24px;
+        background: var(--navy-soft);
+        border-radius: 16px;
         padding: 1.5rem;
-        margin-bottom: 2rem;
-        border: 1px solid var(--light-gray-dark);
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--border-soft);
+        transition: all 0.3s ease;
+    }
+
+    .form-section:hover {
+        border-color: var(--border);
     }
 
     .section-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--charcoal-dark);
-        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 1.25rem;
         display: flex;
         align-items: center;
         gap: 10px;
         padding-bottom: 0.75rem;
-        border-bottom: 2px solid var(--orange-light);
+        border-bottom: 1px solid var(--border-soft);
+        font-family: 'DM Sans', sans-serif;
     }
 
     .section-title i {
-        color: var(--orange);
+        color: var(--gold);
         font-size: 1.2rem;
     }
 
     /* Form fields */
     .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.25rem;
     }
 
     .form-label {
         font-weight: 600;
-        color: var(--charcoal-dark);
+        color: var(--muted-light);
         margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
+        font-size: 0.85rem;
+        letter-spacing: 0.03em;
     }
 
     .form-label i {
-        color: var(--orange);
-        font-size: 1rem;
+        color: var(--gold);
+        font-size: 0.9rem;
     }
 
     .form-label .required {
-        color: var(--orange);
+        color: var(--gold);
         margin-left: 3px;
     }
 
     .form-control, .form-select, textarea {
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 16px;
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
         transition: all 0.2s ease;
-        background: var(--white);
+        background: var(--navy-mid);
+        color: var(--platinum);
         width: 100%;
     }
 
     .form-control:focus, .form-select:focus, textarea:focus {
-        border-color: var(--orange);
-        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
         outline: none;
+        background: var(--navy-card);
+    }
+
+    .form-control::placeholder, textarea::placeholder {
+        color: var(--muted);
     }
 
     /* Readonly fields */
     .form-control[readonly] {
-        background: var(--light-gray);
+        background: var(--navy-soft);
         opacity: 0.8;
         cursor: not-allowed;
+        color: var(--muted-light);
     }
 
     /* Help text */
     .help-text {
-        font-size: 0.85rem;
-        color: var(--text-muted);
+        font-size: 0.75rem;
+        color: var(--muted);
         margin-top: 0.5rem;
         display: flex;
         align-items: center;
@@ -215,7 +262,8 @@
     }
 
     .help-text i {
-        color: var(--orange);
+        color: var(--gold-dim);
+        font-size: 0.7rem;
     }
 
     /* Two column layout */
@@ -234,23 +282,25 @@
 
     /* Current images preview */
     .current-images {
-        background: var(--white);
-        border-radius: 20px;
-        padding: 1.5rem;
+        background: var(--navy-soft);
+        border-radius: 16px;
+        padding: 1.25rem;
         margin: 1.5rem 0;
-        border: 1px solid var(--light-gray-dark);
+        border: 1px solid var(--border-soft);
     }
 
     .images-title {
-        font-weight: 700;
+        font-weight: 600;
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 8px;
+        color: var(--white);
+        font-size: 0.9rem;
     }
 
     .images-title i {
-        color: var(--orange);
+        color: var(--gold);
     }
 
     .image-preview-grid {
@@ -262,9 +312,10 @@
     .preview-item {
         position: relative;
         aspect-ratio: 1;
-        border-radius: 12px;
+        border-radius: 10px;
         overflow: hidden;
-        border: 2px solid var(--light-gray-dark);
+        border: 1px solid var(--border-soft);
+        background: var(--navy-mid);
     }
 
     .preview-item img {
@@ -277,16 +328,16 @@
         position: absolute;
         top: 5px;
         right: 5px;
-        width: 25px;
-        height: 25px;
-        background: rgba(239, 68, 68, 0.9);
+        width: 24px;
+        height: 24px;
+        background: rgba(217,79,79,0.9);
         border: none;
         border-radius: 50%;
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
+        font-size: 0.8rem;
         cursor: pointer;
         transition: all 0.2s ease;
         opacity: 0;
@@ -297,7 +348,7 @@
     }
 
     .preview-item .remove-btn:hover {
-        background: #DC2626;
+        background: var(--red);
         transform: scale(1.1);
     }
 
@@ -311,26 +362,29 @@
 
     .save-btn {
         flex: 2;
-        background: var(--orange);
-        color: white;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
         border: none;
-        border-radius: 50px;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
+        border-radius: 8px;
+        padding: 0.9rem 1.5rem;
+        font-size: 0.9rem;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
-        min-width: 200px;
+        box-shadow: var(--shadow-btn);
+        min-width: 180px;
+        cursor: pointer;
     }
 
     .save-btn:hover {
-        background: var(--orange-hover);
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
         transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(249, 115, 22, 0.4);
+        box-shadow: 0 8px 28px rgba(201,168,76,0.45);
     }
 
     .save-btn:active {
@@ -338,51 +392,60 @@
     }
 
     .save-btn i {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .cancel-btn {
         flex: 1;
-        background: var(--white);
-        color: var(--charcoal-dark);
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 50px;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
+        background: transparent;
+        color: var(--muted-light);
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        padding: 0.9rem 1.5rem;
+        font-size: 0.9rem;
         font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         transition: all 0.2s ease;
         text-decoration: none;
+        cursor: pointer;
     }
 
     .cancel-btn:hover {
-        background: var(--light-gray-dark);
-        color: var(--charcoal-dark);
+        background: rgba(255,255,255,0.05);
+        border-color: var(--border);
+        color: var(--white);
         transform: translateY(-2px);
     }
 
     .delete-btn {
         flex: 1;
-        background: #EF4444;
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
+        background: rgba(217,79,79,0.12);
+        color: #F87171 !important;
+        border: 1px solid rgba(217,79,79,0.3);
+        border-radius: 8px;
+        padding: 0.9rem 1.5rem;
+        font-size: 0.9rem;
         font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         transition: all 0.2s ease;
         text-decoration: none;
+        cursor: pointer;
     }
 
     .delete-btn:hover {
-        background: #DC2626;
+        background: rgba(217,79,79,0.2);
+        border-color: rgba(217,79,79,0.5);
+        color: #FCA5A5 !important;
         transform: translateY(-2px);
     }
 
@@ -394,14 +457,19 @@
     }
 
     .errorlist li {
-        background: #FEE2E2;
-        color: #991B1B;
+        background: rgba(217,79,79,0.1);
+        color: #F87171;
         padding: 0.5rem 1rem;
-        border-radius: 12px;
-        font-size: 0.9rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
         display: flex;
         align-items: center;
         gap: 5px;
+        border: 1px solid rgba(217,79,79,0.2);
+    }
+
+    .errorlist li i {
+        color: #F87171;
     }
 
     /* Last updated */
@@ -409,14 +477,85 @@
         text-align: center;
         margin-top: 1.5rem;
         padding-top: 1.5rem;
-        border-top: 2px dashed var(--light-gray-dark);
-        color: var(--text-muted);
-        font-size: 0.9rem;
+        border-top: 1px solid var(--border-soft);
+        color: var(--muted);
+        font-size: 0.75rem;
     }
 
     .last-updated i {
-        color: var(--orange);
+        color: var(--gold-dim);
         margin-right: 5px;
+    }
+
+    /* Select dropdown options */
+    .form-select option {
+        background: var(--navy-mid);
+        color: var(--platinum);
+    }
+
+    /* File input styling */
+    input[type="file"] {
+        padding: 0.6rem;
+        background: var(--navy-mid);
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        color: var(--muted-light);
+        width: 100%;
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        padding: 0.4rem 0.8rem;
+        color: var(--gold-light);
+        cursor: pointer;
+        margin-right: 0.8rem;
+        transition: all 0.2s;
+    }
+
+    input[type="file"]::-webkit-file-upload-button:hover {
+        background: var(--navy-soft);
+        border-color: var(--gold-dim);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .edit-card {
+            padding: 1.5rem;
+            margin: 0 1rem;
+        }
+
+        .edit-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .edit-header h2 i {
+            font-size: 1.3rem;
+        }
+
+        .form-section {
+            padding: 1rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .save-btn, .cancel-btn, .delete-btn {
+            width: 100%;
+            padding: 0.75rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .edit-card {
+            padding: 1rem;
+        }
+
+        .image-preview-grid {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        }
     }
 </style>
 
@@ -430,7 +569,7 @@
                     <span>Edit</span> Listing
                 </h2>
                 <p>
-                    <i class="bi bi-info-circle-fill" style="color: var(--orange);"></i>
+                    <i class="bi bi-info-circle-fill"></i>
                     Update your vehicle details below
                 </p>
             </div>
@@ -479,7 +618,6 @@
                         Basic Information
                     </div>
 
-                    <!-- Render form fields with improved layout -->
                     {% for field in form %}
                         {% if field.name in 'brand,model,year,price' %}
                         <div class="form-group">
@@ -548,8 +686,6 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-
-                    <!-- Features checkboxes would go here if applicable -->
                 </div>
 
                 <div class="form-section">
@@ -576,7 +712,7 @@
                     {% endfor %}
                 </div>
 
-                <!-- Image upload section (optional) -->
+                <!-- Image upload section -->
                 <div class="form-section">
                     <div class="section-title">
                         <i class="bi bi-camera-fill"></i>
@@ -632,30 +768,44 @@
     // Confirm before leaving with unsaved changes
     let formChanged = false;
     
-    document.getElementById('editForm').addEventListener('input', function() {
-        formChanged = true;
-    });
+    const editForm = document.getElementById('editForm');
+    if (editForm) {
+        editForm.addEventListener('input', function() {
+            formChanged = true;
+        });
 
-    window.addEventListener('beforeunload', function(e) {
-        if (formChanged) {
-            e.preventDefault();
-            e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
-        }
-    });
+        window.addEventListener('beforeunload', function(e) {
+            if (formChanged) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+            }
+        });
 
-    // Form submission handling
-    document.getElementById('editForm').addEventListener('submit', function(e) {
-        const saveBtn = this.querySelector('.save-btn');
-        saveBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Saving...';
-        saveBtn.disabled = true;
-        formChanged = false; // Prevent beforeunload trigger
-    });
+        // Form submission handling
+        editForm.addEventListener('submit', function(e) {
+            const saveBtn = this.querySelector('.save-btn');
+            saveBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Saving...';
+            saveBtn.disabled = true;
+            formChanged = false;
+        });
+    }
 
-    // Image removal confirmation (placeholder function)
+    // Image removal confirmation
     function confirmRemoveImage(imageId) {
         if (confirm('Remove this image? This action cannot be undone.')) {
-            // Here you would typically make an AJAX call or redirect to remove image
-            alert('Image removal feature - would remove image ' + imageId);
+            // Create form for image removal
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/listing/remove-image/${imageId}/`;
+            
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            form.appendChild(csrfInput);
+            document.body.appendChild(form);
+            form.submit();
         }
     }
 </script>

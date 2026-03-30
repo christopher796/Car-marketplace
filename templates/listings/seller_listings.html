@@ -5,9 +5,14 @@
 {% block content %}
 
 <style>
+    /* =========================================
+       SELLER PROFILE — DARK NAVY / GOLD LUXURY THEME
+       Matching Chrandi Motors design system
+    ========================================= */
+
     .profile-wrapper {
         min-height: 80vh;
-        background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+        background: var(--navy);
         padding: 2rem 0;
         position: relative;
     }
@@ -20,9 +25,23 @@
         right: -5%;
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
         border-radius: 50%;
         z-index: 0;
+        pointer-events: none;
+    }
+
+    .profile-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: -10%;
+        left: -5%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
     }
 
     .profile-container {
@@ -34,13 +53,13 @@
 
     /* Profile Header/Cover */
     .profile-cover {
-        background: linear-gradient(135deg, var(--charcoal-dark) 0%, var(--charcoal) 100%);
-        border-radius: 40px 40px 30px 30px;
+        background: linear-gradient(135deg, var(--navy-soft) 0%, var(--navy-mid) 100%);
+        border-radius: 24px 24px 20px 20px;
         padding: 3rem 2rem 6rem;
         margin-bottom: -4rem;
         position: relative;
         overflow: hidden;
-        border-bottom: 4px solid var(--orange);
+        border-bottom: 3px solid var(--gold);
     }
 
     .profile-cover::before {
@@ -50,7 +69,7 @@
         right: -10%;
         width: 500px;
         height: 500px;
-        background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
         border-radius: 50%;
     }
 
@@ -59,22 +78,29 @@
         position: absolute;
         bottom: 10px;
         right: 30px;
-        font-size: 8rem;
-        opacity: 0.05;
+        font-size: 6rem;
+        opacity: 0.03;
         transform: rotate(-10deg);
+        pointer-events: none;
     }
 
     /* Profile Card */
     .profile-card {
-        background: white;
-        border-radius: 30px;
-        box-shadow: var(--shadow-lg);
+        background: var(--navy-card);
+        border-radius: 24px;
+        box-shadow: var(--shadow-card);
         padding: 2rem;
         position: relative;
         z-index: 3;
         margin-bottom: 2rem;
-        border: 1px solid rgba(249, 115, 22, 0.1);
+        border: 1px solid var(--border-soft);
+        transition: all 0.3s ease;
         animation: slideUp 0.5s ease-out;
+    }
+
+    .profile-card:hover {
+        border-color: var(--border);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
     }
 
     @keyframes slideUp {
@@ -96,7 +122,7 @@
         flex-wrap: wrap;
         margin-bottom: 2rem;
         padding-bottom: 2rem;
-        border-bottom: 2px dashed var(--light-gray-dark);
+        border-bottom: 1px solid var(--border-soft);
     }
 
     /* Profile Image */
@@ -111,31 +137,31 @@
         height: 140px;
         border-radius: 50%;
         object-fit: cover;
-        border: 4px solid var(--orange);
-        box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
-        background: var(--light-gray);
+        border: 3px solid var(--gold);
+        box-shadow: 0 0 20px rgba(201,168,76,0.3);
+        background: var(--navy-soft);
     }
 
     .default-avatar {
         width: 140px;
         height: 140px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--orange-light) 0%, var(--orange) 100%);
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 4rem;
         font-weight: 700;
-        color: white;
-        border: 4px solid white;
-        box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        color: var(--navy);
+        border: 3px solid var(--gold-light);
+        box-shadow: 0 10px 20px rgba(201,168,76,0.3);
     }
 
     .verified-badge-large {
         position: absolute;
         bottom: 10px;
         right: 10px;
-        background: #10B981;
+        background: var(--green);
         color: white;
         width: 35px;
         height: 35px;
@@ -143,9 +169,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 3px solid white;
-        font-size: 1.2rem;
-        box-shadow: var(--shadow-md);
+        border: 3px solid var(--navy-card);
+        font-size: 1.1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
     /* Profile Info */
@@ -154,18 +180,19 @@
     }
 
     .profile-name {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         gap: 1rem;
         flex-wrap: wrap;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .profile-name span {
-        color: var(--orange);
+        color: var(--gold-light);
     }
 
     .profile-meta {
@@ -179,69 +206,72 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        color: var(--text-muted);
+        color: var(--muted);
+        font-size: 0.85rem;
     }
 
     .meta-item i {
-        color: var(--orange);
-        font-size: 1.2rem;
+        color: var(--gold);
+        font-size: 1rem;
     }
 
     .meta-item strong {
-        color: var(--charcoal-dark);
-        font-weight: 700;
+        color: var(--muted-light);
+        font-weight: 600;
     }
 
     /* Stats Grid */
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1.5rem;
-        margin: 2rem 0;
+        gap: 1rem;
+        margin: 1.5rem 0;
     }
 
     .stat-box {
-        background: var(--light-gray);
-        padding: 1.5rem;
-        border-radius: 20px;
+        background: var(--navy-soft);
+        padding: 1.2rem;
+        border-radius: 16px;
         text-align: center;
-        border: 1px solid var(--light-gray-dark);
+        border: 1px solid var(--border-soft);
         transition: all 0.3s ease;
     }
 
     .stat-box:hover {
-        transform: translateY(-5px);
-        border-color: var(--orange);
-        box-shadow: var(--shadow-md);
+        transform: translateY(-3px);
+        border-color: var(--border);
+        box-shadow: var(--shadow-card);
     }
 
     .stat-value {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: var(--orange);
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--gold-light);
         line-height: 1.2;
+        font-family: 'DM Serif Display', serif;
     }
 
     .stat-label {
-        color: var(--text-muted);
-        font-size: 0.9rem;
+        color: var(--muted);
+        font-size: 0.7rem;
         font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.05em;
+        margin-top: 0.3rem;
     }
 
     /* Contact Bar */
     .contact-bar {
-        background: var(--light-gray);
-        border-radius: 50px;
+        background: var(--navy-soft);
+        border-radius: 12px;
         padding: 1rem 1.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 1rem;
-        margin: 2rem 0;
-        border: 1px solid var(--light-gray-dark);
+        margin: 1.5rem 0;
+        border: 1px solid var(--border-soft);
     }
 
     .contact-info {
@@ -255,12 +285,13 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        color: var(--charcoal-dark);
+        color: var(--muted-light);
+        font-size: 0.85rem;
     }
 
     .contact-item i {
-        color: var(--orange);
-        font-size: 1.2rem;
+        color: var(--gold);
+        font-size: 1rem;
     }
 
     .contact-actions {
@@ -269,25 +300,28 @@
     }
 
     .contact-btn {
-        padding: 0.6rem 1.5rem;
-        border-radius: 40px;
+        padding: 0.5rem 1.2rem;
+        border-radius: 8px;
         font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         transition: all 0.2s ease;
         text-decoration: none;
     }
 
     .btn-message {
-        background: var(--orange);
-        color: white;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
     }
 
     .btn-message:hover {
-        background: var(--orange-hover);
         transform: translateY(-2px);
-        color: white;
+        box-shadow: var(--shadow-btn);
+        color: var(--navy) !important;
     }
 
     .btn-whatsapp {
@@ -301,67 +335,97 @@
         color: white;
     }
 
+    /* Description Box */
+    .description-box {
+        background: var(--navy-soft);
+        border-radius: 16px;
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        border-left: 3px solid var(--gold);
+    }
+
+    .description-box h5 {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--gold-light);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .description-box p {
+        color: var(--muted-light);
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
     /* Section Title */
     .section-title {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin: 2rem 0 1.5rem;
+        margin: 1.5rem 0 1rem;
     }
 
     .section-title h4 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--charcoal-dark);
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--white);
         margin: 0;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .section-title i {
-        color: var(--orange);
-        font-size: 1.5rem;
-        background: rgba(249, 115, 22, 0.1);
+        color: var(--gold);
+        font-size: 1.3rem;
+        background: rgba(201,168,76,0.1);
         padding: 0.5rem;
         border-radius: 12px;
     }
 
     .listing-count-badge {
-        background: var(--orange-light);
-        color: var(--orange-hover);
-        padding: 0.3rem 1rem;
-        border-radius: 30px;
-        font-size: 0.9rem;
+        background: rgba(201,168,76,0.12);
+        color: var(--gold-light);
+        padding: 0.2rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
         font-weight: 600;
-        margin-left: 1rem;
+        margin-left: 0.8rem;
+        border: 1px solid rgba(201,168,76,0.25);
     }
 
     /* Listings Grid */
     .listings-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
-        margin-top: 1.5rem;
+        margin-top: 1rem;
     }
 
     .listing-card {
-        background: white;
-        border-radius: 24px;
+        background: var(--navy-soft);
+        border-radius: 16px;
         overflow: hidden;
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--light-gray-dark);
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border-soft);
         transition: all 0.3s ease;
         text-decoration: none;
         display: block;
     }
 
     .listing-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--orange);
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
+        border-color: var(--border);
     }
 
     .card-image {
-        height: 180px;
-        background: var(--light-gray);
+        height: 170px;
+        background: var(--navy-mid);
         position: relative;
         overflow: hidden;
     }
@@ -374,7 +438,7 @@
     }
 
     .listing-card:hover .card-image img {
-        transform: scale(1.1);
+        transform: scale(1.08);
     }
 
     .no-image {
@@ -383,86 +447,147 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--light-gray);
-        color: var(--text-muted);
-        font-size: 3rem;
+        background: var(--navy-mid);
+        color: var(--muted);
+        font-size: 2rem;
     }
 
     .card-content {
-        padding: 1.5rem;
+        padding: 1.2rem;
     }
 
     .card-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--charcoal-dark);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .card-title span {
+        color: var(--gold);
+        font-size: 0.9rem;
     }
 
     .card-price {
-        font-size: 1.3rem;
-        font-weight: 800;
-        color: var(--orange);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--gold-light);
         margin-bottom: 0.5rem;
+        font-family: 'DM Serif Display', serif;
     }
 
     .card-meta {
         display: flex;
         gap: 1rem;
-        color: var(--text-muted);
-        font-size: 0.9rem;
+        color: var(--muted);
+        font-size: 0.7rem;
     }
 
     .card-meta i {
-        color: var(--orange);
+        color: var(--gold-dim);
         margin-right: 3px;
     }
 
     /* Empty State */
     .empty-state {
         text-align: center;
-        padding: 4rem 2rem;
-        background: white;
-        border-radius: 40px;
-        border: 2px dashed var(--light-gray-dark);
-        margin: 2rem 0;
+        padding: 3rem 2rem;
+        background: var(--navy-soft);
+        border-radius: 20px;
+        border: 1px dashed var(--border-soft);
+        margin: 1.5rem 0;
     }
 
     .empty-state i {
-        font-size: 4rem;
-        color: var(--orange-light);
+        font-size: 3rem;
+        color: var(--gold-dim);
         margin-bottom: 1rem;
+        opacity: 0.5;
     }
 
     .empty-state h3 {
-        font-weight: 700;
-        color: var(--charcoal-dark);
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.5rem;
+        font-size: 1.2rem;
     }
 
     .empty-state p {
-        color: var(--text-muted);
+        color: var(--muted);
         max-width: 400px;
         margin: 0 auto;
+        font-size: 0.85rem;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-soft);
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-outline-primary {
+        background: transparent;
+        border: 1px solid var(--border-soft);
+        color: var(--gold-light) !important;
+        border-radius: 8px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+    }
+
+    .btn-outline-primary:hover {
+        background: rgba(201,168,76,0.1);
+        border-color: var(--gold);
+        color: var(--gold) !important;
+        transform: translateY(-2px);
     }
 
     /* Responsive */
     @media (max-width: 768px) {
+        .profile-wrapper {
+            padding: 1rem 0;
+        }
+
         .profile-header {
             flex-direction: column;
             text-align: center;
         }
 
         .profile-name {
-            font-size: 2rem;
+            font-size: 1.8rem;
             justify-content: center;
         }
 
         .profile-meta {
             justify-content: center;
+        }
+
+        .profile-image-wrapper {
+            width: 120px;
+            height: 120px;
+        }
+
+        .profile-image, .default-avatar {
+            width: 120px;
+            height: 120px;
+            font-size: 3rem;
         }
 
         .contact-bar {
@@ -474,8 +599,48 @@
             justify-content: center;
         }
 
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
         .listings-grid {
             grid-template-columns: 1fr;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-outline-primary {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .profile-card {
+            padding: 1.2rem;
+        }
+
+        .profile-cover {
+            padding: 2rem 1.5rem 5rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+        }
+
+        .stat-box {
+            padding: 0.8rem;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
         }
     }
 </style>
@@ -529,7 +694,7 @@
                             <i class="bi bi-shield-check"></i>
                             <strong>Status:</strong> 
                             {% if seller.profile.is_verified %}
-                                <span style="color: #10B981;">Verified Seller</span>
+                                <span style="color: var(--green);">Verified Seller</span>
                             {% else %}
                                 <span class="text-muted">Not Verified</span>
                             {% endif %}
@@ -587,16 +752,14 @@
             </div>
             {% endif %}
 
-            <!-- Seller Bio (if available) -->
+            <!-- Seller Bio -->
             {% if seller.profile.bio %}
-            <div class="description-box" style="margin: 1.5rem 0;">
-                <h5 style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;">
-                    <i class="bi bi-person-lines-fill" style="color: var(--orange);"></i>
+            <div class="description-box">
+                <h5>
+                    <i class="bi bi-person-lines-fill"></i>
                     About the seller
                 </h5>
-                <p style="color: var(--text-muted); margin: 0;">
-                    {{ seller.profile.bio }}
-                </p>
+                <p>{{ seller.profile.bio }}</p>
             </div>
             {% endif %}
 
@@ -626,7 +789,7 @@
                         <div class="card-title">
                             {{ ad.title|truncatechars:30 }}
                             {% if ad.feature and ad.feature.active %}
-                            <span style="color: var(--orange);"><i class="bi bi-star-fill"></i></span>
+                            <span><i class="bi bi-star-fill"></i></span>
                             {% endif %}
                         </div>
                         <div class="card-price">
@@ -647,20 +810,20 @@
                 <p>{{ seller.username }} hasn't posted any vehicle listings yet.</p>
                 
                 {% if user == seller %}
-                <a href="{% url 'post_listing' %}" class="btn btn-primary" style="margin-top: 1.5rem; padding: 0.8rem 2rem; border-radius: 50px;">
+                <a href="{% url 'post_listing' %}" class="btn btn-primary" style="margin-top: 1.5rem; padding: 0.7rem 1.5rem; border-radius: 8px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px;">
                     <i class="bi bi-plus-circle"></i> Post Your First Ad
                 </a>
                 {% endif %}
             </div>
             {% endif %}
 
-            <!-- If current user is viewing their own profile -->
+            <!-- Action Buttons for Own Profile -->
             {% if user == seller %}
-            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px dashed var(--light-gray-dark);">
-                <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary" style="border-radius: 50px; padding: 0.6rem 2rem;">
+            <div class="action-buttons">
+                <a href="{% url 'edit_profile' %}" class="btn-outline-primary">
                     <i class="bi bi-pencil-square"></i> Edit Profile
                 </a>
-                <a href="{% url 'manage_ads' %}" class="btn btn-outline-primary" style="border-radius: 50px; padding: 0.6rem 2rem; margin-left: 1rem;">
+                <a href="{% url 'manage_ads' %}" class="btn-outline-primary">
                     <i class="bi bi-gear"></i> Manage Ads
                 </a>
             </div>
@@ -668,4 +831,4 @@
         </div>
     </div>
 </div>
-{% endblock %}  
+{% endblock %}

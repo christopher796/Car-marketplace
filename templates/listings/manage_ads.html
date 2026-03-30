@@ -4,9 +4,14 @@
 {% load static %}
 
 <style>
+    /* =========================================
+       MY ADS — DARK NAVY / GOLD LUXURY THEME
+       Matching Chrandi Motors design system
+    ========================================= */
+
     .myads-wrapper {
         min-height: 80vh;
-        background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+        background: var(--navy);
         padding: 2rem 0;
         position: relative;
     }
@@ -19,9 +24,23 @@
         right: -5%;
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
         border-radius: 50%;
         z-index: 0;
+        pointer-events: none;
+    }
+
+    .myads-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: -10%;
+        left: -5%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
     }
 
     .myads-container {
@@ -40,11 +59,11 @@
         flex-wrap: wrap;
         gap: 1rem;
         margin-bottom: 1.5rem;
-        background: white;
+        background: var(--navy-card);
         padding: 1.2rem;
-        border-radius: 24px;
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--light-gray-dark);
+        border-radius: 16px;
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border-soft);
     }
 
     .header-title {
@@ -56,56 +75,60 @@
 
     .header-title h2 {
         font-size: 1.6rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
+        font-weight: 600;
+        color: var(--white);
         margin: 0;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .header-title h2 span {
-        color: var(--orange);
+        color: var(--gold-light);
     }
 
     .listing-count {
-        background: var(--orange-light);
-        color: var(--orange-hover);
+        background: rgba(201,168,76,0.12);
+        color: var(--gold-light);
         padding: 0.2rem 0.8rem;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 0.8rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.75rem;
         display: flex;
         align-items: center;
         gap: 4px;
+        border: 1px solid rgba(201,168,76,0.25);
     }
 
     .listing-count i {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     .add-new-btn {
-        background: var(--orange);
-        color: white;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
         border: none;
-        border-radius: 50px;
+        border-radius: 8px;
         padding: 0.6rem 1.2rem;
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
         display: flex;
         align-items: center;
         gap: 6px;
         transition: all 0.3s ease;
         text-decoration: none;
-        box-shadow: 0 8px 15px rgba(249, 115, 22, 0.2);
+        box-shadow: var(--shadow-btn);
     }
 
     .add-new-btn:hover {
-        background: var(--orange-hover);
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
         transform: translateY(-3px);
-        box-shadow: 0 12px 20px rgba(249, 115, 22, 0.3);
-        color: white;
+        box-shadow: 0 8px 28px rgba(201,168,76,0.45);
+        color: var(--navy) !important;
     }
 
     .add-new-btn i {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     /* Stats Cards */
@@ -117,11 +140,11 @@
     }
 
     .stat-card {
-        background: white;
+        background: var(--navy-card);
         padding: 1rem;
-        border-radius: 20px;
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--light-gray-dark);
+        border-radius: 16px;
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border-soft);
         display: flex;
         align-items: center;
         gap: 0.8rem;
@@ -130,20 +153,20 @@
 
     .stat-card:hover {
         transform: translateY(-3px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--orange-light);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
+        border-color: var(--border);
     }
 
     .stat-icon {
         width: 45px;
         height: 45px;
-        background: rgba(249, 115, 22, 0.1);
-        border-radius: 14px;
+        background: rgba(201,168,76,0.1);
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--orange);
-        font-size: 1.5rem;
+        color: var(--gold);
+        font-size: 1.3rem;
         flex-shrink: 0;
     }
 
@@ -153,19 +176,20 @@
     }
 
     .stat-value {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--gold-light);
         line-height: 1.2;
         word-break: break-word;
+        font-family: 'DM Serif Display', serif;
     }
 
     .stat-label {
-        color: var(--text-muted);
-        font-size: 0.75rem;
+        color: var(--muted);
+        font-size: 0.7rem;
         font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.05em;
     }
 
     /* Filter Tabs */
@@ -174,18 +198,18 @@
         gap: 0.5rem;
         margin-bottom: 1.5rem;
         flex-wrap: wrap;
-        background: white;
+        background: var(--navy-card);
         padding: 0.5rem;
-        border-radius: 50px;
-        border: 1px solid var(--light-gray-dark);
+        border-radius: 12px;
+        border: 1px solid var(--border-soft);
     }
 
     .filter-tab {
         padding: 0.5rem 1rem;
-        border-radius: 40px;
+        border-radius: 8px;
         font-weight: 600;
-        font-size: 0.85rem;
-        color: var(--text-muted);
+        font-size: 0.8rem;
+        color: var(--muted-light);
         cursor: pointer;
         transition: all 0.2s ease;
         text-decoration: none;
@@ -193,20 +217,23 @@
         align-items: center;
         gap: 6px;
         flex-shrink: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
     }
 
     .filter-tab:hover {
-        color: var(--orange);
-        background: rgba(249, 115, 22, 0.05);
+        color: var(--gold-light);
+        background: rgba(201,168,76,0.08);
     }
 
     .filter-tab.active {
-        background: var(--orange);
-        color: white;
+        background: rgba(201,168,76,0.12);
+        color: var(--gold-light);
+        border: 1px solid rgba(201,168,76,0.3);
     }
 
     .filter-tab i {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     /* Listings Grid */
@@ -219,11 +246,11 @@
 
     /* Listing Card */
     .listing-card {
-        background: white;
-        border-radius: 20px;
+        background: var(--navy-card);
+        border-radius: 16px;
         padding: 1rem;
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--light-gray-dark);
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border-soft);
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
@@ -235,8 +262,8 @@
 
     .listing-card:hover {
         transform: translateX(5px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--orange-light);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
+        border-color: var(--border);
     }
 
     .listing-card::before {
@@ -245,8 +272,8 @@
         left: 0;
         top: 0;
         height: 100%;
-        width: 4px;
-        background: var(--orange);
+        width: 3px;
+        background: linear-gradient(180deg, var(--gold), var(--gold-light));
         opacity: 0;
         transition: opacity 0.3s ease;
     }
@@ -259,10 +286,10 @@
     .card-image {
         width: 100px;
         height: 75px;
-        border-radius: 14px;
+        border-radius: 12px;
         overflow: hidden;
-        background: var(--light-gray);
-        border: 2px solid var(--light-gray-dark);
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
         flex-shrink: 0;
     }
 
@@ -274,7 +301,7 @@
     }
 
     .listing-card:hover .card-image img {
-        transform: scale(1.1);
+        transform: scale(1.08);
     }
 
     .no-image {
@@ -283,9 +310,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--light-gray);
-        color: var(--text-muted);
-        font-size: 1.2rem;
+        background: var(--navy-soft);
+        color: var(--muted);
+        font-size: 1rem;
     }
 
     /* Card Content */
@@ -295,9 +322,9 @@
     }
 
     .card-title {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--charcoal-dark);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.3rem;
         display: flex;
         align-items: center;
@@ -309,10 +336,11 @@
         color: inherit;
         text-decoration: none;
         word-break: break-word;
+        transition: color 0.2s;
     }
 
     .card-title a:hover {
-        color: var(--orange);
+        color: var(--gold-light);
     }
 
     .card-meta {
@@ -326,66 +354,68 @@
         display: flex;
         align-items: center;
         gap: 4px;
-        color: var(--text-muted);
-        font-size: 0.75rem;
+        color: var(--muted);
+        font-size: 0.7rem;
     }
 
     .meta-item i {
-        color: var(--orange);
-        font-size: 0.8rem;
+        color: var(--gold-dim);
+        font-size: 0.7rem;
     }
 
     .card-price {
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 700;
-        color: var(--orange);
+        color: var(--gold-light);
+        font-family: 'DM Serif Display', serif;
     }
 
     /* Status Badges */
     .status-badge {
-        padding: 0.3rem 0.8rem;
-        border-radius: 30px;
-        font-size: 0.7rem;
+        padding: 0.25rem 0.7rem;
+        border-radius: 6px;
+        font-size: 0.65rem;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
         gap: 4px;
         width: fit-content;
         white-space: nowrap;
+        letter-spacing: 0.03em;
     }
 
     .status-approved {
-        background: rgba(16, 185, 129, 0.1);
-        color: #10B981;
-        border: 1px solid rgba(16, 185, 129, 0.2);
+        background: rgba(46,204,138,0.12);
+        color: var(--green);
+        border: 1px solid rgba(46,204,138,0.25);
     }
 
     .status-pending {
-        background: rgba(245, 158, 11, 0.1);
-        color: #F59E0B;
-        border: 1px solid rgba(245, 158, 11, 0.2);
+        background: rgba(201,168,76,0.12);
+        color: var(--gold-light);
+        border: 1px solid rgba(201,168,76,0.25);
     }
 
     .status-sold {
-        background: rgba(239, 68, 68, 0.1);
-        color: #EF4444;
-        border: 1px solid rgba(239, 68, 68, 0.2);
+        background: rgba(217,79,79,0.12);
+        color: #F87171;
+        border: 1px solid rgba(217,79,79,0.25);
     }
 
     .status-available {
-        background: rgba(16, 185, 129, 0.1);
-        color: #10B981;
-        border: 1px solid rgba(16, 185, 129, 0.2);
+        background: rgba(46,204,138,0.12);
+        color: var(--green);
+        border: 1px solid rgba(46,204,138,0.25);
     }
 
-    /* NEW: Mark as Sold Button */
+    /* Mark as Sold Button */
     .btn-mark-sold {
-        background: rgba(239, 68, 68, 0.1);
-        color: #EF4444;
-        border: 1px solid rgba(239, 68, 68, 0.2);
-        border-radius: 30px;
-        padding: 0.3rem 0.8rem;
-        font-size: 0.7rem;
+        background: rgba(217,79,79,0.1);
+        color: #F87171;
+        border: 1px solid rgba(217,79,79,0.25);
+        border-radius: 6px;
+        padding: 0.25rem 0.7rem;
+        font-size: 0.65rem;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
@@ -393,12 +423,13 @@
         transition: all 0.2s ease;
         text-decoration: none;
         cursor: pointer;
+        letter-spacing: 0.03em;
     }
 
     .btn-mark-sold:hover {
-        background: #EF4444;
-        color: white;
-        transform: translateY(-2px);
+        background: rgba(217,79,79,0.2);
+        color: #FCA5A5;
+        transform: translateY(-1px);
     }
 
     /* Card Actions */
@@ -410,9 +441,9 @@
     }
 
     .action-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -423,39 +454,39 @@
     }
 
     .action-btn i {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .btn-edit {
-        background: rgba(249, 115, 22, 0.1);
-        color: var(--orange);
+        background: rgba(201,168,76,0.1);
+        color: var(--gold-light);
     }
 
     .btn-edit:hover {
-        background: var(--orange);
-        color: white;
+        background: rgba(201,168,76,0.2);
+        color: var(--gold);
         transform: translateY(-2px);
     }
 
     .btn-delete {
-        background: rgba(239, 68, 68, 0.1);
-        color: #EF4444;
+        background: rgba(217,79,79,0.1);
+        color: #F87171;
     }
 
     .btn-delete:hover {
-        background: #EF4444;
-        color: white;
+        background: rgba(217,79,79,0.2);
+        color: #FCA5A5;
         transform: translateY(-2px);
     }
 
     .btn-view {
-        background: rgba(31, 41, 55, 0.1);
-        color: var(--charcoal);
+        background: rgba(255,255,255,0.05);
+        color: var(--muted-light);
     }
 
     .btn-view:hover {
-        background: var(--charcoal);
-        color: white;
+        background: rgba(255,255,255,0.1);
+        color: var(--white);
         transform: translateY(-2px);
     }
 
@@ -472,27 +503,28 @@
     .empty-state {
         text-align: center;
         padding: 3rem 1.5rem;
-        background: white;
-        border-radius: 30px;
-        border: 2px dashed var(--light-gray-dark);
+        background: var(--navy-card);
+        border-radius: 20px;
+        border: 1px dashed var(--border-soft);
         margin: 2rem 0;
     }
 
     .empty-state i {
         font-size: 3rem;
-        color: var(--orange-light);
+        color: var(--gold-dim);
         margin-bottom: 1rem;
+        opacity: 0.5;
     }
 
     .empty-state h3 {
-        font-weight: 700;
-        color: var(--charcoal-dark);
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.5rem;
         font-size: 1.2rem;
     }
 
     .empty-state p {
-        color: var(--text-muted);
+        color: var(--muted);
         max-width: 400px;
         margin: 0 auto 1.5rem;
         font-size: 0.9rem;
@@ -513,27 +545,30 @@
 
     .page-link {
         border: none;
-        border-radius: 50%;
+        border-radius: 8px;
         width: 36px;
         height: 36px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--charcoal-dark);
+        color: var(--muted-light);
         font-weight: 600;
-        background: white;
-        box-shadow: var(--shadow-sm);
-        font-size: 0.9rem;
+        background: var(--navy-card);
+        box-shadow: var(--shadow-card);
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: all 0.2s;
     }
 
     .page-link:hover {
-        background: var(--orange);
-        color: white;
+        background: rgba(201,168,76,0.12);
+        color: var(--gold-light);
     }
 
     .page-item.active .page-link {
-        background: var(--orange);
-        color: white;
+        background: rgba(201,168,76,0.15);
+        color: var(--gold-light);
+        border: 1px solid rgba(201,168,76,0.3);
     }
 
     /* Mobile Responsive */
@@ -556,17 +591,17 @@
         }
 
         .listing-count {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             padding: 0.2rem 0.6rem;
         }
 
         .add-new-btn {
             padding: 0.5rem 1rem;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         .add-new-btn i {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .stats-grid {
@@ -581,7 +616,7 @@
         .stat-icon {
             width: 38px;
             height: 38px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .stat-value {
@@ -589,19 +624,19 @@
         }
 
         .stat-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
         }
 
         .filter-tabs {
             width: 100%;
             justify-content: center;
-            border-radius: 30px;
+            border-radius: 12px;
             padding: 0.4rem;
         }
 
         .filter-tab {
             padding: 0.4rem 0.8rem;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
 
         .listing-card {
@@ -615,7 +650,7 @@
         }
 
         .card-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .card-meta {
@@ -623,11 +658,11 @@
         }
 
         .meta-item {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
         }
 
         .card-price {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .listing-right {
@@ -637,12 +672,12 @@
             width: 100%;
             margin-top: 0.5rem;
             padding-top: 0.5rem;
-            border-top: 1px solid var(--light-gray-dark);
+            border-top: 1px solid var(--border-soft);
         }
 
         .status-badge {
             padding: 0.2rem 0.6rem;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
         }
 
         .card-actions {
@@ -655,16 +690,15 @@
         }
 
         .action-btn i {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .btn-mark-sold {
             padding: 0.2rem 0.6rem;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
         }
     }
 
-    /* Extra small devices */
     @media (max-width: 480px) {
         .page-header {
             flex-direction: column;
@@ -689,7 +723,7 @@
 
         .filter-tab {
             padding: 0.3rem 0.6rem;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
         }
 
         .card-image {
@@ -698,11 +732,11 @@
         }
 
         .card-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .meta-item {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
         }
 
         .listing-right {
@@ -845,7 +879,7 @@
 
                 <!-- Status & Actions -->
                 <div class="listing-right">
-                    <!-- Status Badge - Shows both approval and sale status -->
+                    <!-- Status Badges -->
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <!-- Approval Status Badge -->
                         <span class="status-badge 
@@ -856,7 +890,7 @@
                             {% if l.is_approved %}Approved{% else %}Pending{% endif %}
                         </span>
                         
-                        <!-- Sale Status Badge (NEW) -->
+                        <!-- Sale Status Badge -->
                         <span class="status-badge {% if l.status == 'sold' %}status-sold{% else %}status-available{% endif %}">
                             <i class="bi {% if l.status == 'sold' %}bi-tag-fill{% else %}bi-check-lg{% endif %}"></i>
                             {% if l.status == 'sold' %}Sold{% else %}Available{% endif %}
@@ -871,10 +905,9 @@
                         <a href="{% url 'edit_listing' l.id %}" class="action-btn btn-edit" title="Edit listing">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <!-- NEW: Mark as Sold Button (only show if listing is not already sold) -->
                         {% if l.status != 'sold' %}
                         <a href="{% url 'mark_as_sold' l.id %}" class="btn-mark-sold" title="Mark as Sold" 
-                           onclick= "return confirm('Are you sure you want to mark {{ l.title }} as sold? This listing will no longer appear in search results.')">
+                           onclick="return confirm('Are you sure you want to mark {{ l.title }} as sold? This listing will no longer appear in search results.')">
                             <i class="bi bi-tag"></i> Sold
                         </a>
                         {% endif %}
@@ -888,7 +921,7 @@
             {% endfor %}
         </div>
 
-        <!-- Pagination (if needed) -->
+        <!-- Pagination -->
         {% if listings.paginator.num_pages > 1 %}
         <div class="pagination-container">
             <nav>
@@ -927,7 +960,7 @@
             <i class="bi bi-megaphone"></i>
             <h3>No ads yet</h3>
             <p>You haven't posted any vehicle listings. Start selling today!</p>
-            <a href="{% url 'post_listing' %}" class="btn btn-primary" style="padding: 0.7rem 1.5rem; border-radius: 50px; font-size: 0.9rem;">
+            <a href="{% url 'post_listing' %}" class="btn btn-primary" style="padding: 0.7rem 1.5rem; border-radius: 8px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;">
                 <i class="bi bi-plus-circle"></i> Post Your First Ad
             </a>
         </div>

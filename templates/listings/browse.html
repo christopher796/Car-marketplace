@@ -4,1020 +4,855 @@
 {% load static %}
 
 <style>
-    /* Page header with orange accent */
-    .browse-header {
+    /* =========================================
+       BROWSE LISTINGS — DARK LUXURY THEME
+    ========================================= */
+
+    /* ---- PAGE HEADER ---- */
+    .page-header {
         display: flex;
+        align-items: flex-end;
         justify-content: space-between;
-        align-items: center;
+        gap: 1rem;
         margin-bottom: 2rem;
         flex-wrap: wrap;
-        gap: 1rem;
     }
 
-    .browse-header h2 {
+    .page-header-left h2 {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        font-weight: 400;
+        color: var(--white);
+        margin: 0 0 0.3rem;
+        letter-spacing: -0.02em;
+        padding-bottom: 0;
+    }
+
+    .page-header-left h2::after { display: none; }
+
+    .page-header-left p {
+        color: var(--muted);
+        font-size: 0.88rem;
         margin: 0;
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
-        position: relative;
-        padding-left: 1rem;
     }
 
-    .browse-header h2::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 4px;
-        height: 70%;
-        background: var(--orange);
-        border-radius: 2px;
-    }
-
-    .result-count {
-        background: var(--light-gray);
-        padding: 0.5rem 1.2rem;
-        border-radius: 30px;
-        font-size: 0.95rem;
+    .result-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(201,168,76,0.08);
+        border: 1px solid rgba(201,168,76,0.2);
+        color: var(--gold-light);
+        font-size: 0.8rem;
         font-weight: 600;
-        color: var(--charcoal-dark);
-        border: 1px solid var(--light-gray-dark);
+        letter-spacing: 0.04em;
+        padding: 0.5rem 1.1rem;
+        border-radius: 100px;
+        white-space: nowrap;
     }
 
-    .result-count i {
-        color: var(--orange);
-        margin-right: 0.5rem;
+    .result-pill i { font-size: 0.85rem; }
+
+    /* ---- SEARCH BAR ---- */
+    .search-section {
+        margin-bottom: 1.75rem;
     }
 
-    /* Enhanced search bar */
-    .search-wrapper {
-        margin-bottom: 2rem;
+    .search-box {
         position: relative;
-    }
-
-    .search-form {
-        position: relative;
-        max-width: 700px;
+        max-width: 680px;
         margin: 0 auto;
     }
 
-    .search-form .form-control {
-        height: 60px;
-        border-radius: 50px !important;
-        border: 2px solid var(--light-gray-dark);
-        padding-left: 2rem;
-        padding-right: 120px;
-        font-size: 1.1rem;
-        background: var(--white);
-        box-shadow: var(--shadow-sm);
-        transition: all 0.3s ease;
+    .search-box .search-icon {
+        position: absolute;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gold);
+        font-size: 1rem;
+        pointer-events: none;
+        z-index: 2;
     }
 
-    .search-form .form-control:focus {
-        border-color: var(--orange);
-        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+    .search-box input {
+        width: 100%;
+        height: 56px;
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        color: var(--white);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.92rem;
+        padding: 0 140px 0 3rem;
+        transition: all 0.25s;
         outline: none;
     }
 
-    .search-form .btn {
+    .search-box input::placeholder { color: var(--muted); }
+
+    .search-box input:focus {
+        border-color: rgba(201,168,76,0.45);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+        background: var(--navy-soft);
+    }
+
+    .search-box .search-btn {
         position: absolute;
-        right: 5px;
-        top: 5px;
-        height: 50px;
-        width: 110px;
-        border-radius: 50px !important;
-        background: var(--orange);
-        border: none;
-        color: white;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .search-form .btn:hover {
-        background: var(--orange-hover);
-        transform: scale(1.02);
-        box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
-    }
-
-    .search-form .btn i {
-        font-size: 1.2rem;
-    }
-
-    /* Search info text */
-    .search-info {
-        text-align: center;
-        margin-top: 0.5rem;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-    }
-
-    .search-info i {
-        color: var(--orange);
-    }
-
-    /* Budget Filter Section */
-    .budget-filter-section {
-        background: var(--white);
-        border-radius: 24px;
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--light-gray-dark);
-    }
-
-    .budget-filter-title {
+        right: 6px;
+        top: 6px;
+        height: 44px;
+        padding: 0 1.3rem;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
+        font-family: 'DM Sans', sans-serif;
         font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-        color: var(--charcoal-dark);
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 7px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        cursor: pointer;
+        transition: all 0.22s;
+    }
+
+    .search-box .search-btn:hover {
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        box-shadow: 0 4px 18px rgba(201,168,76,0.4);
+        transform: translateY(-1px);
+    }
+
+    .search-hint {
+        text-align: center;
+        margin-top: 0.6rem;
+        font-size: 0.75rem;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+    }
+
+    .search-hint i { color: var(--gold); margin-right: 4px; }
+
+    /* ---- BUDGET FILTER ---- */
+    .budget-section {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-label {
         display: flex;
         align-items: center;
         gap: 8px;
+        color: var(--muted-light);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
     }
 
-    .budget-filter-title i {
-        color: var(--orange);
-        font-size: 1.2rem;
-    }
+    .section-label i { color: var(--gold); }
 
-    .budget-buttons {
+    .budget-pills {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.8rem;
-        margin-bottom: 1rem;
+        gap: 0.6rem;
     }
 
-    .budget-btn {
-        padding: 0.6rem 1.5rem;
-        background: var(--light-gray);
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 40px;
-        font-weight: 600;
-        color: var(--charcoal-dark);
-        transition: all 0.3s ease;
+    .budget-pill {
+        padding: 0.42rem 1rem;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        color: var(--muted-light);
+        font-size: 0.8rem;
+        font-weight: 500;
         cursor: pointer;
-        font-size: 0.9rem;
+        transition: all 0.2s;
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        white-space: nowrap;
     }
 
-    .budget-btn:hover {
-        background: var(--orange-light);
-        border-color: var(--orange);
-        transform: translateY(-2px);
+    .budget-pill i { color: var(--gold-dim); font-size: 0.75rem; }
+
+    .budget-pill:hover {
+        background: rgba(201,168,76,0.08);
+        border-color: rgba(201,168,76,0.3);
+        color: var(--gold-light);
     }
 
-    .budget-btn.active {
-        background: var(--orange);
-        border-color: var(--orange);
-        color: white;
-        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    .budget-pill.active {
+        background: rgba(201,168,76,0.12);
+        border-color: rgba(201,168,76,0.45);
+        color: var(--gold-light);
     }
 
-    .budget-btn i {
-        font-size: 0.9rem;
-    }
+    .budget-pill.active i { color: var(--gold); }
 
-    .advanced-search-link {
-        margin-top: 1rem;
-        text-align: right;
-    }
-
-    .advanced-search-link a {
-        color: var(--orange);
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        transition: all 0.2s ease;
-    }
-
-    .advanced-search-link a:hover {
-        color: var(--orange-hover);
-        gap: 8px;
-    }
-
-    /* Filter chips */
-    .filter-chips-container {
+    /* ---- FILTER CHIPS ---- */
+    .chips-wrapper {
         position: relative;
-        margin: 1rem 0 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .filter-chips {
         display: flex;
-        flex-wrap: nowrap;
-        gap: 0.8rem;
+        gap: 0.6rem;
         overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: thin;
+        padding: 0.25rem 0 0.75rem;
+        scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
-        padding: 0.5rem 0 1rem 0;
-        margin: 0;
     }
 
-    .filter-chips::-webkit-scrollbar {
-        height: 4px;
-    }
-
-    .filter-chips::-webkit-scrollbar-track {
-        background: var(--light-gray-dark);
-        border-radius: 10px;
-    }
-
-    .filter-chips::-webkit-scrollbar-thumb {
-        background: var(--orange);
-        border-radius: 10px;
-    }
-
-    .filter-chips::-webkit-scrollbar-thumb:hover {
-        background: var(--orange-hover);
-    }
+    .filter-chips::-webkit-scrollbar { display: none; }
 
     .filter-chip {
-        padding: 0.7rem 1.8rem;
-        background: var(--white);
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 40px;
-        font-weight: 600;
-        color: var(--charcoal-dark);
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        cursor: pointer;
-        font-size: 0.95rem;
-        text-decoration: none;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        gap: 6px;
+        padding: 0.45rem 1.1rem;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        color: var(--muted-light);
+        font-size: 0.8rem;
+        font-weight: 500;
         white-space: nowrap;
         flex-shrink: 0;
+        text-decoration: none;
+        transition: all 0.2s;
+        letter-spacing: 0.02em;
     }
 
-    .filter-chip:hover:not(.active) {
-        background: var(--light-gray);
-        border-color: var(--orange-light);
-        transform: translate(-2px);
-        color: var(--orange);
+    .filter-chip i { color: var(--gold-dim); font-size: 0.8rem; }
+
+    .filter-chip:hover {
+        background: rgba(201,168,76,0.07);
+        border-color: rgba(201,168,76,0.25);
+        color: var(--gold-light);
     }
-    
+
     .filter-chip.active {
-        background: var(--orange);
-        border-color: var(--orange);
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+        background: rgba(201,168,76,0.12);
+        border-color: rgba(201,168,76,0.4);
+        color: var(--gold-light);
+        font-weight: 600;
     }
 
-    .filter-chip.active i {
-        color: white;
-    }
+    .filter-chip.active i { color: var(--gold); }
 
-    .filter-chip i {
-        color: var(--orange);
-        transition: color 0.3s ease;
-    }
-
-    .scroll-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: var(--orange);
-        color: white;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10;
-        box-shadow: var(--shadow-sm);
-        transition: all 0.2s ease;
-        opacity: 0.7;
-    }
-
-    .scroll-btn:hover {
-        opacity: 1;
-        transform: translateY(-50%) scale(1.05);
-    }
-
-    .scroll-left {
-        left: -10px;
-    }
-
-    .scroll-right {
-        right: -10px;
-    }
-
-    @media (max-width: 768px) {
-        .scroll-btn {
-            display: none !important;
-        }
-        
-        .filter-chips {
-            gap: 0.6rem;
-            padding: 0.5rem 0.25rem 0.8rem 0.25rem;
-        }
-        
-        .filter-chip {
-            padding: 0.6rem 1.4rem;
-            font-size: 0.85rem;
-        }
-    }
-
-    .clear-filters-btn {
+    .clear-chip {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        padding: 0.5rem 1.2rem;
-        background: #EF4444;
-        border: 1px solid #EF4444;
-        border-radius: 30px;
-        color: white !important;
-        font-size: 0.85rem;
-        font-weight: 600;
-        transition: all 0.2s ease;
-        text-decoration: none;
+        gap: 6px;
+        padding: 0.45rem 1.1rem;
+        background: rgba(217,79,79,0.08);
+        border: 1px solid rgba(217,79,79,0.25);
+        border-radius: 6px;
+        color: #F87171;
+        font-size: 0.8rem;
+        font-weight: 500;
         white-space: nowrap;
         flex-shrink: 0;
+        text-decoration: none;
+        transition: all 0.2s;
     }
 
-    .clear-filters-btn:hover {
-        background: #DC2626;
-        transform: translateY(-2px);
-        color: white !important;
+    .clear-chip:hover {
+        background: rgba(217,79,79,0.15);
+        color: #FCA5A5;
     }
 
-    .clear-filters-btn i {
-        color: white !important;
+    /* Fade edges for scroll hint */
+    .chips-wrapper::after {
+        content: '';
+        position: absolute;
+        right: 0; top: 0; bottom: 0;
+        width: 48px;
+        background: linear-gradient(to right, transparent, var(--navy));
+        pointer-events: none;
+        border-radius: 0 6px 6px 0;
     }
 
-    @media (max-width: 768px) {
-        .filter-chips-container {
-            margin: 1rem -0.75rem 1.5rem -0.75rem;
-            padding: 0 0.75rem;
-        }
-    }
-
-    /* Card Grid */
+    /* ---- LISTINGS GRID ---- */
     .listings-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 1.25rem;
     }
 
+    /* ---- LISTING CARD ---- */
     .listing-card {
-        background: var(--white);
-        border-radius: 20px;
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
         overflow: hidden;
-        box-shadow: var(--shadow-sm);
-        transition: all 0.3s ease;
-        border: 1px solid var(--light-gray-dark);
-        height: 100%;
         display: flex;
         flex-direction: column;
+        transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
         position: relative;
+    }
+
+    .listing-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--gold-dim), var(--gold), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 2;
     }
 
     .listing-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--orange-light);
+        transform: translateY(-6px);
+        border-color: rgba(201,168,76,0.2);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 30px rgba(201,168,76,0.06);
     }
 
-    .card-image-wrapper {
+    .listing-card:hover::before { opacity: 1; }
+
+    /* Image */
+    .card-img-wrap {
         position: relative;
+        height: 195px;
         overflow: hidden;
-        height: 200px;
-        background: var(--light-gray);
+        background: var(--navy-soft);
+        flex-shrink: 0;
     }
 
-    .card-image-wrapper img {
+    .card-img-wrap img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.4s ease;
+        transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
     }
 
-    .listing-card:hover .card-image-wrapper img {
-        transform: scale(1.05);
+    .listing-card:hover .card-img-wrap img {
+        transform: scale(1.07);
     }
 
-    /* Featured Badge - Top Left */
-    .featured-badge {
+    /* Overlays */
+    .img-overlay {
         position: absolute;
-        top: 12px;
-        left: 12px;
-        background: var(--orange);
-        color: white;
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.7rem;
+        bottom: 0; left: 0; right: 0;
+        height: 60%;
+        background: linear-gradient(to top, rgba(10,15,30,0.7), transparent);
+        pointer-events: none;
+    }
+
+    .badge-featured {
+        position: absolute;
+        top: 10px; left: 10px;
+        background: rgba(201,168,76,0.9);
+        backdrop-filter: blur(6px);
+        color: var(--navy);
+        font-size: 0.65rem;
         font-weight: 700;
-        z-index: 2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.28rem 0.7rem;
+        border-radius: 4px;
         display: flex;
         align-items: center;
         gap: 4px;
+        z-index: 3;
     }
 
-    /* Status Badge - Top Left (below featured if both exist) */
-    .status-badge {
+    .badge-status {
         position: absolute;
-        top: 12px;
-        left: 12px;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.7rem;
+        top: 10px;
+        left: 10px;
+        font-size: 0.65rem;
         font-weight: 700;
-        z-index: 2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.28rem 0.7rem;
+        border-radius: 4px;
         display: flex;
         align-items: center;
         gap: 4px;
-        backdrop-filter: blur(4px);
+        z-index: 3;
+        backdrop-filter: blur(6px);
     }
 
-    .status-badge.available {
-        background: #10B981;
+    .badge-featured + .badge-status { top: 42px; }
+
+    .badge-status.available {
+        background: rgba(46,204,138,0.85);
+        color: var(--navy);
     }
 
-    .status-badge.sold {
-        background: #EF4444;
-    }
-
-    /* If both featured and status badges exist */
-    .featured-badge + .status-badge {
-        top: 52px;
-    }
-
-    .image-count-badge {
-        position: absolute;
-        bottom: 12px;
-        right: 12px;
-        background: rgba(0, 0, 0, 0.6);
+    .badge-status.sold {
+        background: rgba(217,79,79,0.85);
         color: white;
-        padding: 0.2rem 0.6rem;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        backdrop-filter: blur(4px);
-        z-index: 2;
     }
 
-    .card-content {
-        padding: 1rem;
-        flex-grow: 1;
+    .badge-img-count {
+        position: absolute;
+        bottom: 10px; right: 10px;
+        background: rgba(10,15,30,0.7);
+        backdrop-filter: blur(6px);
+        color: var(--muted-light);
+        font-size: 0.65rem;
+        padding: 0.22rem 0.6rem;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        z-index: 3;
+    }
+
+    /* Card body */
+    .card-body-inner {
+        padding: 1.1rem;
         display: flex;
         flex-direction: column;
+        flex: 1;
+        gap: 0.5rem;
     }
 
-    .card-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-bottom: 0.3rem;
-        color: var(--charcoal-dark);
+    .card-make-model {
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin: 0;
+        line-height: 1.3;
     }
 
-    .card-title a {
+    .card-make-model a {
         color: inherit;
         text-decoration: none;
+        transition: color 0.2s;
     }
 
-    .card-title a:hover {
-        color: var(--orange);
+    .card-make-model a:hover { color: var(--gold-light); }
+
+    .card-price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
     }
 
     .card-price {
-        font-size: 1.3rem;
-        font-weight: 800;
-        color: var(--orange);
-        margin: 0.3rem 0;
-        line-height: 1.2;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.4rem;
+        color: var(--gold-light);
+        letter-spacing: -0.01em;
+        line-height: 1;
     }
 
-    .card-price small {
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: var(--text-muted);
+    .card-year {
+        font-size: 0.78rem;
+        color: var(--muted);
     }
 
     .card-specs {
         display: flex;
-        gap: 0.8rem;
-        margin: 0.5rem 0;
-        color: var(--text-muted);
-        font-size: 0.75rem;
         flex-wrap: wrap;
+        gap: 0.5rem 0.9rem;
+        font-size: 0.75rem;
+        color: var(--muted);
     }
 
     .card-specs span {
         display: flex;
         align-items: center;
-        gap: 3px;
+        gap: 4px;
     }
 
     .card-specs i {
-        color: var(--orange);
-        font-size: 0.7rem;
+        color: var(--gold-dim);
+        font-size: 0.72rem;
     }
 
     .card-location {
         display: flex;
         align-items: center;
         gap: 4px;
-        color: var(--text-muted);
         font-size: 0.75rem;
-        margin-bottom: 0.5rem;
+        color: var(--muted);
     }
 
-    .card-location i {
-        color: var(--orange);
-        font-size: 0.7rem;
-    }
+    .card-location i { color: var(--gold-dim); font-size: 0.72rem; }
 
-    .card-footer-info {
+    /* Card footer */
+    .card-footer-row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
         margin-top: auto;
-        padding-top: 0.8rem;
-        border-top: 1px solid var(--light-gray-dark);
+        padding-top: 0.85rem;
+        border-top: 1px solid var(--border-soft);
     }
 
-    .seller-info {
+    .seller-row {
         display: flex;
         align-items: center;
         gap: 6px;
     }
 
     .seller-avatar {
-        width: 26px;
-        height: 26px;
+        width: 26px; height: 26px;
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
         border-radius: 50%;
-        background: var(--light-gray);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--charcoal-dark);
-        font-weight: 600;
-        font-size: 0.7rem;
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: var(--gold);
+        flex-shrink: 0;
     }
 
     .seller-name {
-        font-weight: 600;
-        color: var(--charcoal-dark);
         font-size: 0.75rem;
+        color: var(--muted-light);
+        font-weight: 500;
+        max-width: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    .verified-badge {
-        color: #10B981;
+    .verified-icon {
+        color: var(--green);
         font-size: 0.8rem;
-        display: inline-flex;
-        align-items: center;
+        flex-shrink: 0;
     }
 
     .view-btn {
-        padding: 0.3rem 0.8rem;
-        background: var(--orange);
-        color: white !important;
-        border-radius: 30px;
-        font-weight: 600;
-        font-size: 0.75rem;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border: none;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
+        padding: 0.38rem 0.9rem;
+        background: rgba(201,168,76,0.1);
+        border: 1px solid rgba(201,168,76,0.25);
+        border-radius: 5px;
+        color: var(--gold-light) !important;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.2s;
+        white-space: nowrap;
     }
 
     .view-btn:hover {
-        background: var(--orange-hover);
+        background: rgba(201,168,76,0.2);
+        border-color: rgba(201,168,76,0.5);
+        color: var(--gold) !important;
         transform: translateX(2px);
-        color: white;
     }
 
-    /* Empty state */
+    /* ---- EMPTY STATE ---- */
     .empty-state {
         text-align: center;
-        padding: 4rem 2rem;
-        background: var(--white);
-        border-radius: 40px;
-        border: 2px dashed var(--light-gray-dark);
-        margin: 2rem 0;
+        padding: 5rem 2rem;
+        border: 1px dashed rgba(255,255,255,0.07);
+        border-radius: 12px;
+        background: var(--navy-card);
     }
 
     .empty-state i {
-        font-size: 4rem;
-        color: var(--orange-light);
+        font-size: 3rem;
+        color: var(--gold-dim);
         margin-bottom: 1rem;
+        display: block;
     }
 
     .empty-state h3 {
-        font-weight: 700;
-        color: var(--charcoal-dark);
+        font-family: 'DM Serif Display', serif;
+        font-weight: 400;
+        color: var(--white);
         margin-bottom: 0.5rem;
     }
 
     .empty-state p {
-        color: var(--text-muted);
-        max-width: 400px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        max-width: 380px;
         margin: 0 auto 1.5rem;
     }
 
-    /* Pagination */
-    .pagination-container {
+    /* ---- PAGINATION ---- */
+    .pagination-wrap {
         display: flex;
         justify-content: center;
         margin: 3rem 0 1rem;
+        gap: 0.4rem;
     }
 
-    .pagination {
-        gap: 0.5rem;
-    }
-
-    .page-link {
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
+    .pg-btn {
+        width: 38px; height: 38px;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: var(--charcoal-dark);
-        font-weight: 600;
-        background: var(--white);
-        box-shadow: var(--shadow-sm);
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        color: var(--muted-light);
+        font-size: 0.82rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
     }
 
-    .page-link:hover {
-        background: var(--orange);
-        color: white;
+    .pg-btn:hover {
+        background: rgba(201,168,76,0.08);
+        border-color: rgba(201,168,76,0.3);
+        color: var(--gold-light);
     }
 
-    .page-item.active .page-link {
-        background: var(--orange);
-        color: white;
+    .pg-btn.active {
+        background: rgba(201,168,76,0.15);
+        border-color: rgba(201,168,76,0.45);
+        color: var(--gold-light);
+        font-weight: 700;
     }
 
-    /* Desktop styles */
-    @media (min-width: 769px) {
-        .listings-grid {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card-image-wrapper {
-            height: 220px;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-        }
-
-        .card-price {
-            font-size: 1.6rem;
-        }
-
-        .card-specs {
-            font-size: 0.9rem;
-        }
-    }
-
-    /* Mobile styles - 2 columns */
+    /* ---- RESPONSIVE ---- */
     @media (max-width: 768px) {
-        .browse-header h2 {
-            font-size: 1.4rem;
-        }
-
-        .search-form .form-control {
-            height: 48px;
-            font-size: 0.9rem;
-            padding-right: 85px;
-        }
-
-        .search-form .btn {
-            height: 40px;
-            width: 75px;
-            font-size: 0.8rem;
-        }
-
-        .budget-buttons {
-            gap: 0.5rem;
-        }
-
-        .budget-btn {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.75rem;
-        }
-
         .listings-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.8rem;
+            gap: 0.75rem;
         }
 
-        .card-image-wrapper {
-            height: 130px;
+        .card-img-wrap { height: 130px; }
+
+        .card-body-inner {
+            padding: 0.75rem;
+            gap: 0.35rem;
         }
 
-        .card-content {
-            padding: 0.7rem;
-        }
+        .card-make-model { font-size: 0.82rem; }
+        .card-price { font-size: 1.05rem; }
+        .card-year { font-size: 0.7rem; }
+        .card-specs { font-size: 0.65rem; gap: 0.35rem 0.6rem; }
+        .card-location { font-size: 0.65rem; }
 
-        .card-title {
-            font-size: 0.85rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .card-price {
-            font-size: 1rem;
-            margin: 0.2rem 0;
-        }
-
-        .card-price small {
-            font-size: 0.65rem;
-        }
-
-        .card-specs {
-            gap: 0.5rem;
-            margin: 0.3rem 0;
-            font-size: 0.65rem;
-        }
-
-        .card-specs i {
-            font-size: 0.6rem;
-        }
-
-        .card-location {
-            font-size: 0.65rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .card-location i {
-            font-size: 0.6rem;
-        }
-
-        .seller-avatar {
-            width: 22px;
-            height: 22px;
-            font-size: 0.6rem;
-        }
-
-        .seller-name {
-            font-size: 0.65rem;
-            max-width: 60px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .verified-badge {
-            font-size: 0.7rem;
-        }
+        .seller-name { font-size: 0.65rem; max-width: 50px; }
+        .seller-avatar { width: 22px; height: 22px; font-size: 0.6rem; }
 
         .view-btn {
-            padding: 0.2rem 0.6rem;
+            padding: 0.3rem 0.6rem;
             font-size: 0.65rem;
         }
 
-        .view-btn i {
-            font-size: 0.6rem;
-        }
+        .badge-featured,
+        .badge-status { font-size: 0.58rem; padding: 0.22rem 0.5rem; }
+        .badge-featured + .badge-status { top: 36px; }
 
-        .featured-badge {
-            padding: 0.2rem 0.5rem;
-            font-size: 0.6rem;
-        }
+        .badge-img-count { font-size: 0.58rem; }
 
-        .status-badge {
-            padding: 0.2rem 0.5rem;
-            font-size: 0.6rem;
-        }
+        .search-box input { height: 50px; font-size: 0.85rem; padding-right: 110px; }
+        .search-box .search-btn { height: 38px; padding: 0 1rem; font-size: 0.75rem; }
 
-        .image-count-badge {
-            padding: 0.15rem 0.5rem;
-            font-size: 0.6rem;
-        }
+        .budget-section { padding: 1rem; }
+        .budget-pills { gap: 0.45rem; }
+        .budget-pill { font-size: 0.75rem; padding: 0.36rem 0.8rem; }
 
-        .result-count {
-            font-size: 0.8rem;
-            padding: 0.3rem 0.8rem;
-        }
+        .page-header { margin-bottom: 1.25rem; }
+        .chips-wrapper::after { display: none; }
     }
 
-    /* Extra small devices */
-    @media (max-width: 480px) {
-        .listings-grid {
-            gap: 0.6rem;
-        }
-
-        .card-image-wrapper {
-            height: 110px;
-        }
-
-        .card-title {
-            font-size: 0.75rem;
-        }
-
-        .card-price {
-            font-size: 0.85rem;
-        }
-
-        .card-specs {
-            font-size: 0.55rem;
-        }
-
-        .seller-name {
-            font-size: 0.6rem;
-            max-width: 50px;
-        }
-
-        .view-btn {
-            padding: 0.15rem 0.5rem;
-            font-size: 0.6rem;
-        }
+    @media (max-width: 420px) {
+        .listings-grid { gap: 0.5rem; }
+        .card-img-wrap { height: 110px; }
+        .card-make-model { font-size: 0.75rem; }
+        .card-price { font-size: 0.95rem; }
+        .card-specs { display: none; }
     }
 </style>
 
-<!-- Search Section -->
-<div class="search-wrapper">
-    <form method="GET" action="{% url 'browse_listings' %}" class="search-form" id="searchForm">
-        <input type="search" name="q" class="form-control" 
-               placeholder="Simply write the vehicle name and press the search button (i.e demio or vitz)" 
-               value="{{ request.GET.q }}">
-        <button class="btn" type="submit">
+<!-- =========================================
+     SEARCH
+========================================= -->
+<div class="search-section">
+    <form method="GET" action="{% url 'browse_listings' %}" class="search-box" id="searchForm">
+        <i class="bi bi-search search-icon"></i>
+        <input
+            type="search"
+            name="q"
+            placeholder="Search by make or model (e.g. Demio, Vitz, Prado…)"
+            value="{{ request.GET.q }}"
+            autocomplete="off"
+        >
+        <button type="submit" class="search-btn">
             <i class="bi bi-search"></i> Search
         </button>
     </form>
-    <div class="search-info">
-        <i class="bi bi-info-circle"></i> Simply write the vehicle name and press the search button (i.e demio or vitz)
+    <p class="search-hint">
+        <i class="bi bi-lightbulb"></i>
+        Try a model name like <em>Demio</em>, <em>Premio</em>, or <em>Land Cruiser</em>
+    </p>
+</div>
+
+<!-- =========================================
+     BUDGET FILTER
+========================================= -->
+<div class="budget-section">
+    <div class="section-label">
+        <i class="bi bi-funnel-fill"></i> Filter by Budget
+    </div>
+    <div class="budget-pills">
+        <button class="budget-pill" data-min="0" data-max="500000">
+            <i class="bi bi-cash"></i> Under 500K
+        </button>
+        <button class="budget-pill" data-min="500000" data-max="1000000">
+            <i class="bi bi-cash-stack"></i> 500K – 1M
+        </button>
+        <button class="budget-pill" data-min="1000000" data-max="2000000">
+            <i class="bi bi-cash-stack"></i> 1M – 2M
+        </button>
+        <button class="budget-pill" data-min="2000000" data-max="3000000">
+            <i class="bi bi-cash-stack"></i> 2M – 3M
+        </button>
+        <button class="budget-pill" data-min="3000000" data-max="5000000">
+            <i class="bi bi-cash-stack"></i> 3M – 5M
+        </button>
+        <button class="budget-pill" data-min="5000000" data-max="10000000">
+            <i class="bi bi-cash-stack"></i> 5M – 10M
+        </button>
+        <button class="budget-pill" data-min="10000000" data-max="999999999">
+            <i class="bi bi-gem"></i> Above 10M
+        </button>
     </div>
 </div>
 
-<!-- BUDGET FILTER SECTION -->
-<div class="budget-filter-section">
-    <div class="budget-filter-title">
-        <i class="bi bi-funnel"></i> Filter by budget
-    </div>
-    <div class="budget-buttons">
-        <button class="budget-btn" data-min="0" data-max="500000">
-            <i class="bi bi-cash"></i> 0 - 500K
-        </button>
-        <button class="budget-btn" data-min="500000" data-max="1000000">
-            <i class="bi bi-cash-stack"></i> 500K - 1M
-        </button>
-        <button class="budget-btn" data-min="1000000" data-max="2000000">
-            <i class="bi bi-cash-stack"></i> 1M - 2M
-        </button>
-        <button class="budget-btn" data-min="2000000" data-max="3000000">
-            <i class="bi bi-cash-stack"></i> 2M - 3M
-        </button>
-        <button class="budget-btn" data-min="3000000" data-max="5000000">
-            <i class="bi bi-cash-stack"></i> 3M - 5M
-        </button>
-        <button class="budget-btn" data-min="5000000" data-max="10000000">
-            <i class="bi bi-cash-stack"></i> 5M - 10M
-        </button>
-        <button class="budget-btn" data-min="10000000" data-max="999999999">
-            <i class="bi bi-cash-stack"></i> Above 10M
-        </button>
-    </div>
-</div>
-
-<!-- Filter Chips -->
-<div class="filter-chips-container">
-    <div class="scroll-btn scroll-left" id="scrollLeftBtn" style="display: none;">
-        <i class="bi bi-chevron-left"></i>
-    </div>
-
+<!-- =========================================
+     FILTER CHIPS
+========================================= -->
+<div class="chips-wrapper">
     <div class="filter-chips" id="filterChips">
-        <a href="{% url 'browse_listings' %}" class="filter-chip {% if not request.GET.price_min and not request.GET.price_max and not request.GET.condition and not request.GET.featured and not request.GET.sort %}active{% endif %} text-dark">
-            <i class="bi bi-grid"></i> All Cars
+        <a href="{% url 'browse_listings' %}" class="filter-chip {% if not request.GET.price_min and not request.GET.price_max and not request.GET.condition and not request.GET.featured and not request.GET.sort %}active{% endif %}">
+            <i class="bi bi-grid-3x3-gap"></i> All Cars
         </a>
-        <a href="?price_max=1000000" class="filter-chip {% if request.GET.price_max == '1000000' and not request.GET.price_min %}active{% endif %} text-dark">
+        <a href="?price_max=1000000" class="filter-chip {% if request.GET.price_max == '1000000' and not request.GET.price_min %}active{% endif %}">
             <i class="bi bi-cash"></i> Under 1M KES
         </a>
-        <a href="?condition=new" class="filter-chip {% if request.GET.condition == 'new' %}active{% endif %} text-dark">
-            <i class="bi bi-star"></i> New Arrivals
+        <a href="?condition=new" class="filter-chip {% if request.GET.condition == 'new' %}active{% endif %}">
+            <i class="bi bi-stars"></i> New Arrivals
         </a>
-        <a href="?featured=true" class="filter-chip text-dark {% if request.GET.featured == 'true' %}active{% endif %}">
+        <a href="?featured=true" class="filter-chip {% if request.GET.featured == 'true' %}active{% endif %}">
             <i class="bi bi-award"></i> Featured
         </a>
-        <a href="?sort=price_asc" class="filter-chip {% if request.GET.sort == 'price_asc' %}active{% endif %} text-dark">
-            <i class="bi bi-sort-up"></i> Price: Low to High
+        <a href="?sort=price_asc" class="filter-chip {% if request.GET.sort == 'price_asc' %}active{% endif %}">
+            <i class="bi bi-sort-up"></i> Price: Low → High
         </a>
         {% if request.GET.price_min or request.GET.price_max or request.GET.condition or request.GET.featured or request.GET.sort %}
-        <a href="{% url 'browse_listings' %}" class="clear-filters-btn">
-            <i class="bi bi-x-circle"></i> Clear All Filters
+        <a href="{% url 'browse_listings' %}" class="clear-chip">
+            <i class="bi bi-x-circle"></i> Clear Filters
         </a>
         {% endif %}
     </div>
-
-    <div class="scroll-btn scroll-right" id="scrollRightBtn" style="display: none;">
-        <i class="bi bi-chevron-right"></i>
-    </div>
 </div>
 
-<!-- Page Header with result count -->
-<div class="browse-header">
-    <h2>Available Cars</h2>
-    <div class="result-count">
-        <i class="bi bi-car-front"></i> 
+<!-- =========================================
+     PAGE HEADER
+========================================= -->
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>Available Cars</h2>
+        <p>Browse verified listings from trusted sellers across Kenya</p>
+    </div>
+    <div class="result-pill">
+        <i class="bi bi-car-front-fill"></i>
         {{ listings|length }} vehicle{{ listings|length|pluralize }} found
     </div>
 </div>
 
-<!-- Listings Grid -->
+<!-- =========================================
+     LISTINGS GRID
+========================================= -->
 {% if listings %}
 <div class="listings-grid">
     {% for listing in listings %}
     <div class="listing-card">
-        <!-- Image Section -->
-        <div class="card-image-wrapper">
+
+        <!-- Image -->
+        <div class="card-img-wrap">
             {% if listing.images.all %}
-                <img src="{{ listing.images.all.0.image.url }}" alt="{{ listing.brand }} {{ listing.model }}">
+                <img src="{{ listing.images.all.0.image.url }}" alt="{{ listing.brand }} {{ listing.model }}" loading="lazy">
             {% else %}
-                <img src="{% static 'images/default-car.jpg' %}" alt="Default car image" 
-                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiM5Q0EzQUYiPjxwYXRoIGQ9Ik0xOSA2SDVjLTEuMSAwLTIgLjktMiAydjEwYzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJWOGMwLTEuMS0uOS0yLTItMnptMCAxMkg1VjhoMTR2MTB6Ii8+PC9zdmc+'">
+                <img src="{% static 'images/default-car.jpg' %}" alt="Default car image"
+                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiMxQTIyMzUiPjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzFBMjIzNSIvPjxwYXRoIGQ9Ik0xOSAxMkg1Yy0xLjEgMC0yIC45LTIgMnYxMGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjE0YzAtMS4xLS45LTItMi0yem0wIDEySDVWMTRoMTR2MTB6IiBmaWxsPSIjMUEyMjM1Ii8+PC9zdmc+'">
             {% endif %}
 
-            <!-- Featured Badge -->
+            <div class="img-overlay"></div>
+
             {% if listing.feature and listing.feature.active %}
-            <div class="featured-badge">
-                <i class="bi bi-star-fill"></i> FEATURED
+            <div class="badge-featured">
+                <i class="bi bi-star-fill"></i> Featured
             </div>
             {% endif %}
 
-            <!-- Status Badge (Available/Sold) -->
             {% if listing.status == 'sold' %}
-            <div class="status-badge sold">
-                <i class="bi bi-tag-fill"></i> SOLD
+            <div class="badge-status sold">
+                <i class="bi bi-tag-fill"></i> Sold
             </div>
             {% else %}
-            <div class="status-badge available">
-                <i class="bi bi-check-lg"></i> AVAILABLE
+            <div class="badge-status available">
+                <i class="bi bi-check-lg"></i> Available
             </div>
             {% endif %}
 
-            <!-- Image Count Badge -->
-            <div class="image-count-badge">
+            <div class="badge-img-count">
                 <i class="bi bi-camera"></i> {{ listing.images.count }}
             </div>
         </div>
 
-        <!-- Content Section -->
-        <div class="card-content">
-            <h3 class="card-title">
+        <!-- Body -->
+        <div class="card-body-inner">
+            <h3 class="card-make-model">
                 <a href="{% url 'listing_detail' listing.id %}">
                     {{ listing.brand }} {{ listing.model }}
                 </a>
             </h3>
 
-            <div class="card-price">
-                KES {{ listing.price|intcomma }}
+            <div class="card-price-row">
+                <span class="card-price">KES {{ listing.price|intcomma }}</span>
                 {% if listing.year %}
-                <small>• {{ listing.year }}</small>
+                <span class="card-year">· {{ listing.year }}</span>
                 {% endif %}
             </div>
 
-            <!-- Key Specs -->
             <div class="card-specs">
                 {% if listing.transmission %}
-                <span><i class="bi bi-gear"></i> {{ listing.transmission|slice:":3" }}</span>
+                <span><i class="bi bi-gear"></i> {{ listing.transmission|slice:":4" }}</span>
                 {% endif %}
                 {% if listing.fuel_type %}
-                <span><i class="bi bi-fuel-pump"></i> {{ listing.fuel_type|slice:":3" }}</span>
+                <span><i class="bi bi-fuel-pump"></i> {{ listing.fuel_type|slice:":6" }}</span>
                 {% endif %}
                 {% if listing.mileage %}
-                <span><i class="bi bi-speedometer2"></i> {{ listing.mileage|intcomma }}km</span>
+                <span><i class="bi bi-speedometer2"></i> {{ listing.mileage|intcomma }} km</span>
                 {% endif %}
             </div>
 
-            <!-- Location -->
             <div class="card-location">
-                <i class="bi bi-geo-alt-fill"></i> {{ listing.location|default:"Kenya"|truncatechars:12 }}
+                <i class="bi bi-geo-alt-fill"></i>
+                {{ listing.location|default:"Kenya"|truncatechars:18 }}
             </div>
 
-            <!-- Footer with seller and CTA -->
-            <div class="card-footer-info">
-                <div class="seller-info">
-                    <div class="seller-avatar">
-                        {{ listing.user.username|first|upper }}
-                    </div>
-                    <span class="seller-name">{{ listing.seller.username|truncatechars:8 }}</span>
+            <div class="card-footer-row">
+                <div class="seller-row">
+                    <div class="seller-avatar">{{ listing.user.username|first|upper }}</div>
+                    <span class="seller-name">{{ listing.seller.username|truncatechars:10 }}</span>
                     {% if listing.user.profile.is_verified %}
-                    <i class="bi bi-patch-check-fill verified-badge" title="Verified Seller"></i>
+                    <i class="bi bi-patch-check-fill verified-icon" title="Verified Seller"></i>
                     {% endif %}
                 </div>
-                
                 <a href="{% url 'listing_detail' listing.id %}" class="view-btn">
                     View <i class="bi bi-arrow-right"></i>
                 </a>
@@ -1029,44 +864,32 @@
 
 <!-- Pagination -->
 {% if listings.paginator.num_pages > 1 %}
-<div class="pagination-container">
-    <nav>
-        <ul class="pagination">
-            {% if listings.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page=1&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}" aria-label="First">
-                    <i class="bi bi-chevron-double-left"></i>
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ listings.previous_page_number }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}" aria-label="Previous">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </li>
-            {% endif %}
+<div class="pagination-wrap">
+    {% if listings.has_previous %}
+    <a class="pg-btn" href="?page=1&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}">
+        <i class="bi bi-chevron-double-left"></i>
+    </a>
+    <a class="pg-btn" href="?page={{ listings.previous_page_number }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}">
+        <i class="bi bi-chevron-left"></i>
+    </a>
+    {% endif %}
 
-            {% for num in listings.paginator.page_range %}
-                {% if listings.number == num %}
-                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                {% elif num > listings.number|add:'-3' and num < listings.number|add:'3' %}
-                <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}">{{ num }}</a></li>
-                {% endif %}
-            {% endfor %}
+    {% for num in listings.paginator.page_range %}
+        {% if listings.number == num %}
+        <span class="pg-btn active">{{ num }}</span>
+        {% elif num > listings.number|add:'-3' and num < listings.number|add:'3' %}
+        <a class="pg-btn" href="?page={{ num }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
 
-            {% if listings.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ listings.next_page_number }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}" aria-label="Next">
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ listings.paginator.num_pages }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}" aria-label="Last">
-                    <i class="bi bi-chevron-double-right"></i>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
+    {% if listings.has_next %}
+    <a class="pg-btn" href="?page={{ listings.next_page_number }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}">
+        <i class="bi bi-chevron-right"></i>
+    </a>
+    <a class="pg-btn" href="?page={{ listings.paginator.num_pages }}&q={{ request.GET.q }}&price_min={{ request.GET.price_min }}&price_max={{ request.GET.price_max }}&condition={{ request.GET.condition }}&featured={{ request.GET.featured }}&sort={{ request.GET.sort }}">
+        <i class="bi bi-chevron-double-right"></i>
+    </a>
+    {% endif %}
 </div>
 {% endif %}
 
@@ -1075,7 +898,7 @@
 <div class="empty-state">
     <i class="bi bi-car-front"></i>
     <h3>No cars found</h3>
-    <p>We couldn't find any listings matching your search. Try adjusting your filters or check back later.</p>
+    <p>We couldn't find listings matching your search. Try adjusting your filters or clear them to see all cars.</p>
     <a href="{% url 'browse_listings' %}" class="btn btn-primary">
         <i class="bi bi-arrow-repeat"></i> Clear Filters
     </a>
@@ -1083,117 +906,51 @@
 {% endif %}
 
 <script>
-    // Filter chips scroll functionality
-    const filterChips = document.getElementById('filterChips');
-    const scrollLeftBtn = document.getElementById('scrollLeftBtn');
-    const scrollRightBtn = document.getElementById('scrollRightBtn');
-    
-    function checkScrollButtons() {
-        if (filterChips && window.innerWidth > 768) {
-            if (filterChips.scrollWidth > filterChips.clientWidth) {
-                scrollLeftBtn.style.display = 'flex';
-                scrollRightBtn.style.display = 'flex';
-            } else {
-                scrollLeftBtn.style.display = 'none';
-                scrollRightBtn.style.display = 'none';
-            }
-        }
-    }
-    
-    if (scrollLeftBtn) {
-        scrollLeftBtn.addEventListener('click', () => {
-            filterChips.scrollBy({ left: -200, behavior: 'smooth' });
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ---- Budget pills ---- */
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentMin = urlParams.get('price_min');
+    const currentMax = urlParams.get('price_max');
+
+    document.querySelectorAll('.budget-pill').forEach(btn => {
+        const min = btn.dataset.min;
+        const max = btn.dataset.max;
+
+        if (currentMin === min && currentMax === max) btn.classList.add('active');
+
+        btn.addEventListener('click', function () {
+            const url = new URL(window.location.href);
+            url.searchParams.set('price_min', min);
+            url.searchParams.set('price_max', max);
+            ['q','condition','featured','sort'].forEach(k => {
+                const v = urlParams.get(k);
+                if (v) url.searchParams.set(k, v);
+            });
+            url.searchParams.delete('page');
+            window.location.href = url.toString();
         });
-    }
-    
-    if (scrollRightBtn) {
-        scrollRightBtn.addEventListener('click', () => {
-            filterChips.scrollBy({ left: 200, behavior: 'smooth' });
-        });
-    }
-    
-    window.addEventListener('load', checkScrollButtons);
-    window.addEventListener('resize', checkScrollButtons);
-    
-    if (filterChips) {
-        filterChips.addEventListener('scroll', () => {
-            if (window.innerWidth > 768) {
-                const atStart = filterChips.scrollLeft === 0;
-                const atEnd = filterChips.scrollLeft + filterChips.clientWidth >= filterChips.scrollWidth - 5;
-                
-                if (scrollLeftBtn) {
-                    scrollLeftBtn.style.opacity = atStart ? '0.3' : '0.7';
-                }
-                if (scrollRightBtn) {
-                    scrollRightBtn.style.opacity = atEnd ? '0.3' : '0.7';
-                }
-            }
-        });
-    }
-    
-    // Budget filter functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentMin = urlParams.get('price_min');
-        const currentMax = urlParams.get('price_max');
-        
-        const budgetBtns = document.querySelectorAll('.budget-btn');
-        budgetBtns.forEach(btn => {
-            const min = btn.getAttribute('data-min');
-            const max = btn.getAttribute('data-max');
-            
-            if (currentMin === min && currentMax === max) {
-                btn.classList.add('active');
-            }
-            
-            btn.addEventListener('click', function(e) {
+    });
+
+    /* ---- Search form: preserve other filters ---- */
+    const searchForm = document.getElementById('searchForm');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function (e) {
+            const q = this.querySelector('input[name="q"]').value.trim();
+            if (q) {
                 e.preventDefault();
-                const selectedMin = this.getAttribute('data-min');
-                const selectedMax = this.getAttribute('data-max');
-                
                 const url = new URL(window.location.href);
-                url.searchParams.set('price_min', selectedMin);
-                url.searchParams.set('price_max', selectedMax);
-                
-                const currentQ = urlParams.get('q');
-                const currentCondition = urlParams.get('condition');
-                const currentFeatured = urlParams.get('featured');
-                const currentSort = urlParams.get('sort');
-                
-                if (currentQ) url.searchParams.set('q', currentQ);
-                if (currentCondition) url.searchParams.set('condition', currentCondition);
-                if (currentFeatured) url.searchParams.set('featured', currentFeatured);
-                if (currentSort) url.searchParams.set('sort', currentSort);
-                
+                url.searchParams.set('q', q);
+                ['price_min','price_max','condition','featured','sort'].forEach(k => {
+                    const v = urlParams.get(k);
+                    if (v) url.searchParams.set(k, v);
+                });
                 url.searchParams.delete('page');
                 window.location.href = url.toString();
-            });
+            }
         });
-        
-        const searchForm = document.getElementById('searchForm');
-        if (searchForm) {
-            searchForm.addEventListener('submit', function(e) {
-                const searchInput = this.querySelector('input[name="q"]');
-                const currentMin = urlParams.get('price_min');
-                const currentMax = urlParams.get('price_max');
-                const currentCondition = urlParams.get('condition');
-                const currentFeatured = urlParams.get('featured');
-                const currentSort = urlParams.get('sort');
-                
-                if (searchInput && searchInput.value.trim()) {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('q', searchInput.value.trim());
-                    if (currentMin) url.searchParams.set('price_min', currentMin);
-                    if (currentMax) url.searchParams.set('price_max', currentMax);
-                    if (currentCondition) url.searchParams.set('condition', currentCondition);
-                    if (currentFeatured) url.searchParams.set('featured', currentFeatured);
-                    if (currentSort) url.searchParams.set('sort', currentSort);
-                    url.searchParams.delete('page');
-                    window.location.href = url.toString();
-                    e.preventDefault();
-                }
-            });
-        }
-    });
+    }
+});
 </script>
+
 {% endblock %}

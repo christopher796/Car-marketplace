@@ -4,15 +4,19 @@
 {% load static %}
 
 <style>
+    /* =========================================
+       POST LISTING — DARK NAVY / GOLD LUXURY THEME
+       Matching Chrandi Motors design system
+    ========================================= */
+
     .posting-wrapper {
         min-height: 80vh;
-        background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+        background: var(--navy);
         padding: 2rem 0;
         position: relative;
-        overflow: hidden;
     }
 
-    /* Decorative elements */
+    /* Decorative background */
     .posting-wrapper::before {
         content: '';
         position: absolute;
@@ -20,9 +24,10 @@
         right: -10%;
         width: 500px;
         height: 500px;
-        background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
         border-radius: 50%;
         z-index: 0;
+        pointer-events: none;
     }
 
     .posting-wrapper::after {
@@ -32,17 +37,18 @@
         left: -10%;
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 70%);
         border-radius: 50%;
         z-index: 0;
+        pointer-events: none;
     }
 
     .posting-card {
-        background: rgba(255, 255, 255, 0.95);
+        background: var(--navy-card);
         backdrop-filter: blur(10px);
-        border-radius: 40px;
-        border: 2px solid rgba(249, 115, 22, 0.1);
-        box-shadow: var(--shadow-lg);
+        border-radius: 24px;
+        border: 1px solid var(--border-soft);
+        box-shadow: var(--shadow-card);
         padding: 2rem;
         position: relative;
         z-index: 2;
@@ -50,6 +56,12 @@
         max-width: 900px;
         margin: 0 auto;
         overflow-x: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .posting-card:hover {
+        border-color: var(--border);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
     }
 
     @keyframes slideUp {
@@ -71,35 +83,28 @@
 
     .page-header h2 {
         font-size: 2rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.5rem;
         letter-spacing: -0.5px;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .page-header h2 span {
-        color: var(--orange);
+        color: var(--gold-light);
         position: relative;
         display: inline-block;
     }
 
-    .page-header h2 span::after {
-        content: '';
-        position: absolute;
-        bottom: 5px;
-        left: 0;
-        width: 100%;
-        height: 6px;
-        background: rgba(249, 115, 22, 0.2);
-        z-index: -1;
-        border-radius: 3px;
-    }
-
     .page-header p {
-        color: var(--text-muted);
-        font-size: 0.95rem;
+        color: var(--muted);
+        font-size: 0.9rem;
         max-width: 600px;
         margin: 0 auto;
+    }
+
+    .page-header p i {
+        color: var(--gold);
     }
 
     .progress-steps {
@@ -111,53 +116,60 @@
     }
 
     .step {
-        background: var(--white);
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 40px;
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 30px;
         padding: 0.4rem 1.2rem;
         font-weight: 600;
-        font-size: 0.85rem;
-        color: var(--text-muted);
+        font-size: 0.8rem;
+        color: var(--muted);
         display: flex;
         align-items: center;
         gap: 6px;
+        letter-spacing: 0.03em;
     }
 
     .step.active {
-        background: var(--orange);
-        border-color: var(--orange);
-        color: white;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        border-color: transparent;
+        color: var(--navy);
     }
 
     .step i {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     /* Form Styling */
     .form-section {
-        background: var(--light-gray);
-        border-radius: 24px;
+        background: var(--navy-soft);
+        border-radius: 20px;
         padding: 1.2rem;
         margin-bottom: 1.5rem;
-        border: 1px solid var(--light-gray-dark);
+        border: 1px solid var(--border-soft);
+        transition: all 0.3s ease;
+    }
+
+    .form-section:hover {
+        border-color: var(--border);
     }
 
     .section-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--charcoal-dark);
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 1.2rem;
         display: flex;
         align-items: center;
         gap: 8px;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid var(--orange-light);
+        border-bottom: 1px solid var(--border-soft);
         flex-wrap: wrap;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .section-title i {
-        color: var(--orange);
-        font-size: 1.2rem;
+        color: var(--gold);
+        font-size: 1.1rem;
     }
 
     /* Form fields styling */
@@ -169,37 +181,50 @@
 
     .form-label {
         font-weight: 600;
-        color: var(--charcoal-dark);
+        color: var(--muted-light);
         margin-bottom: 0.4rem;
         display: block;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
     }
 
     .form-label .required {
-        color: var(--orange);
+        color: var(--gold);
         margin-left: 3px;
     }
 
     .form-control, .form-select, textarea {
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 14px;
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
         padding: 0.7rem 1rem;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         transition: all 0.2s ease;
-        background: var(--white);
+        background: var(--navy-mid);
+        color: var(--platinum);
         width: 100%;
         box-sizing: border-box;
     }
 
     .form-control:focus, .form-select:focus, textarea:focus {
-        border-color: var(--orange);
-        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
         outline: none;
+        background: var(--navy-card);
+    }
+
+    .form-control::placeholder, textarea::placeholder {
+        color: var(--muted);
+    }
+
+    .form-select option {
+        background: var(--navy-mid);
+        color: var(--platinum);
     }
 
     .help-text {
-        font-size: 0.75rem;
-        color: var(--text-muted);
+        font-size: 0.7rem;
+        color: var(--muted);
         margin-top: 0.3rem;
         display: flex;
         align-items: center;
@@ -208,8 +233,8 @@
     }
 
     .help-text i {
-        color: var(--orange);
-        font-size: 0.7rem;
+        color: var(--gold-dim);
+        font-size: 0.65rem;
     }
 
     .form-row {
@@ -218,73 +243,89 @@
         gap: 1rem;
     }
 
-    /* Enhanced Image Upload Section */
+    /* Image Upload Section */
     .image-upload-section {
-        background: var(--white);
-        border-radius: 24px;
+        background: var(--navy-soft);
+        border-radius: 20px;
         padding: 1.2rem;
         margin-top: 1.5rem;
+        border: 1px solid var(--border-soft);
+    }
+
+    .image-count-badge {
+        background: rgba(201,168,76,0.12);
+        color: var(--gold-light);
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+        border: 1px solid rgba(201,168,76,0.25);
     }
 
     /* Multi-file upload area */
     .multi-upload-area {
-        border: 2px dashed var(--light-gray-dark);
-        border-radius: 20px;
+        border: 2px dashed var(--border-soft);
+        border-radius: 16px;
         padding: 2rem;
         text-align: center;
         cursor: pointer;
         transition: all 0.3s ease;
-        background: var(--light-gray);
+        background: var(--navy-mid);
         margin-bottom: 1rem;
     }
 
     .multi-upload-area:hover {
-        border-color: var(--orange);
-        background: rgba(249, 115, 22, 0.05);
+        border-color: var(--gold);
+        background: rgba(201,168,76,0.05);
     }
 
     .multi-upload-area i {
-        font-size: 3rem;
-        color: var(--orange);
+        font-size: 2.5rem;
+        color: var(--gold-dim);
         margin-bottom: 0.5rem;
     }
 
     .multi-upload-area p {
         margin: 0;
-        font-size: 0.9rem;
-        color: var(--text-muted);
+        font-size: 0.85rem;
+        color: var(--muted);
     }
 
     .multi-upload-area .upload-hint {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         margin-top: 0.5rem;
+        color: var(--muted);
     }
 
     /* Visible file input */
     .file-input-visible {
         width: 100%;
-        padding: 0.8rem;
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 14px;
-        background: var(--white);
-        font-size: 0.9rem;
+        padding: 0.7rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        background: var(--navy-mid);
+        color: var(--muted-light);
+        font-size: 0.85rem;
         margin-bottom: 1rem;
         cursor: pointer;
     }
 
     .file-input-visible::-webkit-file-upload-button {
-        background: var(--orange);
-        color: white;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy);
         border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 30px;
+        padding: 0.4rem 1rem;
+        border-radius: 6px;
         margin-right: 1rem;
         cursor: pointer;
         transition: all 0.2s ease;
+        font-weight: 600;
+        font-size: 0.75rem;
     }
 
     .file-input-visible::-webkit-file-upload-button:hover {
-        background: var(--orange-hover);
+        transform: translateY(-1px);
     }
 
     /* Image Preview Grid */
@@ -298,10 +339,10 @@
     .preview-item {
         position: relative;
         aspect-ratio: 1;
-        border-radius: 12px;
+        border-radius: 10px;
         overflow: hidden;
-        border: 2px solid var(--light-gray-dark);
-        background: var(--light-gray);
+        border: 1px solid var(--border-soft);
+        background: var(--navy-mid);
     }
 
     .preview-item img {
@@ -316,25 +357,26 @@
         right: 5px;
         width: 24px;
         height: 24px;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(217,79,79,0.9);
         color: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         transition: all 0.2s ease;
         border: none;
     }
 
     .preview-item .remove-btn:hover {
-        background: #EF4444;
+        background: var(--red);
         transform: scale(1.1);
     }
 
     .preview-item.required {
-        border-color: var(--orange);
+        border-color: var(--gold);
+        box-shadow: 0 0 0 1px var(--gold);
     }
 
     .image-count-info {
@@ -343,26 +385,27 @@
         align-items: center;
         margin-top: 1rem;
         padding: 0.8rem;
-        background: var(--light-gray);
-        border-radius: 12px;
-        font-size: 0.85rem;
+        background: var(--navy-mid);
+        border-radius: 10px;
+        font-size: 0.8rem;
         flex-wrap: wrap;
         gap: 0.5rem;
+        border: 1px solid var(--border-soft);
     }
 
     .image-count-info .warning {
-        color: #EF4444;
+        color: #F87171;
     }
 
     .image-count-info .success {
-        color: #10B981;
+        color: var(--green);
     }
 
     /* Chassis note */
     .chassis-note {
-        background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
-        border: 1px solid rgba(249, 115, 22, 0.2);
-        border-radius: 16px;
+        background: rgba(201,168,76,0.05);
+        border: 1px solid rgba(201,168,76,0.2);
+        border-radius: 12px;
         padding: 0.8rem 1rem;
         margin: 1rem 0;
         display: flex;
@@ -372,41 +415,64 @@
     }
 
     .chassis-note i {
-        color: var(--orange);
-        font-size: 1.2rem;
+        color: var(--gold);
+        font-size: 1.1rem;
     }
 
     .chassis-note p {
         margin: 0;
-        color: var(--charcoal-dark);
-        font-size: 0.85rem;
+        color: var(--muted-light);
+        font-size: 0.8rem;
         flex: 1;
+    }
+
+    .chassis-note strong {
+        color: var(--gold-light);
+    }
+
+    /* Pro tips alert */
+    .alert-info {
+        background: rgba(201,168,76,0.08);
+        border: 1px solid rgba(201,168,76,0.2);
+        border-radius: 12px;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .alert-info strong {
+        color: var(--gold-light);
+        font-size: 0.8rem;
+    }
+
+    .alert-info span {
+        font-size: 0.7rem;
+        color: var(--muted);
     }
 
     /* Terms checkbox */
     .terms-checkbox {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         margin: 1.5rem 0;
         padding: 1rem;
-        background: var(--light-gray);
-        border-radius: 16px;
-        border: 1px solid var(--light-gray-dark);
+        background: var(--navy-soft);
+        border-radius: 12px;
+        border: 1px solid var(--border-soft);
         flex-wrap: wrap;
     }
 
     .terms-checkbox input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        accent-color: var(--orange);
+        width: 18px;
+        height: 18px;
+        accent-color: var(--gold);
         cursor: pointer;
         flex-shrink: 0;
     }
 
     .terms-checkbox label {
-        font-size: 0.9rem;
-        color: var(--charcoal-dark);
+        font-size: 0.85rem;
+        color: var(--muted-light);
         cursor: pointer;
         margin: 0;
         line-height: 1.4;
@@ -414,20 +480,27 @@
     }
 
     .terms-checkbox a {
-        color: var(--orange);
+        color: var(--gold-light);
         text-decoration: none;
         font-weight: 600;
     }
 
+    .terms-checkbox a:hover {
+        color: var(--gold);
+        text-decoration: underline;
+    }
+
     /* Submit button */
     .submit-btn {
-        background: var(--orange);
-        color: white;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
         border: none;
-        border-radius: 50px;
+        border-radius: 10px;
         padding: 0.9rem 1.5rem;
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
         width: 100%;
         display: flex;
         align-items: center;
@@ -435,20 +508,34 @@
         gap: 8px;
         transition: all 0.3s ease;
         margin-top: 1rem;
-        box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        box-shadow: var(--shadow-btn);
         cursor: pointer;
     }
 
     .submit-btn:hover {
-        background: var(--orange-hover);
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(249, 115, 22, 0.4);
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(201,168,76,0.45);
     }
 
     .submit-btn:disabled {
-        opacity: 0.6;
+        opacity: 0.5;
         cursor: not-allowed;
         transform: none;
+    }
+
+    /* Footer note */
+    .text-muted.small {
+        font-size: 0.7rem;
+        color: var(--muted) !important;
+    }
+
+    .text-muted.small a {
+        color: var(--gold-light);
+    }
+
+    .text-muted.small a:hover {
+        color: var(--gold);
     }
 
     /* Responsive */
@@ -463,7 +550,6 @@
         .posting-card {
             padding: 1rem;
             margin: 0 0.75rem;
-            border-radius: 30px;
         }
 
         .page-header h2 {
@@ -471,7 +557,7 @@
         }
 
         .page-header p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .progress-steps {
@@ -501,12 +587,12 @@
         }
 
         .form-label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
 
         .form-control, .form-select, textarea {
             padding: 0.6rem 0.8rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .multi-upload-area {
@@ -518,7 +604,7 @@
         }
 
         .multi-upload-area p {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         .image-preview-grid {
@@ -535,12 +621,8 @@
             padding: 0.6rem 0.8rem;
         }
 
-        .chassis-note i {
-            font-size: 1rem;
-        }
-
         .chassis-note p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
 
         .terms-checkbox {
@@ -548,12 +630,12 @@
         }
 
         .terms-checkbox label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         .submit-btn {
             padding: 0.8rem 1.2rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
     }
 
@@ -597,7 +679,7 @@
                     <span>Post</span> a New Listing
                 </h2>
                 <p>
-                    <i class="bi bi-info-circle-fill" style="color: var(--orange);"></i>
+                    <i class="bi bi-info-circle-fill"></i>
                     Fill in the details below and upload at least 5 images (max 15)
                 </p>
             </div>
@@ -674,7 +756,7 @@
                     {% endif %}
                 </div>
 
-                <!-- Enhanced Images Section with Multi-Select -->
+                <!-- Enhanced Images Section -->
                 <div class="image-upload-section">
                     <div class="section-title">
                         <i class="bi bi-images"></i>
@@ -684,18 +766,18 @@
                         </span>
                     </div>
 
-                    <p class="text-muted mb-2" style="font-size: 0.85rem;">
-                        <i class="bi bi-exclamation-triangle-fill" style="color: var(--orange);"></i>
+                    <p class="text-muted mb-2" style="font-size: 0.75rem; color: var(--muted);">
+                        <i class="bi bi-exclamation-triangle-fill" style="color: var(--gold);"></i>
                         <strong>First 5 images are required</strong> — the rest are optional but recommended.
                     </p>
 
                     <!-- Pro tips -->
-                    <div class="alert-info" style="background: #DBEAFE; border: none; border-radius: 14px; padding: 0.8rem; margin-bottom: 1rem;">
+                    <div class="alert-info">
                         <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
-                            <i class="bi bi-lightbulb-fill" style="color: var(--orange); font-size: 1.2rem;"></i>
+                            <i class="bi bi-lightbulb-fill" style="color: var(--gold); font-size: 1rem;"></i>
                             <div style="flex: 1;">
-                                <strong style="font-size: 0.85rem;">Pro tips for great photos:</strong>
-                                <span style="font-size: 0.75rem; display: block;">Take photos in good daylight • Show exterior, interior, engine, and boot • Include any unique features</span>
+                                <strong>Pro tips for great photos:</strong>
+                                <span>Take photos in good daylight • Show exterior, interior, engine, and boot • Include any unique features</span>
                             </div>
                         </div>
                     </div>
@@ -705,7 +787,7 @@
                         <i class="bi bi-cloud-upload-fill"></i>
                         <p><strong>Tap or click to select multiple images</strong></p>
                         <p class="upload-hint">Select 5-15 images at once from your gallery</p>
-                        <p class="upload-hint" style="color: var(--orange);">✓ JPG, PNG, WEBP • Max 5MB each</p>
+                        <p class="upload-hint" style="color: var(--gold);">✓ JPG, PNG, WEBP • Max 5MB each</p>
                     </div>
 
                     <!-- Visible file input -->
@@ -731,8 +813,8 @@
                     <input type="checkbox" id="termsCheckbox" required>
                     <label for="termsCheckbox">
                         I confirm that the vehicle information is accurate and I agree to the 
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" style="color: var(--orange);">Terms of Service</a> and 
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" style="color: var(--orange);">Privacy Policy</a>. 
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> and 
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>. 
                         I understand that false information may result in listing removal.
                     </label>
                 </div>
@@ -747,7 +829,7 @@
             <!-- Footer note -->
             <p class="text-center text-muted mt-3 small" style="font-size: 0.7rem;">
                 <i class="bi bi-shield-check"></i>
-                By posting, you agree to our <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" style="color: var(--orange);">Terms of Service</a> and confirm that this vehicle is available for sale.
+                By posting, you agree to our <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> and confirm that this vehicle is available for sale.
             </p>
         </div>
     </div>
@@ -777,10 +859,10 @@
             // Update warning message
             if (selectedFiles.length < MIN_FILES) {
                 requiredWarning.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Minimum ' + MIN_FILES + ' images required';
-                requiredWarning.style.color = '#EF4444';
+                requiredWarning.style.color = '#F87171';
             } else {
                 requiredWarning.innerHTML = '<i class="bi bi-check-circle-fill"></i> Minimum ' + MIN_FILES + ' images ✓';
-                requiredWarning.style.color = '#10B981';
+                requiredWarning.style.color = '#2ECC8A';
             }
             
             // Create preview items
@@ -872,10 +954,8 @@
             if (submitBtn) {
                 if (termsCheckbox.checked && selectedFiles.length >= MIN_FILES) {
                     submitBtn.disabled = false;
-                    submitBtn.classList.remove('disabled');
                 } else {
                     submitBtn.disabled = true;
-                    submitBtn.classList.add('disabled');
                 }
             }
         }
@@ -891,7 +971,6 @@
         if (fileInput) {
             fileInput.addEventListener('change', function(e) {
                 handleFiles(Array.from(e.target.files));
-                // Don't clear the input value - keep it for reference
             });
         }
         
@@ -899,8 +978,8 @@
         if (uploadArea) {
             uploadArea.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                uploadArea.style.borderColor = 'var(--orange)';
-                uploadArea.style.background = 'rgba(249, 115, 22, 0.1)';
+                uploadArea.style.borderColor = 'var(--gold)';
+                uploadArea.style.background = 'rgba(201,168,76,0.05)';
             });
             
             uploadArea.addEventListener('dragleave', function(e) {
@@ -921,20 +1000,17 @@
         // Terms checkbox validation
         if (termsCheckbox && submitBtn) {
             submitBtn.disabled = true;
-            submitBtn.classList.add('disabled');
             
             termsCheckbox.addEventListener('change', function() {
                 if (this.checked && selectedFiles.length >= MIN_FILES) {
                     submitBtn.disabled = false;
-                    submitBtn.classList.remove('disabled');
                 } else {
                     submitBtn.disabled = true;
-                    submitBtn.classList.add('disabled');
                 }
             });
         }
         
-        // Form submission - Let the browser handle it normally
+        // Form submission
         if (listingForm) {
             listingForm.addEventListener('submit', function(e) {
                 if (!termsCheckbox.checked) {
@@ -955,7 +1031,6 @@
                 submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing...';
                 submitButton.disabled = true;
                 
-                // Let the form submit normally - the browser will send all files
                 return true;
             });
         }

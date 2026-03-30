@@ -1,18 +1,674 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
-<h3>Feature {{ listing.title }}</h3>
+<style>
+    /* =========================================
+       FEATURE LISTING — DARK NAVY / GOLD LUXURY THEME
+       Matching Chrandi Motors design system
+    ========================================= */
 
-<form method="POST">
-    {% csrf_token %}
+    .feature-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--navy);
+        padding: 2rem 1rem;
+        position: relative;
+        overflow: hidden;
+    }
 
-    <input type="text" name="phone" placeholder="2547XXXXXXXX" class="form-control mb-3" required>
+    /* Subtle radial gradient background */
+    .feature-wrapper::before {
+        content: '';
+        position: absolute;
+        top: -20%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+    }
 
-    {% for p in packages %}
-    <button name="package" value="{{ p.id }}" class="btn btn-warning mb-2 w-100">
-        {{ p.name }} - KES {{ P.price }} ({{ p.days }} days)
-    </button>
-    {% endfor %}
+    .feature-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: -20%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+    }
 
-</form>
+    /* Decorative background - subtle */
+    .feature-wrapper .deco-icon {
+        position: absolute;
+        font-size: 8rem;
+        opacity: 0.02;
+        pointer-events: none;
+    }
+
+    .deco-1 {
+        top: 5%;
+        left: 5%;
+        transform: rotate(-15deg);
+        animation: floatDeco 8s ease-in-out infinite;
+    }
+
+    .deco-2 {
+        bottom: 5%;
+        right: 5%;
+        transform: rotate(15deg);
+        animation: floatDeco 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatDeco {
+        0%, 100% { transform: translateY(0) rotate(-15deg); }
+        50% { transform: translateY(-20px) rotate(-10deg); }
+    }
+
+    /* Main card */
+    .feature-card {
+        width: 100%;
+        max-width: 550px;
+        background: var(--navy-card);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border-soft);
+        padding: 2rem;
+        position: relative;
+        z-index: 10;
+        animation: slideUpFade 0.5s ease-out;
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+        border-color: var(--border);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
+    }
+
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Header */
+    .feature-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .star-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        box-shadow: 0 10px 25px rgba(201,168,76,0.3);
+        animation: gentlePulse 3s ease infinite;
+    }
+
+    @keyframes gentlePulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(201,168,76,0.3); }
+        50% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(201,168,76,0.4); }
+    }
+
+    .star-icon i {
+        font-size: 2.5rem;
+        color: var(--navy);
+    }
+
+    .feature-header h3 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 0.5rem;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .feature-header h3 span {
+        color: var(--gold-light);
+    }
+
+    .feature-header p {
+        color: var(--muted);
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .feature-header p i {
+        color: var(--gold);
+    }
+
+    /* Vehicle Preview */
+    .vehicle-preview {
+        background: var(--navy-soft);
+        border-radius: 16px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--border-soft);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .vehicle-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--navy-mid);
+        border: 1px solid var(--border-soft);
+    }
+
+    .vehicle-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .vehicle-image .no-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        font-size: 1.5rem;
+    }
+
+    .vehicle-info {
+        flex: 1;
+    }
+
+    .vehicle-title {
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 0.3rem;
+        font-size: 1rem;
+    }
+
+    .vehicle-price {
+        font-weight: 700;
+        color: var(--gold-light);
+        font-size: 1.1rem;
+        font-family: 'DM Serif Display', serif;
+    }
+
+    .vehicle-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.7rem;
+        color: var(--muted);
+        margin-top: 0.3rem;
+    }
+
+    .vehicle-meta i {
+        color: var(--gold-dim);
+        margin-right: 3px;
+    }
+
+    /* Form Styling */
+    .feature-form {
+        margin-top: 0.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--muted-light);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .form-label i {
+        color: var(--gold);
+        font-size: 0.85rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        background: var(--navy-soft);
+        color: var(--platinum);
+    }
+
+    .form-control:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+        outline: none;
+        background: var(--navy-mid);
+    }
+
+    .form-control::placeholder {
+        color: var(--muted);
+        opacity: 0.7;
+    }
+
+    /* Help text */
+    .help-text {
+        font-size: 0.7rem;
+        color: var(--muted);
+        margin-top: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .help-text i {
+        color: var(--gold-dim);
+        font-size: 0.65rem;
+    }
+
+    /* Package Buttons */
+    .packages-section {
+        margin: 1.5rem 0;
+    }
+
+    .packages-title {
+        font-weight: 600;
+        color: var(--muted-light);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .packages-title i {
+        color: var(--gold);
+    }
+
+    .package-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+
+    .package-btn {
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 12px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: center;
+        color: inherit;
+    }
+
+    .package-btn:hover {
+        background: var(--navy-mid);
+        border-color: var(--gold);
+        transform: translateY(-2px);
+    }
+
+    .package-name {
+        font-weight: 700;
+        color: var(--gold-light);
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .package-price {
+        font-weight: 600;
+        color: var(--white);
+        font-size: 1.1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .package-duration {
+        font-size: 0.7rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .package-duration i {
+        color: var(--gold-dim);
+        font-size: 0.65rem;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
+        border: none;
+        border-radius: 10px;
+        padding: 1rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-btn);
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(201,168,76,0.45);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .submit-btn i {
+        font-size: 1rem;
+    }
+
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* Security Note */
+    .security-note {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-soft);
+        color: var(--muted);
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .security-note i {
+        color: var(--gold-dim);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .feature-wrapper {
+            padding: 1rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            margin: 0 0.75rem;
+        }
+
+        .star-icon {
+            width: 70px;
+            height: 70px;
+        }
+
+        .star-icon i {
+            font-size: 2rem;
+        }
+
+        .feature-header h3 {
+            font-size: 1.4rem;
+        }
+
+        .vehicle-preview {
+            padding: 0.8rem;
+        }
+
+        .vehicle-image {
+            width: 60px;
+            height: 60px;
+        }
+
+        .vehicle-title {
+            font-size: 0.9rem;
+        }
+
+        .vehicle-price {
+            font-size: 1rem;
+        }
+
+        .package-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .package-btn {
+            padding: 0.8rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .feature-card {
+            padding: 1.2rem;
+        }
+
+        .feature-header h3 {
+            font-size: 1.2rem;
+        }
+
+        .vehicle-preview {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .vehicle-meta {
+            justify-content: center;
+        }
+
+        .form-control {
+            padding: 0.7rem 0.9rem;
+            font-size: 0.85rem;
+        }
+
+        .submit-btn {
+            padding: 0.8rem;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<div class="feature-wrapper">
+    <!-- Decorative background - subtle -->
+    <div class="deco-icon deco-1">⭐</div>
+    <div class="deco-icon deco-2">✨</div>
+
+    <!-- Main card -->
+    <div class="feature-card">
+        <!-- Header -->
+        <div class="feature-header">
+            <div class="star-icon">
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <h3>
+                Feature <span>{{ listing.title|truncatechars:30 }}</span>
+            </h3>
+            <p>
+                <i class="bi bi-lightning-charge-fill"></i>
+                Boost your listing visibility
+                <i class="bi bi-arrow-up-short"></i>
+            </p>
+        </div>
+
+        <!-- Vehicle Preview -->
+        <div class="vehicle-preview">
+            <div class="vehicle-image">
+                {% if listing.images.all %}
+                    <img src="{{ listing.images.all.0.image.url }}" alt="{{ listing.title }}">
+                {% else %}
+                    <div class="no-image">
+                        <i class="bi bi-image"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="vehicle-info">
+                <div class="vehicle-title">{{ listing.title|truncatechars:35 }}</div>
+                <div class="vehicle-price">KES {{ listing.price|intcomma }}</div>
+                <div class="vehicle-meta">
+                    <span><i class="bi bi-eye"></i> {{ listing.views_count }} views</span>
+                    <span><i class="bi bi-calendar"></i> {{ listing.created_at|date:"M d, Y" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form method="POST" class="feature-form" id="featureForm">
+            {% csrf_token %}
+
+            <!-- Phone Number Input -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="bi bi-telephone-fill"></i>
+                    Phone Number for Payment
+                </label>
+                <input type="tel" 
+                       name="phone" 
+                       class="form-control" 
+                       placeholder="2547XXXXXXXX" 
+                       required
+                       id="phoneInput">
+                <div class="help-text">
+                    <i class="bi bi-info-circle"></i>
+                    Enter your M-Pesa registered phone number (format: 2547XXXXXXXX)
+                </div>
+            </div>
+
+            <!-- Packages Section -->
+            <div class="packages-section">
+                <div class="packages-title">
+                    <i class="bi bi-gift-fill"></i>
+                    Select a Package
+                </div>
+                <div class="package-grid">
+                    {% for p in packages %}
+                    <button type="submit" 
+                            name="package" 
+                            value="{{ p.id }}" 
+                            class="package-btn">
+                        <div class="package-name">{{ p.name }}</div>
+                        <div class="package-price">KES {{ p.price|intcomma }}</div>
+                        <div class="package-duration">
+                            <i class="bi bi-clock"></i>
+                            {{ p.days }} days featured
+                        </div>
+                    </button>
+                    {% empty %}
+                    <div class="text-center py-3" style="color: var(--muted);">
+                        <i class="bi bi-exclamation-circle"></i>
+                        No packages available
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Hidden submit button as fallback -->
+            <button type="submit" class="submit-btn" id="submitBtn" style="display: none;">
+                <i class="bi bi-check-lg"></i>
+                Continue to Payment
+            </button>
+        </form>
+
+        <!-- Security Note -->
+        <div class="security-note">
+            <i class="bi bi-shield-check"></i>
+            Secure payment via M-Pesa • 24/7 support
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('phoneInput');
+        const form = document.getElementById('featureForm');
+        
+        // Phone number validation
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '');
+                
+                // Auto-format for Kenyan phone numbers
+                if (value.startsWith('0')) {
+                    value = '254' + value.substring(1);
+                }
+                if (!value.startsWith('254') && value.length === 9) {
+                    value = '254' + value;
+                }
+                this.value = value;
+                
+                // Validate format
+                const isValid = /^254[0-9]{9}$/.test(value);
+                if (value.length > 0 && !isValid) {
+                    this.style.borderColor = '#F87171';
+                } else {
+                    this.style.borderColor = 'var(--border-soft)';
+                }
+            });
+        }
+        
+        // Package buttons - add loading state
+        const packageBtns = document.querySelectorAll('.package-btn');
+        packageBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const originalContent = this.innerHTML;
+                this.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing...';
+                this.disabled = true;
+                
+                // Validate phone before submitting
+                const phone = phoneInput.value;
+                if (!phone || !/^254[0-9]{9}$/.test(phone)) {
+                    e.preventDefault();
+                    this.innerHTML = originalContent;
+                    this.disabled = false;
+                    phoneInput.style.borderColor = '#F87171';
+                    alert('Please enter a valid M-Pesa phone number (format: 2547XXXXXXXX)');
+                    phoneInput.focus();
+                    return;
+                }
+                
+                // Let form submit
+                setTimeout(() => {
+                    this.innerHTML = originalContent;
+                    this.disabled = false;
+                }, 3000);
+            });
+        });
+    });
+</script>
 {% endblock %}

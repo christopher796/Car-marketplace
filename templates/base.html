@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <title>Chrandi Motors</title>
 
@@ -12,580 +12,600 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
     {% load static %}
     {% load humanize %}
 
     <style>
-        /* =========================
-           ENERGETIC & YOUTHFUL THEME
-           Orange + Charcoal + Light Gray
-        ==========================*/
-        :root {
-            --orange: #F97316;
-            --orange-hover: #EA580C;
-            --orange-light: #FDBA74;
-            --charcoal: #1F2937;
-            --charcoal-light: #374151;
-            --charcoal-dark: #111827;
-            --light-gray: #F3F4F6;
-            --light-gray-dark: #E5E7EB;
+        /* =========================================
+           CHRANDI MOTORS — THEME VARIABLES
+           Dark Mode (Default) & Light Mode Support
+        ========================================= */
+        
+        /* Dark Mode (Default) */
+        [data-theme="dark"] {
+            --navy: #0A0F1E;
+            --navy-mid: #111827;
+            --navy-soft: #1A2235;
+            --navy-card: #1E2A40;
+            --gold: #C9A84C;
+            --gold-light: #E2C97E;
+            --gold-dim: #8A6E32;
+            --platinum: #E8EDF5;
             --white: #FFFFFF;
-            --text-dark: #1F2937;
-            --text-light: #F9FAFB;
-            --text-muted: #9CA3AF;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --muted: #7A8BA6;
+            --muted-light: #AAB8CC;
+            --red: #D94F4F;
+            --green: #2ECC8A;
+            --border: rgba(201,168,76,0.18);
+            --border-soft: rgba(255,255,255,0.06);
+            --shadow-card: 0 8px 32px rgba(0,0,0,0.35);
+            --shadow-glow: 0 0 40px rgba(201,168,76,0.12);
+            --shadow-btn: 0 4px 20px rgba(201,168,76,0.3);
+            --body-bg: var(--navy);
+            --body-color: var(--platinum);
+            --navbar-bg: rgba(10,15,30,0.92);
+            --footer-bg: var(--navy-mid);
         }
 
-        /* =========================
-           BODY
-        ==========================*/
+        /* Light Mode */
+        [data-theme="light"] {
+            --navy: #F8F9FA;
+            --navy-mid: #FFFFFF;
+            --navy-soft: #F1F3F5;
+            --navy-card: #FFFFFF;
+            --gold: #D4A373;
+            --gold-light: #E9B35F;
+            --gold-dim: #B97F3A;
+            --platinum: #212529;
+            --white: #1A1A1A;
+            --muted: #6C757D;
+            --muted-light: #495057;
+            --red: #DC3545;
+            --green: #28A745;
+            --border: rgba(0,0,0,0.1);
+            --border-soft: rgba(0,0,0,0.08);
+            --shadow-card: 0 8px 32px rgba(0,0,0,0.08);
+            --shadow-glow: 0 0 40px rgba(212,163,115,0.08);
+            --shadow-btn: 0 4px 20px rgba(212,163,115,0.25);
+            --body-bg: var(--navy);
+            --body-color: var(--platinum);
+            --navbar-bg: rgba(255,255,255,0.95);
+            --footer-bg: var(--navy-mid);
+        }
+
+        /* =========================================
+           RESET & BASE
+        ========================================= */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html { 
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease;
+        }
+
         body {
-            background: var(--light-gray);
-            color: var(--text-dark);
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--body-bg);
+            color: var(--body-color);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 400;
+            line-height: 1.65;
             overflow-x: hidden;
             min-height: 100vh;
-            line-height: 1.6;
-            padding-bottom: 65px;
+            padding-bottom: 70px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Import Inter font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-        /* =========================
-           NAVBAR
-        ==========================*/
-        .navbar {
-            background: var(--charcoal-dark) !important;
-            border-bottom: 2px solid var(--orange);
-            padding: 0.8rem 1rem;
+        /* Noise texture overlay for depth - only in dark mode */
+        [data-theme="dark"] body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
         }
 
-        /* Brand styling */
-        .navbar-brand {
-            font-weight: 800;
-            font-size: 1.8rem;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #F97316 0%, #1F2937 80%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-decoration: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .navbar-brand:hover {
-            opacity: 0.9;
-        }
-
-        /* Desktop navigation - visible on md and up */
-        .desktop-nav {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        /* Mobile hamburger - visible on mobile */
-        .mobile-hamburger {
+        [data-theme="light"] body::before {
             display: none;
+        }
+
+        * { position: relative; z-index: 1; }
+
+        /* =========================================
+           TYPOGRAPHY
+        ========================================= */
+        h1, h2, h3 {
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            color: var(--white);
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+
+        h4, h5, h6 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            color: var(--platinum);
+        }
+
+        .brand-font {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* =========================================
+           THEME TOGGLE BUTTON
+        ========================================= */
+        .theme-toggle-btn {
             background: transparent;
-            border: 1px solid var(--orange);
-            border-radius: 8px;
-            padding: 8px 12px;
+            border: 1px solid var(--border-soft);
+            border-radius: 40px;
+            padding: 0.35rem 0.8rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .mobile-hamburger:hover {
-            background: var(--orange);
-        }
-
-        .mobile-hamburger:hover i {
-            color: var(--charcoal-dark);
-        }
-
-        .mobile-hamburger i {
-            font-size: 1.5rem;
-            color: var(--orange);
-        }
-
-        /* =========================
-           BOTTOM NAVIGATION BAR (MOBILE - COMPACT)
-        ==========================*/
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--white);
-            border-top: 2px solid var(--orange);
-            box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.08);
-            z-index: 1000;
-            display: none;
-            padding: 0.3rem 0.5rem;
-        }
-
-        .bottom-nav-items {
+            transition: all 0.3s ease;
             display: flex;
-            justify-content: space-around;
             align-items: center;
-            gap: 0.2rem;
+            gap: 6px;
+            color: var(--muted-light);
         }
 
-        .bottom-nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0.4rem 0;
-            border-radius: 10px;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            color: var(--text-muted);
-            gap: 2px;
+        .theme-toggle-btn:hover {
+            background: var(--border-soft);
+            border-color: var(--gold);
+            color: var(--gold-light);
+            transform: translateY(-1px);
         }
 
-        .bottom-nav-item i {
-            font-size: 1.2rem;
-            transition: all 0.2s ease;
+        .theme-toggle-btn i {
+            font-size: 0.9rem;
         }
 
-        .bottom-nav-item span {
-            font-size: 0.6rem;
+        .theme-toggle-btn span {
+            font-size: 0.7rem;
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
-        .bottom-nav-item.active {
-            color: var(--orange);
-            background: rgba(249, 115, 22, 0.08);
-        }
-
-        .bottom-nav-item.active i {
-            transform: translateY(-1px);
-        }
-
-        .bottom-nav-item:hover {
-            color: var(--orange);
-            transform: translateY(-1px);
-        }
-
-        /* Custom mobile menu styling */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 80%;
-            max-width: 320px;
-            height: 100vh;
-            background: var(--charcoal-dark);
-            z-index: 1050;
-            transition: right 0.3s ease;
-            padding: 2rem 1.5rem;
-            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
-            overflow-y: auto;
-        }
-
-        .mobile-menu.active {
-            right: 0;
-        }
-
-        .mobile-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--charcoal-light);
-        }
-
-        .mobile-menu-header h4 {
-            color: var(--white);
-            margin: 0;
-            font-weight: 700;
-        }
-
-        .close-menu {
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .close-menu:hover {
-            transform: rotate(90deg);
-            color: var(--orange);
-        }
-
-        .mobile-menu-items {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .mobile-menu-section {
+        /* Mobile theme toggle */
+        .mobile-theme-toggle {
             margin-top: 1rem;
             padding-top: 1rem;
-            border-top: 1px solid var(--charcoal-light);
+            border-top: 1px solid var(--border-soft);
         }
 
-        .mobile-menu-section-title {
-            color: var(--orange);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-        }
-
-        .mobile-menu-items .btn {
+        .mobile-theme-toggle .theme-toggle-btn {
             width: 100%;
             justify-content: center;
-            margin: 0;
+            padding: 0.6rem;
         }
 
-        .mobile-menu-items .badge {
-            text-align: center;
-            width: fit-content;
-            margin: 0 auto;
+        /* =========================================
+           NAVBAR
+        ========================================= */
+        .navbar {
+            background: var(--navbar-bg) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0;
+            height: 68px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            transition: background 0.3s ease;
         }
 
-        .mobile-menu-items a:not(.btn) {
-            color: var(--white);
+        .navbar::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .navbar .container-fluid {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        /* Brand */
+        .navbar-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.9rem;
+            letter-spacing: 3px;
+            color: var(--white) !important;
             text-decoration: none;
-            padding: 0.7rem;
-            border-radius: 12px;
-            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.9rem;
+            transition: opacity 0.2s;
         }
 
-        .mobile-menu-items a:not(.btn):hover {
-            background: var(--charcoal-light);
-            color: var(--orange);
+        .navbar-brand:hover { opacity: 0.85; }
+
+        .brand-dot {
+            width: 8px; height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--gold);
+            animation: pulse-dot 2.5s ease-in-out infinite;
         }
 
-        .mobile-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1040;
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 6px var(--gold); }
+            50% { box-shadow: 0 0 18px var(--gold), 0 0 30px rgba(201,168,76,0.4); }
+        }
+
+        /* Desktop nav */
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        /* Mobile hamburger */
+        .mobile-hamburger {
             display: none;
+            margin-left: auto;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--gold);
         }
 
-        .mobile-overlay.active {
-            display: block;
+        .mobile-hamburger:hover {
+            background: var(--border);
+            border-color: var(--gold);
         }
 
-        /* =========================
+        .mobile-hamburger i { font-size: 1.4rem; }
+
+        /* =========================================
            BUTTONS
-        ==========================*/
+        ========================================= */
         .btn {
-            border-radius: 30px;
-            padding: 0.5rem 1.2rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+            border-radius: 6px;
+            padding: 0.48rem 1.1rem;
+            transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
             border: none;
+            text-transform: uppercase;
         }
 
+        /* Gold primary */
         .btn-primary {
-            background: var(--orange);
-            color: var(--white);
-            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--navy) !important;
+            font-weight: 600;
+            box-shadow: var(--shadow-btn);
         }
 
         .btn-primary:hover {
-            background: var(--orange-hover);
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4);
-            color: var(--white);
+            box-shadow: 0 6px 28px rgba(201,168,76,0.45);
+            color: var(--navy) !important;
         }
 
-        .btn-primary:active {
-            transform: translateY(0);
-        }
+        .btn-primary:active { transform: translateY(0); }
 
+        /* Outline ghost */
         .btn-outline-light {
             background: transparent;
-            border: 2px solid var(--charcoal-light);
-            color: var(--text-light);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--muted-light) !important;
         }
 
         .btn-outline-light:hover {
-            background: var(--charcoal-light);
-            border-color: var(--charcoal-light);
-            color: var(--white);
-            transform: translateY(-2px);
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.4);
+            color: var(--white) !important;
+            transform: translateY(-1px);
         }
 
+        /* Danger */
         .btn-danger {
-            background: #EF4444;
-            color: white;
+            background: rgba(217,79,79,0.15);
+            color: #F87171 !important;
+            border: 1px solid rgba(217,79,79,0.3);
         }
 
         .btn-danger:hover {
-            background: #DC2626;
-            transform: translateY(-2px);
+            background: rgba(217,79,79,0.3);
+            color: var(--white) !important;
+            transform: translateY(-1px);
         }
 
+        /* Warning (Admin) */
         .btn-warning {
-            background: #F59E0B;
-            color: var(--charcoal-dark);
-            font-weight: 700;
+            background: rgba(201,168,76,0.12);
+            color: var(--gold-light) !important;
+            border: 1px solid rgba(201,168,76,0.3);
         }
 
         .btn-warning:hover {
-            background: #D97706;
-            color: white;
-            transform: translateY(-2px);
+            background: rgba(201,168,76,0.25);
+            color: var(--gold-light) !important;
+            transform: translateY(-1px);
         }
 
-        .btn-sm {
-            padding: 0.4rem 1rem;
-            font-size: 0.85rem;
-        }
+        .btn-sm { padding: 0.38rem 0.85rem; font-size: 0.78rem; }
 
-        .btn-get-verified {
-            background: var(--orange);
-            color: black !important;
-            border: none;
-            border-radius: 50px;
-            padding: 0.6rem 1.5rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
-        }
-
-        .btn-get-verified:hover {
-            background: var(--orange-hover);
-            transform: translate(-3px);
-            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
-        }
-
-        .btn-get-verified i {
-            font-size: 1.2rem;
-        }
-
+        /* Dashboard button */
         .dashboard-btn {
-            background: var(--orange);
-            border: none;
-            border-radius: 8px;
-            padding: 0.5rem 1.2rem;
+            background: transparent;
+            border: 1px solid rgba(201,168,76,0.35);
+            color: var(--gold-light) !important;
+            border-radius: 6px;
+            padding: 0.42rem 0.9rem;
+            font-size: 0.78rem;
             font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s ease;
             text-decoration: none;
+            transition: all 0.22s;
         }
 
         .dashboard-btn:hover {
-            background: var(--orange-hover);
-            transform: translate(-2px);
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+            color: var(--gold) !important;
         }
 
-        /* =========================
-           CARDS (Listings)
-        ==========================*/
-        .card {
-            background: var(--white);
-            border: none;
-            border-radius: 20px;
-            color: var(--text-dark);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            overflow: hidden;
-            height: 100%;
-            border: 1px solid var(--light-gray-dark);
+        /* Get verified */
+        .btn-get-verified {
+            background: transparent;
+            border: 1px solid var(--green);
+            color: var(--green) !important;
+            border-radius: 6px;
+            padding: 0.42rem 0.9rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.22s;
         }
 
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--orange-light);
+        .btn-get-verified:hover {
+            background: rgba(46,204,138,0.1);
+            color: var(--green) !important;
+            transform: translateY(-1px);
         }
 
-        .card-img-top {
-            border-radius: 20px 20px 0 0;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover .card-img-top {
-            transform: scale(1.05);
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--charcoal-dark);
-        }
-
-        .card-text {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .card-price {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--orange);
-            margin: 0.5rem 0;
-        }
-
-        /* =========================
+        /* =========================================
            BADGES
-        ==========================*/
+        ========================================= */
         .badge {
-            background: var(--orange-light);
-            color: var(--charcoal-dark);
+            font-family: 'DM Sans', sans-serif;
             font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            letter-spacing: 0.3px;
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.38rem 0.85rem;
+            border-radius: 4px;
         }
 
         .badge-verified {
-            background: #10B981;
-            color: white;
+            background: rgba(46,204,138,0.12);
+            color: var(--green);
+            border: 1px solid rgba(46,204,138,0.3);
         }
 
         .badge-featured {
-            background: var(--orange);
-            color: white;
+            background: rgba(201,168,76,0.12);
+            color: var(--gold-light);
+            border: 1px solid rgba(201,168,76,0.3);
         }
 
-        /* =========================
-           CONTAINER
-        ==========================*/
-        .main-container {
-            padding: 2rem 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* =========================
-           SECTION HEADERS
-        ==========================*/
-        h1, h2, h3, h4 {
-            font-weight: 700;
-            color: var(--charcoal-dark);
-        }
-
-        h2 {
-            position: relative;
-            padding-bottom: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        h2:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--orange);
-            border-radius: 2px;
-        }
-
-        /* =========================
-           LINKS
-        ==========================*/
-        a {
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        a:not(.btn):not(.navbar-brand):not(.bottom-nav-item) {
-            color: var(--orange);
-            font-weight: 500;
-        }
-
-        a:not(.btn):not(.navbar-brand):not(.bottom-nav-item):hover {
-            color: var(--orange-hover);
-            text-decoration: underline;
-        }
-
-        small, .text-muted {
-            color: var(--text-muted) !important;
-        }
-
-        /* =========================
-           FORM ELEMENTS
-        ==========================*/
-        .form-control, .form-select {
+        /* =========================================
+           CARDS (Listings)
+        ========================================= */
+        .card {
+            background: var(--navy-card);
+            border: 1px solid var(--border-soft);
             border-radius: 12px;
-            border: 1px solid var(--light-gray-dark);
-            padding: 0.75rem 1rem;
-            background: var(--white);
+            color: var(--platinum);
+            box-shadow: var(--shadow-card);
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+            overflow: hidden;
+            height: 100%;
         }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .card-img-top {
+            height: 210px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .card:hover .card-img-top { transform: scale(1.06); }
+
+        .card-body { padding: 1.4rem; }
+
+        .card-title {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+        }
+
+        .card-text { color: var(--muted); font-size: 0.9rem; }
+
+        .card-price {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem;
+            color: var(--gold-light);
+            margin: 0.5rem 0;
+            letter-spacing: -0.01em;
+        }
+
+        /* Thin gold accent line on card top */
+        .card::before {
+            content: '';
+            display: block;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold-dim), var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.35s;
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        /* =========================================
+           FORM ELEMENTS
+        ========================================= */
+        .form-control, .form-select {
+            background: var(--navy-soft);
+            border: 1px solid var(--border-soft);
+            color: var(--platinum);
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .form-control::placeholder { color: var(--muted); }
 
         .form-control:focus, .form-select:focus {
-            border-color: var(--orange);
-            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+            background: var(--navy-soft);
+            border-color: rgba(201,168,76,0.5);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+            color: var(--white);
             outline: none;
         }
 
-        /* =========================
+        .form-select option { background: var(--navy-mid); }
+
+        .form-label {
+            color: var(--muted-light);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.4rem;
+        }
+
+        /* =========================================
            ALERTS
-        ==========================*/
+        ========================================= */
         .alert {
-            border-radius: 16px;
+            border-radius: 8px;
             border: none;
-            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
         }
 
-        .alert-success {
-            background: #D1FAE5;
-            color: #065F46;
+        .alert-success  { background: rgba(46,204,138,0.1); color: #6EE7B7; border: 1px solid rgba(46,204,138,0.2); }
+        .alert-danger   { background: rgba(217,79,79,0.1); color: #FCA5A5; border: 1px solid rgba(217,79,79,0.2); }
+        .alert-warning  { background: rgba(201,168,76,0.1); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.2); }
+        .alert-info     { background: rgba(96,165,250,0.08); color: #93C5FD; border: 1px solid rgba(96,165,250,0.2); }
+
+        /* =========================================
+           SECTION HEADERS
+        ========================================= */
+        h2 {
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 1.75rem;
         }
 
-        .alert-danger {
-            background: #FEE2E2;
-            color: #991B1B;
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 48px; height: 2px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            border-radius: 2px;
         }
 
-        .alert-warning {
-            background: #FEF3C7;
-            color: #92400E;
+        /* =========================================
+           LINKS
+        ========================================= */
+        a {
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .alert-info {
-            background: #DBEAFE;
-            color: #1E40AF;
+        a:not(.btn):not(.navbar-brand):not(.bottom-nav-item):not(.footer-link) {
+            color: var(--gold-light);
         }
 
-        /* =========================
+        a:not(.btn):not(.navbar-brand):not(.bottom-nav-item):not(.footer-link):hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        small, .text-muted { color: var(--muted) !important; }
+
+        /* =========================================
+           DIVIDER
+        ========================================= */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 2.5rem 0;
+            border: none;
+        }
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+        .main-container {
+            padding: 2.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeUp 0.5s ease-out both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================================
            FOOTER
-        ==========================*/
+        ========================================= */
         .footer {
-            background: var(--charcoal-dark);
-            color: var(--text-light);
-            padding: 2rem 0;
-            margin-top: 3rem;
-            border-top: 3px solid var(--orange);
+            background: var(--footer-bg);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 0 2rem;
+            margin-top: 4rem;
+            transition: background 0.3s ease;
+        }
+
+        .footer::before {
+            content: '';
+            display: block;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin-bottom: 2.5rem;
         }
 
         .footer-links {
@@ -593,265 +613,385 @@
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s ease;
+        .footer-link {
+            color: var(--muted);
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            transition: color 0.2s;
         }
 
-        .footer-links a:hover {
-            color: var(--orange);
+        .footer-link:hover { color: var(--gold-light); }
+
+        .footer-copy {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
         }
 
-        /* Modal Styling */
+        .footer-copy span { color: var(--gold); }
+
+        /* =========================================
+           MOBILE MENU (Sidebar)
+        ========================================= */
+        .mobile-menu {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 78%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--navy-mid);
+            border-left: 1px solid var(--border);
+            z-index: 1050;
+            transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
+            padding: 0;
+            overflow-y: auto;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+        }
+
+        .mobile-menu.active { right: 0; }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.4rem 1.5rem;
+            border-bottom: 1px solid var(--border-soft);
+            background: var(--navy);
+        }
+
+        .mobile-menu-header h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+            color: var(--white);
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .close-menu {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.6rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .close-menu:hover { color: var(--gold); transform: rotate(90deg); }
+
+        .mobile-menu-body { padding: 1.25rem 1.25rem; }
+
+        .mobile-menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-menu-items .btn {
+            width: 100%;
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        .mobile-menu-items a:not(.btn):not(.btn-get-verified):not(.dashboard-btn) {
+            color: var(--muted-light);
+            padding: 0.6rem 0.75rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .mobile-menu-items a:not(.btn):not(.btn-get-verified):not(.dashboard-btn):hover {
+            background: var(--border-soft);
+            color: var(--gold-light);
+        }
+
+        .mobile-menu-section {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border-soft);
+        }
+
+        .mobile-menu-section-title {
+            color: var(--gold-dim);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Mobile overlay */
+        .mobile-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            z-index: 1040;
+            display: none;
+        }
+
+        .mobile-overlay.active { display: block; }
+
+        /* =========================================
+           BOTTOM NAV (Mobile)
+        ========================================= */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(10,15,30,0.97);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            z-index: 400;
+            display: none;
+            padding: 0.4rem 0.5rem;
+        }
+
+        [data-theme="light"] .bottom-nav {
+            background: rgba(255,255,255,0.95);
+        }
+
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.35rem 0;
+            color: var(--muted);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+            gap: 2px;
+        }
+
+        .bottom-nav-item i { font-size: 1.15rem; }
+
+        .bottom-nav-item span {
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .bottom-nav-item.active,
+        .bottom-nav-item:hover {
+            color: var(--gold-light);
+        }
+
+        .bottom-nav-item.active i {
+            text-shadow: 0 0 10px rgba(201,168,76,0.6);
+        }
+
+        /* =========================================
+           MODAL
+        ========================================= */
         .modal-content {
-            border-radius: 24px;
-            border: 2px solid var(--orange);
+            background: var(--navy-mid);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             overflow: hidden;
         }
 
         .modal-header {
-            background: linear-gradient(135deg, var(--charcoal-dark) 0%, var(--charcoal) 100%);
-            color: white;
-            border-bottom: 2px solid var(--orange);
-        }
-
-        .modal-header .btn-close {
-            filter: brightness(0) invert(1);
+            background: var(--navy);
+            border-bottom: 1px solid var(--border);
+            padding: 1.25rem 1.5rem;
         }
 
         .modal-title {
-            font-weight: 800;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            color: var(--white);
+            font-size: 1rem;
+            letter-spacing: 0.03em;
         }
 
-        .modal-title i {
-            color: var(--orange);
-            margin-right: 8px;
+        .modal-title i { color: var(--gold); margin-right: 8px; }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(0.6);
+            transition: filter 0.2s;
         }
+
+        .modal-header .btn-close:hover { filter: brightness(0) invert(0.85); }
 
         .modal-body {
-            padding: 2rem;
-            max-height: 70vh;
+            padding: 2rem 1.75rem;
+            max-height: 72vh;
             overflow-y: auto;
+            color: var(--muted-light);
         }
 
-        .modal-body::-webkit-scrollbar {
-            width: 6px;
+        .modal-body::-webkit-scrollbar { width: 4px; }
+        .modal-body::-webkit-scrollbar-track { background: var(--navy-soft); }
+        .modal-body::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 4px; }
+
+        .modal-body h4 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 1.75rem;
+            margin-bottom: 0.6rem;
         }
 
-        .modal-body::-webkit-scrollbar-track {
-            background: var(--light-gray-dark);
-            border-radius: 10px;
-        }
+        .modal-body h4:first-child { margin-top: 0; }
 
-        .modal-body::-webkit-scrollbar-thumb {
-            background: var(--orange);
-            border-radius: 10px;
+        .modal-body p {
+            color: var(--muted-light);
+            line-height: 1.7;
+            font-size: 0.9rem;
         }
 
         .modal-footer {
-            border-top: 1px solid var(--light-gray-dark);
+            border-top: 1px solid var(--border-soft);
+            background: var(--navy);
+            padding: 1rem 1.5rem;
         }
 
-        .modal-content h4 {
-            color: var(--orange);
-            margin-top: 1.5rem;
-            margin-bottom: 0.8rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .modal-content h4:first-of-type {
-            margin-top: 0;
-        }
-
-        .modal-content p {
-            color: var(--charcoal-dark);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
+        /* Contact card in modal */
         .contact-info-card {
-            background: var(--light-gray);
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1rem 0;
+            background: var(--navy-soft);
+            border: 1px solid var(--border-soft);
+            border-radius: 8px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.25rem 0;
         }
 
         .contact-info-card p {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.65rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 0.88rem;
+            color: var(--muted-light);
         }
 
-        .contact-info-card i {
-            color: var(--orange);
-            width: 25px;
-        }
+        .contact-info-card p:last-child { margin-bottom: 0; }
+        .contact-info-card i { color: var(--gold); width: 18px; }
 
-        .faq-item {
-            margin-bottom: 1.5rem;
-        }
+        /* FAQ */
+        .faq-item { margin-bottom: 1.5rem; }
 
         .faq-question {
-            font-weight: 700;
-            color: var(--orange);
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
+            font-weight: 600;
+            color: var(--white);
+            font-size: 0.88rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+
+        .faq-question i { color: var(--gold); }
 
         .faq-answer {
-            color: var(--charcoal-dark);
+            color: var(--muted-light);
+            font-size: 0.85rem;
+            line-height: 1.65;
             padding-left: 1rem;
-            border-left: 3px solid var(--orange-light);
+            border-left: 2px solid var(--gold-dim);
         }
 
-        /* =========================
-           RESPONSIVE DESIGN
-        ==========================*/
-        @media (max-width: 991px) {
-            .desktop-nav {
-                display: none;
-            }
-            
-            .bottom-nav {
-                display: block;
-            }
-            
-            .mobile-hamburger {
-                display: block;
-            }
-            
-            body {
-                padding-bottom: 58px;
-            }
-            
-            .navbar .container-fluid {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .navbar-brand {
-                font-size: 1.4rem;
-            }
+        /* =========================================
+           UTILITY CLASSES
+        ========================================= */
+        .text-gold     { color: var(--gold-light) !important; }
+        .text-muted-cm { color: var(--muted) !important; }
+        .bg-navy       { background: var(--navy) !important; }
+        .bg-navy-card  { background: var(--navy-card) !important; }
+        .border-gold   { border-color: var(--border) !important; }
+
+        .btn-outline-orange {
+            background: transparent;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold-light);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.65rem;
         }
-        
+
+        .btn-outline-orange:hover {
+            background: rgba(201,168,76,0.1);
+            color: var(--gold);
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+        @media (max-width: 991px) {
+            .desktop-nav { display: none; }
+            .mobile-hamburger { display: flex; align-items: center; }
+            .bottom-nav { display: block; }
+            body { padding-bottom: 70px; }
+            .navbar .container-fluid { padding: 0 1.25rem; }
+        }
+
         @media (min-width: 992px) {
             .mobile-hamburger,
             .mobile-menu,
             .mobile-overlay,
-            .bottom-nav {
-                display: none !important;
-            }
-            
-            body {
-                padding-bottom: 0;
-            }
+            .bottom-nav { display: none !important; }
+            body { padding-bottom: 0; }
         }
 
         @media (max-width: 768px) {
-            .navbar .btn {
-                width: 100%;
-                margin: 4px 0;
-            }
-
-            .main-container {
-                padding: 1rem;
-            }
-
-            h2 {
-                font-size: 1.4rem;
-            }
-
-            .card-img-top {
-                height: 160px;
-            }
-
-            .card-body {
-                padding: 1rem;
-            }
-
-            .card-price {
-                font-size: 1.3rem;
-            }
-
-            .modal-body {
-                padding: 1rem;
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .main-container {
-            animation: fadeIn 0.5s ease-out;
+            .main-container { padding: 1.5rem 1rem; }
+            h2 { font-size: 1.6rem; }
+            .card-img-top { height: 175px; }
+            .card-body { padding: 1.1rem; }
+            .card-price { font-size: 1.35rem; }
+            .modal-body { padding: 1.25rem 1rem; }
         }
 
         @keyframes slideUp {
             from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            to   { transform: translateY(0); }
         }
 
-        .bottom-nav {
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .bg-orange {
-            background: var(--orange);
-        }
-
-        .bg-orange-light {
-            background: var(--orange-light);
-        }
-
-        .bg-charcoal {
-            background: var(--charcoal);
-        }
-
-        .text-orange {
-            color: var(--orange);
-        }
-
-        .text-charcoal {
-            color: var(--charcoal-dark);
-        }
-
-        .shadow-custom {
-            box-shadow: var(--shadow-md);
-        }
-
-        .divider {
-            height: 2px;
-            background: linear-gradient(to right, var(--orange), transparent);
-            width: 100%;
-            margin: 2rem 0;
-        }
+        .bottom-nav { animation: slideUp 0.35s ease-out; }
     </style>
 </head>
 
 <body>
 
-<!-- =========================
-     NAVBAR WITH RESPONSIVE HAMBURGER
-==========================-->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
+<!-- =========================================
+     NAVBAR
+========================================= -->
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'browse_listings' %}">
+            <span class="brand-dot"></span>
             CHRANDI MOTORS
         </a>
 
+        <!-- Desktop Navigation -->
         <div class="desktop-nav">
+            <!-- Theme Toggle Button (Desktop) -->
+            <button class="theme-toggle-btn" onclick="toggleTheme()">
+                <i class="bi bi-sun-fill" id="themeIcon"></i>
+                <span id="themeText">Light</span>
+            </button>
+            
             {% if user.is_authenticated %}
                 <a href="{% url 'manage_ads' %}" class="btn btn-outline-light btn-sm">
                     <i class="bi bi-grid me-1"></i> My Ads
@@ -876,7 +1016,7 @@
                     <a href="/admin/" class="btn btn-warning btn-sm">
                         <i class="bi bi-shield-lock me-1"></i> Admin
                     </a>
-                    <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">
+                    <a href="{% url 'dashboard' %}" class="dashboard-btn">
                         <i class="bi bi-speedometer2"></i> Dashboard
                     </a>
                 {% endif %}
@@ -893,82 +1033,103 @@
             {% endif %}
         </div>
 
-        <button class="mobile-hamburger" id="mobileHamburgerBtn">
+        <!-- Mobile Hamburger -->
+        <button class="mobile-hamburger" id="mobileHamburgerBtn" aria-label="Open menu">
             <i class="bi bi-list"></i>
         </button>
     </div>
 </nav>
 
-<!-- Mobile Menu Overlay -->
+<!-- Mobile Overlay -->
 <div class="mobile-overlay" id="mobileOverlay"></div>
 
 <!-- Mobile Menu Sidebar -->
 <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
-        <h4><i class="bi bi-car-front"></i> Chrandi Motors</h4>
-        <button class="close-menu" id="closeMobileMenuBtn">✕</button>
+        <h4><i class="bi bi-car-front me-2" style="color:var(--gold)"></i> CHRANDI MOTORS</h4>
+        <button class="close-menu" id="closeMobileMenuBtn" aria-label="Close menu">✕</button>
     </div>
-    <div class="mobile-menu-items">
-        <a href="{% url 'browse_listings' %}" class="btn btn-outline-light">
-            <i class="bi bi-search"></i> Browse Cars
-        </a>
+    <div class="mobile-menu-body">
+        <div class="mobile-menu-items">
+            <a href="{% url 'browse_listings' %}" class="btn btn-outline-light">
+                <i class="bi bi-search me-2"></i> Browse Cars
+            </a>
 
-        {% if user.is_authenticated %}
-            <a href="{% url 'manage_ads' %}" class="btn btn-outline-light">
-                <i class="bi bi-grid me-1"></i> My Ads
-            </a>
-            <a href="{% url 'post_listing' %}" class="btn btn-primary">
-                <i class="bi bi-plus-circle me-1"></i> Post Ad
-            </a>
-            <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-outline-light">
-                <i class="bi bi-person me-1"></i> My Profile
-            </a>
-            {% if user.profile.is_verified %}
-                <div class="badge badge-verified text-center" style="margin: 0 auto;">
-                    <i class="bi bi-patch-check-fill me-1"></i> Verified Seller
+            {% if user.is_authenticated %}
+                <a href="{% url 'manage_ads' %}" class="btn btn-outline-light">
+                    <i class="bi bi-grid me-2"></i> My Ads
+                </a>
+                <a href="{% url 'post_listing' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i> Post Ad
+                </a>
+                <a href="{% url 'seller_profile' user_id=user.id %}" class="btn btn-outline-light">
+                    <i class="bi bi-person me-2"></i> My Profile
+                </a>
+                {% if user.profile.is_verified %}
+                    <div class="badge badge-verified" style="width: fit-content;">
+                        <i class="bi bi-patch-check-fill me-1"></i> Verified Seller
+                    </div>
+                {% endif %}
+                {% if user.is_authenticated and not user.profile.is_verified %}
+                    <a href="{% url 'get_verified' %}" class="btn-get-verified">
+                        <i class="bi bi-patch-check-fill"></i> Get Verified
+                    </a>
+                {% endif %}
+                {% if user.is_staff %}
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">Admin Panel</div>
+                        <a href="/admin/" class="btn btn-warning">
+                            <i class="bi bi-shield-lock me-2"></i> Admin Dashboard
+                        </a>
+                        <a href="{% url 'dashboard' %}" class="dashboard-btn" style="width:100%;justify-content:flex-start;">
+                            <i class="bi bi-speedometer2"></i> Analytics Dashboard
+                        </a>
+                    </div>
+                {% endif %}
+                <div class="mobile-menu-section">
+                    <a href="{% url 'logout' %}" class="btn btn-danger">
+                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                    </a>
                 </div>
-            {% endif %}
-            {% if user.is_authenticated and not user.profile.is_verified %}
-                <a href="{% url 'get_verified' %}" class="btn-get-verified">
-                    <i class="bi bi-patch-check-fill"></i> Get Verified
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-light">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                </a>
+                <a href="{% url 'register' %}" class="btn btn-primary">
+                    <i class="bi bi-person-plus me-2"></i> Register
                 </a>
             {% endif %}
-            {% if user.is_staff %}
-                <div class="mobile-menu-section">
-                    <div class="mobile-menu-section-title">Admin Panel</div>
-                    <a href="/admin/" class="btn btn-warning">Admin Dashboard</a>
-                    <a href="{% url 'dashboard' %}" class="dashboard-btn text-dark">Analytics Dashboard</a>
-                </div>
-            {% endif %}
+
             <div class="mobile-menu-section">
-                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                <div class="mobile-menu-section-title">Discover</div>
+                <a href="#"><i class="bi bi-star-fill"></i> Featured Cars</a>
+                <a href="#"><i class="bi bi-cash-stack"></i> Under 1M KES</a>
+                <a href="#"><i class="bi bi-clock-history"></i> New Arrivals</a>
             </div>
-        {% else %}
-            <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
-        {% endif %}
 
-        <div class="mobile-menu-section">
-            <div class="mobile-menu-section-title">Discover</div>
-            <a href="#"><i class="bi bi-star-fill"></i> Featured Cars</a>
-            <a href="#"><i class="bi bi-cash-stack"></i> Under 1M KES</a>
-            <a href="#"><i class="bi bi-clock-history"></i> New Arrivals</a>
-        </div>
+            <div class="mobile-menu-section">
+                <div class="mobile-menu-section-title">Support & Legal</div>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="bi bi-question-circle"></i> Help Center</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal"><i class="bi bi-envelope"></i> Contact Us</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="bi bi-info-circle"></i> About Us</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal"><i class="bi bi-file-text"></i> Terms & Conditions</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal"><i class="bi bi-shield-lock"></i> Privacy Policy</a>
+            </div>
 
-        <div class="mobile-menu-section">
-            <div class="mobile-menu-section-title">Support & Legal</div>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="bi bi-question-circle"></i> Help Center</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal"><i class="bi bi-envelope"></i> Contact Us</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="bi bi-info-circle"></i> About Us</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal"><i class="bi bi-file-text"></i> Terms & Conditions</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal"><i class="bi bi-shield-lock"></i> Privacy Policy</a>
+            <!-- Mobile Theme Toggle -->
+            <div class="mobile-theme-toggle">
+                <button class="theme-toggle-btn" onclick="toggleTheme()">
+                    <i class="bi bi-sun-fill" id="mobileThemeIcon"></i>
+                    <span id="mobileThemeText">Light Mode</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- =========================
-     BOTTOM NAVIGATION BAR (Mobile Only)
-==========================-->
+<!-- =========================================
+     BOTTOM NAVIGATION (Mobile)
+========================================= -->
 <div class="bottom-nav">
     <div class="bottom-nav-items">
         {% if user.is_authenticated %}
@@ -985,9 +1146,14 @@
                 <i class="bi bi-person-fill"></i><span>Profile</span>
             </a>
             {% if user.profile.is_verified %}
-                <div class="bottom-nav-item"><i class="bi bi-patch-check-fill" style="color: #10B981;"></i><span>Verified</span></div>
+                <div class="bottom-nav-item">
+                    <i class="bi bi-patch-check-fill" style="color: var(--green);"></i>
+                    <span>Verified</span>
+                </div>
             {% else %}
-                <a href="{% url 'get_verified' %}" class="bottom-nav-item"><i class="bi bi-shield-check"></i><span>Verify</span></a>
+                <a href="{% url 'get_verified' %}" class="bottom-nav-item">
+                    <i class="bi bi-shield-check"></i><span>Verify</span>
+                </a>
             {% endif %}
         {% else %}
             <a href="{% url 'browse_listings' %}" class="bottom-nav-item"><i class="bi bi-house-fill"></i><span>Home</span></a>
@@ -998,36 +1164,46 @@
     </div>
 </div>
 
-<!-- =========================
+<!-- =========================================
      PAGE CONTENT
-==========================-->
+========================================= -->
 <div class="main-container">
     {% block content %}{% endblock %}
 </div>
 
-<!-- =========================
-     FOOTER (Desktop Only)
-==========================-->
+<!-- =========================================
+     FOOTER
+========================================= -->
 <footer class="footer">
     <div class="container">
         <div class="footer-links">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="bi bi-info-circle"></i> About Us</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal"><i class="bi bi-envelope"></i> Contact Us</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="bi bi-question-circle"></i> Help Center</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal"><i class="bi bi-file-text"></i> Terms & Conditions</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal"><i class="bi bi-shield-lock"></i> Privacy Policy</a>
+            <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                <i class="bi bi-info-circle"></i> About Us
+            </a>
+            <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#contactModal">
+                <i class="bi bi-envelope"></i> Contact Us
+            </a>
+            <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#helpModal">
+                <i class="bi bi-question-circle"></i> Help Center
+            </a>
+            <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#termsModal">
+                <i class="bi bi-file-text"></i> Terms & Conditions
+            </a>
+            <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#privacyModal">
+                <i class="bi bi-shield-lock"></i> Privacy Policy
+            </a>
         </div>
-        <div class="text-center">
-            <p class="mb-0">© 2026 CHRANDI MOTORS — Connecting Sellers & Buyers</p>
+        <div class="footer-copy">
+            © 2026 <span>CHRANDI MOTORS</span> — Connecting Sellers & Buyers Across Kenya
         </div>
     </div>
 </footer>
 
-<!-- =========================
-     MODALS (Terms, Privacy, About, Help, Contact)
-==========================-->
+<!-- =========================================
+     MODALS
+========================================= -->
 
-<!-- Terms & Conditions Modal -->
+<!-- Terms & Conditions -->
 <div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
@@ -1038,13 +1214,13 @@
             <div class="modal-body">
                 <h4><i class="bi bi-car-front"></i> 1. Introduction</h4>
                 <p>Welcome to Chrandi Motors. By accessing or using our platform, you agree to be bound by these Terms and Conditions. Please read them carefully before using our services.</p>
-                
+
                 <h4><i class="bi bi-person-check"></i> 2. User Accounts</h4>
                 <p>2.1. You must be at least 18 years old to create an account.<br>
                 2.2. You are responsible for maintaining the confidentiality of your account credentials.<br>
                 2.3. You agree to provide accurate and complete information when creating your account.<br>
                 2.4. You are solely responsible for all activities that occur under your account.</p>
-                
+
                 <h4><i class="bi bi-car-front-fill"></i> 3. Vehicle Listings</h4>
                 <p>3.1. Sellers must provide accurate and truthful information about their vehicles.<br>
                 3.2. All listings must include clear photos and accurate descriptions.<br>
@@ -1052,51 +1228,51 @@
                 3.4. Chrandi Motors reserves the right to remove any listing that violates our policies.<br>
                 3.5. Vehicle prices must be listed in Kenyan Shillings (KES).<br>
                 3.6. Sellers must disclose any known defects or issues with the vehicle.</p>
-                
+
                 <h4><i class="bi bi-shield-check"></i> 4. Verification and Trust</h4>
                 <p>4.1. Sellers may apply for verification to enhance trust.<br>
                 4.2. Verification requires submission of valid identification documents.<br>
                 4.3. Chrandi Motors reviews all verification requests within 24-48 hours.<br>
                 4.4. Verified sellers receive a badge on their profile and listings.<br>
                 4.5. We reserve the right to revoke verification status if terms are violated.</p>
-                
+
                 <h4><i class="bi bi-chat-dots"></i> 5. User Conduct</h4>
                 <p>5.1. You agree to communicate respectfully with other users.<br>
                 5.2. Harassment, spam, or fraudulent activities are strictly prohibited.<br>
                 5.3. Do not post false, misleading, or deceptive information.<br>
                 5.4. Respect the intellectual property rights of others.<br>
                 5.5. Do not use our platform for any illegal activities.</p>
-                
+
                 <h4><i class="bi bi-cash-stack"></i> 6. Transactions and Payments</h4>
                 <p>6.1. Chrandi Motors is a platform for connecting buyers and sellers.<br>
                 6.2. We do not handle payments directly between parties.<br>
                 6.3. All financial transactions are between the buyer and seller.<br>
                 6.4. We strongly recommend meeting in public places for transactions.<br>
                 6.5. Inspect vehicles thoroughly before making any payment.</p>
-                
+
                 <h4><i class="bi bi-shield-lock"></i> 7. Privacy and Data Protection</h4>
                 <p>7.1. We collect and process personal data in accordance with our Privacy Policy.<br>
                 7.2. Your contact information is only shared with potential buyers when you initiate contact.<br>
                 7.3. We use industry-standard security measures to protect your data.<br>
                 7.4. You have the right to request deletion of your account and associated data.</p>
-                
+
                 <h4><i class="bi bi-gavel"></i> 8. Termination</h4>
                 <p>8.1. We reserve the right to suspend or terminate accounts that violate these terms.<br>
                 8.2. Users may delete their account at any time through account settings.<br>
                 8.3. Upon termination, listings will be removed from the platform.</p>
-                
-                <div class="alert alert-info mt-4" style="background: rgba(249, 115, 22, 0.1); border: 1px solid var(--orange);">
+
+                <div class="alert alert-info mt-4">
                     <i class="bi bi-calendar-check"></i> <strong>Last Updated:</strong> March 27, 2026
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Privacy Policy Modal -->
+<!-- Privacy Policy -->
 <div class="modal fade" id="privacyModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
@@ -1107,46 +1283,46 @@
             <div class="modal-body">
                 <h4><i class="bi bi-info-circle"></i> 1. Information We Collect</h4>
                 <p>We collect information you provide when creating an account, posting listings, and communicating with other users. This includes name, email, phone number, location, and vehicle details.</p>
-                
+
                 <h4><i class="bi bi-database"></i> 2. How We Use Your Information</h4>
                 <p>2.1. To facilitate vehicle transactions between buyers and sellers.<br>
                 2.2. To verify seller identities and prevent fraud.<br>
                 2.3. To communicate important updates about your account and listings.<br>
                 2.4. To improve our platform and user experience.<br>
                 2.5. To comply with legal obligations.</p>
-                
+
                 <h4><i class="bi bi-share"></i> 3. Information Sharing</h4>
                 <p>3.1. We do not sell your personal information to third parties.<br>
                 3.2. Your contact information is only shared when you initiate contact with another user.<br>
                 3.3. We may share information with law enforcement when required by law.<br>
                 3.4. Aggregated, anonymized data may be used for analytics and research.</p>
-                
+
                 <h4><i class="bi bi-shield"></i> 4. Data Security</h4>
                 <p>We implement industry-standard security measures to protect your data, including encryption, secure servers, and regular security audits. However, no method of transmission over the Internet is 100% secure.</p>
-                
+
                 <h4><i class="bi bi-clock-history"></i> 5. Data Retention</h4>
                 <p>We retain your information as long as your account is active. When you delete your account, we remove your personal information within 30 days, except where required for legal compliance.</p>
-                
+
                 <h4><i class="bi bi-person-check"></i> 6. Your Rights</h4>
                 <p>You have the right to access, correct, or delete your personal information. Contact us at the email below to exercise these rights.</p>
-                
+
                 <div class="contact-info-card">
                     <p><i class="bi bi-envelope"></i> <strong>Email:</strong> <span id="privacyEmail">privacy@chrandimotors.co.ke</span> <button class="btn btn-sm btn-outline-orange ms-2" onclick="copyToClipboard('privacyEmail')">Copy</button></p>
                     <p><i class="bi bi-telephone"></i> <strong>Phone:</strong> 0115082675</p>
                 </div>
-                
-                <div class="alert alert-info mt-3" style="background: rgba(249, 115, 22, 0.1); border: 1px solid var(--orange);">
+
+                <div class="alert alert-info mt-3">
                     <i class="bi bi-calendar-check"></i> <strong>Last Updated:</strong> March 27, 2026
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- About Chrandi Motors Modal -->
+<!-- About Chrandi Motors -->
 <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -1156,27 +1332,27 @@
             </div>
             <div class="modal-body">
                 <div class="text-center mb-4">
-                    <i class="bi bi-car-front-fill" style="font-size: 4rem; color: var(--orange);"></i>
+                    <i class="bi bi-car-front-fill" style="font-size: 3.5rem; color: var(--gold);"></i>
                 </div>
                 <h4>Our Story</h4>
                 <p>Chrandi Motors was founded with a simple vision: to make buying and selling cars in Kenya easier, safer, and more transparent. Since our launch, we've helped thousands of Kenyans find their perfect vehicle and connect with trusted sellers across all 47 counties.</p>
-                
+
                 <h4>Our Mission</h4>
                 <p>To create Kenya's most trusted automotive marketplace where buyers and sellers can connect with confidence, transparency, and ease.</p>
-                
+
                 <h4>Why Choose Us?</h4>
                 <p>✓ <strong>Verified Sellers</strong> - We verify seller identities to build trust<br>
                 ✓ <strong>Nationwide Reach</strong> - Connect with buyers and sellers across all counties<br>
                 ✓ <strong>Safe Transactions</strong> - We provide safety tips and best practices<br>
                 ✓ <strong>24/7 Support</strong> - Our team is here to help when you need it<br>
                 ✓ <strong>Free to List</strong> - Post your vehicles at no cost</p>
-                
+
                 <h4>Our Values</h4>
                 <p><strong>Trust:</strong> We prioritize safety and transparency in every interaction.<br>
                 <strong>Innovation:</strong> We continuously improve our platform to serve you better.<br>
                 <strong>Community:</strong> We believe in empowering Kenyan car enthusiasts and dealers.<br>
                 <strong>Integrity:</strong> We operate with honesty and accountability.</p>
-                
+
                 <div class="contact-info-card mt-3">
                     <p><i class="bi bi-geo-alt"></i> <strong>Location:</strong> Nairobi, Kenya</p>
                     <p><i class="bi bi-envelope"></i> <strong>Email:</strong> <span id="aboutEmail">info@chrandimotors.co.ke</span></p>
@@ -1184,13 +1360,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Help Center Modal -->
+<!-- Help Center -->
 <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
@@ -1203,49 +1379,42 @@
                     <div class="faq-question"><i class="bi bi-question-circle"></i> How do I create an account?</div>
                     <div class="faq-answer">Click "Register" on the top right, fill in your details, and verify your email address. It's free and takes less than a minute!</div>
                 </div>
-                
                 <div class="faq-item">
                     <div class="faq-question"><i class="bi bi-plus-circle"></i> How do I post a vehicle for sale?</div>
                     <div class="faq-answer">Once logged in, click "Post Ad" in the navigation menu. Fill in your vehicle details, upload clear photos, and publish your listing. All listings are reviewed within 24 hours.</div>
                 </div>
-                
                 <div class="faq-item">
                     <div class="faq-question"><i class="bi bi-patch-check"></i> What does "Verified Seller" mean?</div>
                     <div class="faq-answer">Verified Sellers have submitted valid identification documents that we've reviewed and approved. This badge builds trust and helps buyers feel confident.</div>
                 </div>
-                
                 <div class="faq-item">
                     <div class="faq-question"><i class="bi bi-cash-stack"></i> Is it free to list a vehicle?</div>
                     <div class="faq-answer">Yes! Listing vehicles on Chrandi Motors is completely free. There are no hidden fees or commissions.</div>
                 </div>
-                
                 <div class="faq-item">
                     <div class="faq-question"><i class="bi bi-shield"></i> How do I stay safe when buying a car?</div>
                     <div class="faq-answer">Always meet in a public place, inspect the vehicle thoroughly, test drive before purchasing, and never send money without seeing the vehicle first.</div>
                 </div>
-                
                 <div class="faq-item">
                     <div class="faq-question"><i class="bi bi-pencil"></i> How do I edit or delete my listing?</div>
                     <div class="faq-answer">Go to "My Ads" in your profile, find the listing, and click the edit or delete button.</div>
                 </div>
-                
                 <div class="faq-item">
                     <div class="faq-question"><i class="bi bi-star"></i> How are ratings calculated?</div>
                     <div class="faq-answer">Ratings are based on reviews from verified buyers. The average rating is displayed on seller profiles.</div>
                 </div>
-                
-                <div class="alert alert-warning mt-3" style="background: #FEF3C7; border: none;">
+                <div class="alert alert-warning mt-3">
                     <i class="bi bi-exclamation-triangle-fill"></i> <strong>Still need help?</strong> Contact our support team at <strong>0115082675</strong> or email <strong>support@chrandimotors.co.ke</strong>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Contact Us Modal -->
+<!-- Contact Us -->
 <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1255,94 +1424,127 @@
             </div>
             <div class="modal-body">
                 <div class="text-center mb-4">
-                    <i class="bi bi-headset" style="font-size: 3rem; color: var(--orange);"></i>
+                    <i class="bi bi-headset" style="font-size: 2.8rem; color: var(--gold);"></i>
                 </div>
-                
                 <div class="contact-info-card">
-                    <p><i class="bi bi-telephone-fill"></i> <strong>Phone:</strong> <a href="tel:0115082675" style="color: var(--orange);">0115082675</a></p>
-                    <p><i class="bi bi-whatsapp"></i> <strong>WhatsApp:</strong> <a href="https://wa.me/254115082675" target="_blank" style="color: #25D366;">0115082675</a></p>
+                    <p><i class="bi bi-telephone-fill"></i> <strong>Phone:</strong> <a href="tel:0115082675" style="color: var(--gold-light);">0115082675</a></p>
+                    <p><i class="bi bi-whatsapp"></i> <strong>WhatsApp:</strong> <a href="https://wa.me/254115082675" target="_blank" style="color: #4ADE80;">0115082675</a></p>
                     <p><i class="bi bi-envelope"></i> <strong>Email:</strong> <span id="contactEmail">info@chrandimotors.co.ke</span> <button class="btn btn-sm btn-outline-orange ms-2" onclick="copyToClipboard('contactEmail')">Copy</button></p>
                     <p><i class="bi bi-clock"></i> <strong>Support Hours:</strong> Monday - Friday, 8:00 AM - 6:00 PM</p>
                     <p><i class="bi bi-geo-alt-fill"></i> <strong>Address:</strong> Nairobi, Kenya</p>
                 </div>
-                
-                <div class="alert alert-info mt-3" style="background: rgba(249, 115, 22, 0.1); border: 1px solid var(--orange);">
-                    <i class="bi bi-chat-dots"></i> We're here to help! Reach out to us via phone, WhatsApp, or email, and we'll get back to you within 24 hours.
+                <div class="alert alert-info mt-3">
+                    <i class="bi bi-chat-dots"></i> We're here to help! Reach out via phone, WhatsApp, or email and we'll get back to you within 24 hours.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Mobile menu functionality
-    const hamburgerBtn = document.getElementById('mobileHamburgerBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileOverlay = document.getElementById('mobileOverlay');
-    const closeMenuBtn = document.getElementById('closeMobileMenuBtn');
+    // =========================================
+    // THEME TOGGLE FUNCTIONALITY
+    // =========================================
     
+    // Get theme from localStorage or default to 'dark'
+    let currentTheme = localStorage.getItem('chrandi_theme') || 'dark';
+    
+    // Apply theme on page load
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('chrandi_theme', theme);
+        
+        // Update icons and text for both desktop and mobile
+        const themeIcons = document.querySelectorAll('#themeIcon, #mobileThemeIcon');
+        const themeTexts = document.querySelectorAll('#themeText, #mobileThemeText');
+        
+        if (theme === 'dark') {
+            themeIcons.forEach(icon => {
+                icon.className = 'bi bi-sun-fill';
+            });
+            themeTexts.forEach(text => {
+                text.textContent = 'Light';
+            });
+        } else {
+            themeIcons.forEach(icon => {
+                icon.className = 'bi bi-moon-fill';
+            });
+            themeTexts.forEach(text => {
+                text.textContent = 'Dark';
+            });
+        }
+    }
+    
+    // Toggle theme function
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    }
+    
+    // Apply theme on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        applyTheme(currentTheme);
+    });
+    
+    // Optional: Watch for system preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('chrandi_theme')) {
+            const newTheme = e.matches ? 'dark' : 'light';
+            applyTheme(newTheme);
+        }
+    });
+
+    // Mobile menu
+    const hamburgerBtn   = document.getElementById('mobileHamburgerBtn');
+    const mobileMenu     = document.getElementById('mobileMenu');
+    const mobileOverlay  = document.getElementById('mobileOverlay');
+    const closeMenuBtn   = document.getElementById('closeMobileMenuBtn');
+
     function openMobileMenu() {
         mobileMenu.classList.add('active');
         mobileOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
-    
+
     function closeMobileMenu() {
         mobileMenu.classList.remove('active');
         mobileOverlay.classList.remove('active');
         document.body.style.overflow = '';
     }
-    
-    if (hamburgerBtn) {
-        hamburgerBtn.addEventListener('click', openMobileMenu);
-    }
-    
-    if (closeMenuBtn) {
-        closeMenuBtn.addEventListener('click', closeMobileMenu);
-    }
-    
-    if (mobileOverlay) {
-        mobileOverlay.addEventListener('click', closeMobileMenu);
-    }
-    
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-            closeMobileMenu();
-        }
+
+    if (hamburgerBtn)  hamburgerBtn.addEventListener('click', openMobileMenu);
+    if (closeMenuBtn)  closeMenuBtn.addEventListener('click', closeMobileMenu);
+    if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) closeMobileMenu();
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    // Active bottom nav
+    document.addEventListener('DOMContentLoaded', function () {
         const currentUrl = window.location.pathname;
-        const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-        
-        bottomNavItems.forEach(item => {
+        document.querySelectorAll('.bottom-nav-item').forEach(item => {
             const href = item.getAttribute('href');
-            if (href && currentUrl.includes(href)) {
-                item.classList.add('active');
-            }
+            if (href && currentUrl.includes(href)) item.classList.add('active');
         });
     });
-    
-    // Copy to clipboard function
+
+    // Copy to clipboard
     function copyToClipboard(elementId) {
-        const textElement = document.getElementById(elementId);
-        const text = textElement.innerText;
-        
+        const text = document.getElementById(elementId).innerText;
         navigator.clipboard.writeText(text).then(() => {
             const btn = event.target;
-            const originalText = btn.innerHTML;
+            const orig = btn.innerHTML;
             btn.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-            }, 2000);
-        }).catch(() => {
-            alert('Could not copy. Please copy manually.');
-        });
+            setTimeout(() => btn.innerHTML = orig, 2000);
+        }).catch(() => alert('Could not copy. Please copy manually.'));
     }
 </script>
 </body>

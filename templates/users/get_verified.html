@@ -4,83 +4,161 @@
 {% block content %}
 
 <style>
+    /* =========================================
+       GET VERIFIED — MODERN SPLIT SCREEN LAYOUT
+       Mercedes Brabus Background
+    ========================================= */
+
     .verify-wrapper {
-        min-height: 85vh;
+        min-height: calc(100vh - 68px);
         display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
-        padding: 2rem 1rem;
+        align-items: stretch;
         position: relative;
         overflow: hidden;
     }
 
-    /* Decorative elements */
-    .verify-wrapper::before {
-        content: '✓';
-        position: absolute;
-        top: 5%;
-        left: 5%;
-        font-size: 15rem;
-        opacity: 0.03;
-        transform: rotate(-15deg);
-        animation: floatVerify 8s ease-in-out infinite;
+    /* Hide scrollbar */
+    .verify-wrapper {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .verify-wrapper::-webkit-scrollbar {
+        display: none;
     }
 
-    .verify-wrapper::after {
-        content: '🛡️';
-        position: absolute;
-        bottom: 5%;
-        right: 5%;
-        font-size: 12rem;
-        opacity: 0.03;
-        transform: rotate(15deg);
-        animation: floatShield 10s ease-in-out infinite reverse;
-    }
-
-    @keyframes floatVerify {
-        0%, 100% { transform: translateY(0) rotate(-15deg); }
-        50% { transform: translateY(-30px) rotate(-10deg); }
-    }
-
-    @keyframes floatShield {
-        0%, 100% { transform: translateY(0) rotate(15deg); }
-        50% { transform: translateY(-30px) rotate(20deg); }
-    }
-
-    /* Floating particles */
-    .verify-particle {
-        position: absolute;
-        font-size: 2rem;
-        opacity: 0.1;
-        animation: floatParticle 12s linear infinite;
-    }
-
-    @keyframes floatParticle {
-        0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-        10% { opacity: 0.15; }
-        90% { opacity: 0.15; }
-        100% { transform: translate(100px, -200px) rotate(360deg); opacity: 0; }
-    }
-
-    .particle-1 { top: 20%; left: 20%; animation-delay: 0s; }
-    .particle-2 { top: 70%; left: 80%; animation-delay: 3s; }
-    .particle-3 { top: 40%; left: 60%; animation-delay: 6s; }
-
-    /* Main card */
-    .verify-card {
-        width: 100%;
-        max-width: 700px;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        border-radius: 40px;
-        box-shadow: var(--shadow-lg);
-        border: 2px solid rgba(249, 115, 22, 0.15);
-        padding: 2.5rem;
+    /* Left side - Hero Section with Mercedes Brabus */
+    .verify-hero-section {
+        flex: 1.2;
         position: relative;
-        z-index: 10;
-        animation: slideUpFade 0.5s ease-out;
-        overflow-x: hidden;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    }
+
+    .verify-hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+        z-index: 1;
+    }
+
+    .verify-hero-section img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 3rem;
+        width: 100%;
+        animation: fadeUp 0.8s ease-out;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(201,168,76,0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(201,168,76,0.4);
+        border-radius: 100px;
+        padding: 0.5rem 1.2rem;
+        margin-bottom: 1.5rem;
+        color: var(--gold-light);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .hero-badge i {
+        font-size: 1rem;
+    }
+
+    .hero-content h1 {
+        font-family: 'DM Serif Display', serif;
+        font-size: 3rem;
+        font-weight: 400;
+        color: white;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .hero-content h1 span {
+        color: var(--gold-light);
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        color: rgba(255,255,255,0.9);
+        line-height: 1.6;
+        max-width: 80%;
+        margin-bottom: 2rem;
+    }
+
+    .trust-stats {
+        display: flex;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .trust-stat {
+        text-align: center;
+    }
+
+    .trust-stat .number {
+        font-family: 'DM Serif Display', serif;
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--gold-light);
+        display: block;
+    }
+
+    .trust-stat .label {
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* Right side - Form Section */
+    .verify-form-section {
+        flex: 1;
+        background: var(--navy-card);
+        backdrop-filter: blur(20px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .verify-form-section::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Form Container */
+    .form-container {
+        width: 100%;
+        max-width: 550px;
+        animation: slideUpFade 0.6s ease-out;
     }
 
     @keyframes slideUpFade {
@@ -94,512 +172,363 @@
         }
     }
 
-    /* Header */
-    .verify-header {
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Form Header */
+    .form-header {
         text-align: center;
         margin-bottom: 2rem;
-        position: relative;
     }
 
-    .badge-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, var(--orange-light) 0%, var(--orange) 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1rem;
-        box-shadow: 0 15px 25px rgba(249, 115, 22, 0.3);
-        animation: gentlePulse 3s ease infinite;
-    }
-
-    @keyframes gentlePulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
-
-    .badge-icon i {
-        font-size: 2.8rem;
-        color: white;
-    }
-
-    .verify-header h4 {
+    .form-header h2 {
         font-size: 1.8rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
+        font-weight: 600;
+        color: var(--white);
         margin-bottom: 0.5rem;
-        letter-spacing: -0.5px;
     }
 
-    .verify-header h4 span {
-        color: var(--orange);
-        position: relative;
-        display: inline-block;
+    .form-header h2 span {
+        color: var(--gold-light);
     }
 
-    .verify-header h4 span::after {
-        content: '';
-        position: absolute;
-        bottom: 5px;
-        left: 0;
-        width: 100%;
-        height: 6px;
-        background: rgba(249, 115, 22, 0.2);
-        z-index: -1;
-        border-radius: 3px;
-    }
-
-    .verify-header p {
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        flex-wrap: wrap;
-    }
-
-    .verify-header p i {
-        color: var(--orange);
+    .form-header p {
+        color: var(--muted);
+        font-size: 0.85rem;
     }
 
     /* Progress steps */
     .progress-steps {
         display: flex;
         justify-content: center;
-        gap: 1.5rem;
+        gap: 1rem;
         margin-bottom: 2rem;
-        flex-wrap: wrap;
     }
 
     .step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.3rem;
+        flex: 1;
+        text-align: center;
+        position: relative;
+    }
+
+    .step::before {
+        content: '';
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        width: 100%;
+        height: 2px;
+        background: var(--border-soft);
+        z-index: 0;
+    }
+
+    .step:first-child::before {
+        display: none;
+    }
+
+    .step:last-child::before {
+        width: 50%;
     }
 
     .step-circle {
-        width: 35px;
-        height: 35px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
-        background: var(--light-gray);
-        border: 2px solid var(--light-gray-dark);
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 700;
-        color: var(--text-muted);
+        font-weight: 600;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin: 0 auto 0.5rem;
+        position: relative;
+        z-index: 1;
         transition: all 0.3s ease;
-        font-size: 0.9rem;
     }
 
     .step.active .step-circle {
-        background: var(--orange);
-        border-color: var(--orange);
-        color: white;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        border-color: transparent;
+        color: var(--navy);
+        font-weight: 700;
+        box-shadow: 0 0 15px rgba(201,168,76,0.4);
     }
 
     .step-label {
-        font-size: 0.7rem;
-        color: var(--text-muted);
+        font-size: 0.65rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
     }
 
     .step.active .step-label {
-        color: var(--orange);
+        color: var(--gold-light);
         font-weight: 600;
     }
 
-    /* Info box - requirements */
+    /* Requirements Box */
     .requirements-box {
-        background: linear-gradient(135deg, rgba(249, 115, 22, 0.05) 0%, rgba(249, 115, 22, 0.02) 100%);
-        border: 2px dashed var(--orange-light);
-        border-radius: 20px;
-        padding: 1.2rem;
+        background: var(--navy-soft);
+        border-radius: 12px;
+        padding: 1rem;
         margin-bottom: 1.5rem;
+        border-left: 3px solid var(--gold);
     }
 
     .requirements-title {
-        font-weight: 700;
-        color: var(--charcoal-dark);
-        margin-bottom: 0.8rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 0.95rem;
+        font-size: 0.8rem;
     }
 
     .requirements-title i {
-        color: var(--orange);
+        color: var(--gold);
     }
 
     .requirements-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
         gap: 0.8rem;
     }
 
     .requirement-item {
         display: flex;
         align-items: center;
-        gap: 8px;
-        color: var(--text-muted);
-        font-size: 0.85rem;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 0.7rem;
+        background: rgba(255,255,255,0.03);
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
     }
 
     .requirement-item i {
-        color: var(--orange);
-        font-size: 0.9rem;
-        flex-shrink: 0;
+        color: var(--gold);
+        font-size: 0.6rem;
     }
 
-    .requirement-item strong {
-        color: var(--charcoal-dark);
-    }
-
-    /* Form styling */
-    .form-section {
-        background: var(--light-gray);
-        border-radius: 20px;
-        padding: 1.2rem;
-        margin-bottom: 1.5rem;
-        border: 1px solid var(--light-gray-dark);
-    }
-
-    .section-title {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--charcoal-dark);
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .section-title i {
-        color: var(--orange);
-        font-size: 1.1rem;
-    }
-
+    /* Form Groups */
     .form-group {
         margin-bottom: 1.2rem;
     }
 
-    .form-group:last-child {
-        margin-bottom: 0;
-    }
-
     .form-label {
         font-weight: 600;
-        color: var(--charcoal-dark);
+        color: var(--muted-light);
         margin-bottom: 0.4rem;
         display: flex;
         align-items: center;
-        gap: 5px;
-        font-size: 0.85rem;
+        gap: 6px;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
     }
 
     .form-label i {
-        color: var(--orange);
-        font-size: 0.9rem;
+        color: var(--gold);
+        font-size: 0.7rem;
     }
 
     .form-control {
         width: 100%;
         padding: 0.75rem 1rem;
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 16px;
-        font-size: 0.95rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        font-size: 0.85rem;
         transition: all 0.3s ease;
-        background: var(--white);
-        box-sizing: border-box;
+        background: var(--navy-mid);
+        color: var(--platinum);
     }
 
     .form-control:focus {
-        border-color: var(--orange);
-        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
         outline: none;
     }
 
-    /* File input styling */
-    .file-input-wrapper {
-        position: relative;
-        width: 100%;
-    }
-
+    /* File Input */
     .file-input {
         width: 100%;
         padding: 0.6rem;
-        border: 2px dashed var(--light-gray-dark);
-        background: var(--white);
+        border: 1px dashed var(--border-soft);
+        background: var(--navy-mid);
         cursor: pointer;
-        border-radius: 16px;
-        font-size: 0.85rem;
-        box-sizing: border-box;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        color: var(--muted-light);
     }
 
-    .file-input::file-selector-button {
-        background: var(--orange);
-        color: white;
+    .file-input::-webkit-file-upload-button {
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy);
         border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 30px;
+        padding: 0.4rem 1rem;
+        border-radius: 6px;
         margin-right: 0.8rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 0.8rem;
-    }
-
-    .file-input::file-selector-button:hover {
-        background: var(--orange-hover);
+        font-size: 0.7rem;
     }
 
     .file-hint {
-        font-size: 0.75rem;
-        color: var(--text-muted);
+        font-size: 0.6rem;
+        color: var(--muted);
         margin-top: 0.3rem;
         display: flex;
         align-items: center;
-        gap: 5px;
-        flex-wrap: wrap;
+        gap: 4px;
     }
 
     .file-hint i {
-        color: var(--orange);
-        font-size: 0.8rem;
+        color: var(--gold-dim);
     }
 
-    /* Submit button */
-    .btn-verify {
-        background: var(--orange);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 1rem;
-        font-size: 1rem;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
-        width: 100%;
-        margin-top: 0.5rem;
-        cursor: pointer;
-    }
-
-    .btn-verify:hover {
-        background: var(--orange-hover);
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(249, 115, 22, 0.4);
-    }
-
-    .btn-verify:active {
-        transform: translateY(0);
-    }
-
-    .btn-verify i {
-        font-size: 1.1rem;
-        transition: transform 0.2s ease;
-    }
-
-    .btn-verify:hover i {
-        transform: scale(1.1);
-    }
-
-    /* Privacy note */
-    .privacy-note {
-        text-align: center;
-        margin-top: 1.5rem;
-        padding-top: 1rem;
-        border-top: 2px dashed var(--light-gray-dark);
-        color: var(--text-muted);
-        font-size: 0.8rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        flex-wrap: wrap;
-    }
-
-    .privacy-note i {
-        color: var(--orange);
-    }
-
-    /* Benefits section */
+    /* Benefits */
     .benefits-section {
         display: flex;
-        justify-content: center;
-        gap: 1.5rem;
+        justify-content: space-between;
+        gap: 1rem;
         margin: 1.5rem 0;
-        flex-wrap: wrap;
+        padding: 1rem;
+        background: var(--navy-soft);
+        border-radius: 12px;
     }
 
     .benefit-item {
         text-align: center;
         flex: 1;
-        min-width: 70px;
     }
 
     .benefit-icon {
-        width: 40px;
-        height: 40px;
-        background: rgba(249, 115, 22, 0.1);
+        width: 35px;
+        height: 35px;
+        background: rgba(201,168,76,0.1);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 0.4rem;
+        margin: 0 auto 0.3rem;
     }
 
     .benefit-icon i {
-        color: var(--orange);
-        font-size: 1.1rem;
+        color: var(--gold-light);
+        font-size: 0.9rem;
     }
 
     .benefit-text {
-        font-size: 0.75rem;
-        color: var(--charcoal-dark);
-        font-weight: 600;
+        font-size: 0.65rem;
+        color: var(--muted-light);
+        font-weight: 500;
     }
 
-    /* Trust message */
-    .trust-message {
+    /* Submit Button */
+    .btn-verify {
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
+        border: none;
+        border-radius: 10px;
+        padding: 0.9rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-top: 0.5rem;
+    }
+
+    .btn-verify:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(201,168,76,0.45);
+    }
+
+    /* Privacy Note */
+    .privacy-note {
         text-align: center;
-        margin-top: 1rem;
-        font-size: 0.7rem;
-        opacity: 0.5;
-        color: var(--text-muted);
+        margin-top: 1.2rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-soft);
+        color: var(--muted);
+        font-size: 0.65rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
     }
 
-    /* Responsive - Mobile Fixes */
-    @media (max-width: 768px) {
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero-content p {
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 992px) {
         .verify-wrapper {
-            padding: 1rem;
-            align-items: flex-start;
-            min-height: auto;
+            flex-direction: column;
         }
 
-        .verify-card {
-            padding: 1.2rem;
-            border-radius: 30px;
-            margin: 1rem 0;
+        .verify-hero-section {
+            min-height: 350px;
+            flex: none;
         }
 
-        .badge-icon {
-            width: 60px;
-            height: 60px;
+        .hero-content {
+            padding: 2rem;
+            text-align: center;
         }
 
-        .badge-icon i {
+        .hero-content p {
+            max-width: 100%;
+        }
+
+        .trust-stats {
+            justify-content: center;
+        }
+
+        .verify-form-section {
+            padding: 1.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
             font-size: 2rem;
         }
 
-        .verify-header h4 {
-            font-size: 1.4rem;
-        }
-
-        .verify-header p {
-            font-size: 0.85rem;
-        }
-
-        .progress-steps {
-            gap: 0.8rem;
-        }
-
-        .step-circle {
-            width: 30px;
-            height: 30px;
-            font-size: 0.8rem;
-        }
-
-        .step-label {
-            font-size: 0.65rem;
-        }
-
-        .requirements-box {
-            padding: 1rem;
-        }
-
-        .requirements-grid {
-            grid-template-columns: 1fr;
-            gap: 0.6rem;
-        }
-
-        .requirement-item {
-            font-size: 0.8rem;
-        }
-
-        .form-section {
-            padding: 1rem;
-        }
-
-        .section-title {
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .form-label {
-            font-size: 0.8rem;
-        }
-
-        .form-control {
-            padding: 0.65rem 0.9rem;
+        .hero-content p {
             font-size: 0.9rem;
         }
 
-        .file-input {
-            padding: 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        .file-input::file-selector-button {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.75rem;
-        }
-
-        .btn-verify {
-            padding: 0.9rem;
-            font-size: 0.95rem;
-        }
-
-        .benefits-section {
-            gap: 0.8rem;
-        }
-
-        .benefit-icon {
-            width: 35px;
-            height: 35px;
-        }
-
-        .benefit-icon i {
-            font-size: 1rem;
-        }
-
-        .benefit-text {
+        .hero-badge {
             font-size: 0.7rem;
         }
 
-        .privacy-note {
-            font-size: 0.7rem;
-        }
-
-        .trust-message {
-            font-size: 0.65rem;
-        }
-    }
-
-    /* Extra small devices */
-    @media (max-width: 480px) {
-        .verify-card {
-            padding: 1rem;
-        }
-
-        .verify-header h4 {
-            font-size: 1.2rem;
+        .form-container {
+            padding: 0;
         }
 
         .progress-steps {
@@ -612,99 +541,142 @@
             font-size: 0.7rem;
         }
 
-        .form-section {
-            padding: 0.8rem;
+        .step-label {
+            font-size: 0.55rem;
         }
 
-        .file-input::file-selector-button {
-            display: block;
-            margin-bottom: 0.5rem;
-            width: 100%;
+        .requirements-grid {
+            gap: 0.5rem;
+        }
+
+        .requirement-item {
+            font-size: 0.65rem;
+        }
+
+        .benefits-section {
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-align: left;
+        }
+
+        .benefit-icon {
+            margin: 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .verify-hero-section {
+            min-height: 300px;
+        }
+
+        .hero-content h1 {
+            font-size: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 0.8rem;
+        }
+
+        .trust-stat .number {
+            font-size: 1.5rem;
+        }
+
+        .trust-stat .label {
+            font-size: 0.6rem;
+        }
+
+        .form-container {
+            padding: 0;
         }
     }
 </style>
 
 <div class="verify-wrapper">
-    <!-- Floating particles -->
-    <div class="verify-particle particle-1">✓</div>
-    <div class="verify-particle particle-2">🛡️</div>
-    <div class="verify-particle particle-3">🏆</div>
-
-    <!-- Main card -->
-    <div class="verify-card">
-
-        <!-- Header -->
-        <div class="verify-header">
-            <div class="badge-icon">
+    <!-- Left side - Hero Section with Mercedes Brabus -->
+    <div class="verify-hero-section">
+        <img src="https://images.pexels.com/photos/21067389/pexels-photo-21067389/free-photo-of-brabus-g-wagon-in-the-desert.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+             alt="Mercedes Brabus G-Wagon"
+             onerror="this.src='https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1600'">
+        <div class="hero-content">
+            <div class="hero-badge">
                 <i class="bi bi-patch-check-fill"></i>
+                Verified Sellers Program
             </div>
-            <h4>
-                Get <span>Verified</span> Seller Badge
-            </h4>
+            <h1>
+                Become a <span>Trusted</span><br>
+                Seller on Chrandi Motors
+            </h1>
             <p>
-                <i class="bi bi-star-fill"></i>
-                Build trust and sell faster
-                <i class="bi bi-lightning-charge-fill"></i>
+                Join Kenya's most exclusive group of verified car sellers. 
+                Get the official badge that builds trust and accelerates your sales.
             </p>
-        </div>
-
-        <!-- Progress steps -->
-        <div class="progress-steps">
-            <div class="step active">
-                <div class="step-circle">1</div>
-                <span class="step-label">Submit Docs</span>
-            </div>
-            <div class="step">
-                <div class="step-circle">2</div>
-                <span class="step-label">Admin Review</span>
-            </div>
-            <div class="step">
-                <div class="step-circle">3</div>
-                <span class="step-label">Get Badge</span>
+            <div class="trust-stats">
+                <div class="trust-stat">
+                    <span class="number">3x</span>
+                    <span class="label">More Views</span>
+                </div>
+                <div class="trust-stat">
+                    <span class="number">2.5x</span>
+                    <span class="label">Faster Sales</span>
+                </div>
+                <div class="trust-stat">
+                    <span class="number">1000+</span>
+                    <span class="label">Trusted Sellers</span>
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Requirements box -->
-        <div class="requirements-box">
-            <div class="requirements-title">
-                <i class="bi bi-clipboard-check-fill"></i>
-                Verification Requirements
+    <!-- Right side - Form Section -->
+    <div class="verify-form-section">
+        <div class="form-container">
+            <!-- Form Header -->
+            <div class="form-header">
+                <h2>Get <span>Verified</span></h2>
+                <p>Complete the form below to apply for verification</p>
             </div>
-            <div class="requirements-grid">
-                <div class="requirement-item">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span><strong>ID Front</strong> (Clear photo)</span>
+
+            <!-- Progress steps -->
+            <div class="progress-steps">
+                <div class="step active">
+                    <div class="step-circle">1</div>
+                    <span class="step-label">Details</span>
                 </div>
-                <div class="requirement-item">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span><strong>ID Back</strong> (Clear photo)</span>
+                <div class="step">
+                    <div class="step-circle">2</div>
+                    <span class="step-label">Documents</span>
                 </div>
-                <div class="requirement-item">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span><strong>Profile Photo</strong> (Your face)</span>
-                </div>
-                <div class="requirement-item">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span><strong>Phone & Location</strong> (Valid)</span>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <span class="step-label">Review</span>
                 </div>
             </div>
-            <div class="file-hint" style="margin-top: 0.8rem; justify-content: center;">
-                <i class="bi bi-clock"></i>
-                Admin will review within 24 hours
-            </div>
-        </div>
 
-        <!-- Form -->
-        <form method="POST" enctype="multipart/form-data" id="verifyForm">
-            {% csrf_token %}
-
-            <!-- Contact Information Section -->
-            <div class="form-section">
-                <div class="section-title">
-                    <i class="bi bi-person-vcard-fill"></i>
-                    Contact Information
+            <!-- Requirements box -->
+            <div class="requirements-box">
+                <div class="requirements-title">
+                    <i class="bi bi-clipboard-check-fill"></i>
+                    What you'll need
                 </div>
+                <div class="requirements-grid">
+                    <span class="requirement-item"><i class="bi bi-check-circle-fill"></i> ID Front & Back</span>
+                    <span class="requirement-item"><i class="bi bi-check-circle-fill"></i> Profile Photo</span>
+                    <span class="requirement-item"><i class="bi bi-check-circle-fill"></i> Valid Phone Number</span>
+                    <span class="requirement-item"><i class="bi bi-check-circle-fill"></i> Location</span>
+                </div>
+            </div>
 
+            <!-- Form -->
+            <form method="POST" enctype="multipart/form-data" id="verifyForm">
+                {% csrf_token %}
+
+                <!-- Contact Information -->
                 <div class="form-group">
                     <label class="form-label">
                         <i class="bi bi-telephone-fill"></i>
@@ -724,23 +696,14 @@
                     </label>
                     {{ form.location }}
                 </div>
-            </div>
 
-            <!-- Photos Section -->
-            <div class="form-section">
-                <div class="section-title">
-                    <i class="bi bi-images"></i>
-                    Photos & Documents
-                </div>
-
+                <!-- Photos & Documents -->
                 <div class="form-group">
                     <label class="form-label">
                         <i class="bi bi-person-circle"></i>
                         Profile Photo
                     </label>
-                    <div class="file-input-wrapper">
-                        {{ form.profile_pic }}
-                    </div>
+                    {{ form.profile_pic }}
                     <div class="file-hint">
                         <i class="bi bi-camera"></i>
                         Clear face photo, JPG/PNG, max 5MB
@@ -752,9 +715,7 @@
                         <i class="bi bi-card-text"></i>
                         National ID (Front)
                     </label>
-                    <div class="file-input-wrapper">
-                        {{ form.id_front }}
-                    </div>
+                    {{ form.id_front }}
                 </div>
 
                 <div class="form-group">
@@ -762,54 +723,47 @@
                         <i class="bi bi-card-text"></i>
                         National ID (Back)
                     </label>
-                    <div class="file-input-wrapper">
-                        {{ form.id_back }}
-                    </div>
+                    {{ form.id_back }}
                     <div class="file-hint">
                         <i class="bi bi-info-circle"></i>
                         Must show all details clearly
                     </div>
                 </div>
+
+                <!-- Benefits preview -->
+                <div class="benefits-section">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="benefit-text">Trust Badge</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <div class="benefit-text">More Views</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+                        <div class="benefit-text">Sell Faster</div>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn-verify" id="submitBtn">
+                    <i class="bi bi-check2-circle"></i>
+                    Submit Application
+                </button>
+            </form>
+
+            <!-- Privacy note -->
+            <div class="privacy-note">
+                <i class="bi bi-shield-lock-fill"></i>
+                256-bit encrypted • Your documents are private
             </div>
-
-            <!-- Benefits preview -->
-            <div class="benefits-section">
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                    <div class="benefit-text">Trust Badge</div>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="bi bi-graph-up"></i>
-                    </div>
-                    <div class="benefit-text">More Views</div>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="bi bi-lightning-charge"></i>
-                    </div>
-                    <div class="benefit-text">Sell Faster</div>
-                </div>
-            </div>
-
-            <!-- Submit button -->
-            <button type="submit" class="btn-verify" id="submitBtn">
-                <i class="bi bi-check2-circle"></i>
-                Submit for Verification
-            </button>
-        </form>
-
-        <!-- Privacy note -->
-        <div class="privacy-note">
-            <i class="bi bi-shield-lock-fill"></i>
-            Your documents are private and only visible to Chrandi Motors admin
-        </div>
-
-        <!-- Trust message -->
-        <div class="trust-message">
-            🔒 256-bit encrypted • GDPR compliant
         </div>
     </div>
 </div>
@@ -827,13 +781,22 @@
             });
         }
 
-        // File input enhancement - show selected filename
+        // File input enhancement
         const fileInputs = document.querySelectorAll('input[type="file"]');
         fileInputs.forEach(input => {
             input.addEventListener('change', function(e) {
                 const fileName = this.files[0]?.name;
                 if (fileName) {
-                    console.log(`Selected: ${fileName}`);
+                    const hint = this.closest('.form-group')?.querySelector('.file-hint');
+                    if (hint && fileName) {
+                        const originalHint = hint.innerHTML;
+                        hint.innerHTML = `<i class="bi bi-check-circle-fill"></i> Selected: ${fileName.substring(0, 30)}${fileName.length > 30 ? '...' : ''}`;
+                        hint.style.color = 'var(--green)';
+                        setTimeout(() => {
+                            hint.innerHTML = originalHint;
+                            hint.style.color = '';
+                        }, 3000);
+                    }
                 }
             });
         });

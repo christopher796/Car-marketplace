@@ -3,154 +3,311 @@
 
 {% block content %}
 <style>
+    /* =========================================
+       EDIT PROFILE — DARK NAVY / GOLD LUXURY THEME
+       Matching Chrandi Motors design system
+    ========================================= */
+
     .edit-profile-container {
         max-width: 800px;
         margin: 2rem auto;
         padding: 2rem;
-        background: white;
-        border-radius: 30px;
-        box-shadow: var(--shadow-lg);
+        background: var(--navy-card);
+        border-radius: 24px;
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border-soft);
+        transition: all 0.3s ease;
     }
-    
+
+    .edit-profile-container:hover {
+        border-color: var(--border);
+        box-shadow: var(--shadow-card), var(--shadow-glow);
+    }
+
     .edit-profile-header {
         margin-bottom: 2rem;
         padding-bottom: 1rem;
-        border-bottom: 2px solid var(--orange);
+        border-bottom: 1px solid var(--border-soft);
     }
-    
+
     .edit-profile-header h2 {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: var(--charcoal-dark);
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--white);
         margin: 0;
+        font-family: 'DM Sans', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
-    
+
+    .edit-profile-header h2 i {
+        color: var(--gold);
+    }
+
+    .edit-profile-header p {
+        color: var(--muted);
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+    }
+
     .form-group {
         margin-bottom: 1.5rem;
     }
-    
+
     .form-group label {
         font-weight: 600;
-        color: var(--charcoal-dark);
+        color: var(--muted-light);
         margin-bottom: 0.5rem;
         display: block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
     }
-    
+
     .form-group input,
     .form-group textarea,
     .form-group select {
         width: 100%;
-        padding: 0.8rem 1rem;
-        border: 2px solid var(--light-gray-dark);
-        border-radius: 12px;
-        font-size: 1rem;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        font-size: 0.9rem;
         transition: all 0.2s ease;
+        background: var(--navy-soft);
+        color: var(--platinum);
     }
-    
+
     .form-group input:focus,
     .form-group textarea:focus,
     .form-group select:focus {
-        border-color: var(--orange);
+        border-color: var(--gold);
         outline: none;
-        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+        background: var(--navy-mid);
     }
-    
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: var(--muted);
+    }
+
+    .form-group input:disabled,
+    .form-group input[readonly] {
+        background: var(--navy-mid);
+        opacity: 0.7;
+        cursor: not-allowed;
+        color: var(--muted);
+    }
+
+    /* Current Avatar Section */
     .current-avatar {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 1.5rem;
         margin-bottom: 1rem;
         flex-wrap: wrap;
     }
-    
+
     .current-avatar img {
         width: 80px;
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid var(--orange);
+        border: 2px solid var(--gold);
+        box-shadow: 0 0 15px rgba(201,168,76,0.2);
+        background: var(--navy-soft);
     }
-    
+
     .default-avatar-large {
         width: 80px;
         height: 80px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--orange-light), var(--orange));
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         font-weight: 700;
-        color: white;
+        color: var(--navy);
+        border: 2px solid var(--gold-light);
     }
-    
+
+    .avatar-upload-area {
+        flex: 1;
+    }
+
+    /* File Input Styling */
+    input[type="file"] {
+        padding: 0.6rem;
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        color: var(--muted-light);
+        width: 100%;
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy);
+        border: none;
+        padding: 0.4rem 1rem;
+        border-radius: 6px;
+        margin-right: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 600;
+        font-size: 0.75rem;
+    }
+
+    input[type="file"]::-webkit-file-upload-button:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Help text styling */
+    .help-text {
+        font-size: 0.7rem;
+        color: var(--muted);
+        margin-top: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .help-text i {
+        color: var(--gold-dim);
+        font-size: 0.65rem;
+    }
+
+    /* Form Actions */
     .form-actions {
         display: flex;
         gap: 1rem;
         margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--light-gray-dark);
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-soft);
     }
-    
+
     .btn-save {
-        background: var(--orange);
-        color: white;
-        padding: 0.8rem 2rem;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy) !important;
+        padding: 0.85rem 2rem;
         border: none;
-        border-radius: 40px;
-        font-weight: 600;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: var(--shadow-btn);
     }
-    
+
     .btn-save:hover {
-        background: var(--orange-hover);
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
         transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(201,168,76,0.45);
     }
-    
+
     .btn-cancel {
-        background: var(--light-gray);
-        color: var(--charcoal-dark);
-        padding: 0.8rem 2rem;
-        border: none;
-        border-radius: 40px;
+        background: transparent;
+        color: var(--gold-light) !important;
+        padding: 0.85rem 2rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
         font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
         text-decoration: none;
         text-align: center;
         transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
     }
-    
+
     .btn-cancel:hover {
-        background: var(--light-gray-dark);
+        background: rgba(201,168,76,0.08);
+        border-color: var(--gold);
+        color: var(--gold) !important;
         transform: translateY(-2px);
     }
-    
-    /* Help text styling */
-    .help-text {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        margin-top: 0.3rem;
-        display: block;
+
+    /* Select dropdown styling */
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 14px;
     }
-    
+
+    select option {
+        background: var(--navy-mid);
+        color: var(--platinum);
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
         .edit-profile-container {
             padding: 1.5rem;
             margin: 1rem;
         }
-        
+
+        .edit-profile-header h2 {
+            font-size: 1.3rem;
+        }
+
         .form-actions {
             flex-direction: column;
         }
-        
+
         .btn-save, .btn-cancel {
             width: 100%;
-            text-align: center;
+            justify-content: center;
         }
-        
+
         .current-avatar {
             flex-direction: column;
             text-align: center;
+        }
+
+        .avatar-upload-area {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .edit-profile-container {
+            padding: 1.2rem;
+            margin: 0.8rem;
+        }
+
+        .edit-profile-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.7rem 0.9rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-save, .btn-cancel {
+            padding: 0.7rem 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        .current-avatar img,
+        .default-avatar-large {
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
         }
     }
 </style>
@@ -158,16 +315,19 @@
 <div class="container">
     <div class="edit-profile-container">
         <div class="edit-profile-header">
-            <h2><i class="bi bi-pencil-square"></i> Edit Profile</h2>
-            <p class="text-muted">Update your personal information</p>
+            <h2>
+                <i class="bi bi-pencil-square"></i>
+                Edit Profile
+            </h2>
+            <p>Update your personal information and contact details</p>
         </div>
-        
+
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            
+
             <!-- Profile Picture -->
             <div class="form-group">
-                <label>Profile Picture</label>
+                <label><i class="bi bi-camera"></i> Profile Picture</label>
                 <div class="current-avatar">
                     {% if user.profile.profile_pic %}
                         <img src="{{ user.profile.profile_pic.url }}" alt="{{ user.username }}">
@@ -176,59 +336,80 @@
                             {{ user.username|first|upper }}
                         </div>
                     {% endif %}
-                    <div style="flex: 1;">
+                    <div class="avatar-upload-area">
                         <input type="file" name="profile_pic" accept="image/*" class="form-control">
-                        <small class="help-text">Leave empty to keep current photo. Max size: 5MB</small>
+                        <div class="help-text">
+                            <i class="bi bi-info-circle"></i>
+                            Leave empty to keep current photo. Max size: 5MB
+                        </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Username (read-only) -->
             <div class="form-group">
-                <label>Username</label>
+                <label><i class="bi bi-person-fill"></i> Username</label>
                 <input type="text" value="{{ user.username }}" disabled class="form-control">
-                <small class="help-text">Username cannot be changed</small>
+                <div class="help-text">
+                    <i class="bi bi-lock-fill"></i>
+                    Username cannot be changed
+                </div>
             </div>
-            
+
             <!-- Email (read-only) -->
             <div class="form-group">
-                <label>Email</label>
+                <label><i class="bi bi-envelope-fill"></i> Email</label>
                 <input type="email" value="{{ user.email }}" disabled class="form-control">
-                <small class="help-text">Email cannot be changed</small>
+                <div class="help-text">
+                    <i class="bi bi-lock-fill"></i>
+                    Email cannot be changed
+                </div>
             </div>
-            
+
             <!-- Phone Number -->
             <div class="form-group">
-                <label>Phone Number</label>
+                <label><i class="bi bi-telephone-fill"></i> Phone Number</label>
                 <input type="tel" name="phone" value="{{ user.profile.phone|default:'' }}" 
                        placeholder="e.g., 0712345678" class="form-control">
-                <small class="help-text">Buyers can contact you on this number</small>
+                <div class="help-text">
+                    <i class="bi bi-info-circle"></i>
+                    Buyers can contact you on this number
+                </div>
             </div>
-            
+
             <!-- WhatsApp Number -->
             <div class="form-group">
-                <label>WhatsApp Number</label>
+                <label><i class="bi bi-whatsapp"></i> WhatsApp Number</label>
                 <input type="tel" name="whatsapp" value="{{ user.profile.whatsapp|default:'' }}" 
                        placeholder="e.g., 0712345678" class="form-control">
-                <small class="help-text">Buyers can message you on WhatsApp</small>
+                <div class="help-text">
+                    <i class="bi bi-info-circle"></i>
+                    Buyers can message you on WhatsApp
+                </div>
             </div>
-            
-            <!-- Location - Changed to Text Input -->
+
+            <!-- Location -->
             <div class="form-group">
-                <label>Location</label>
+                <label><i class="bi bi-geo-alt-fill"></i> Location</label>
                 <input type="text" name="location" value="{{ user.profile.location|default:'' }}" 
                        placeholder="e.g., Nairobi, Mombasa, Kisumu, or any location" class="form-control">
-                <small class="help-text">Enter your city, town, or area (e.g., Nairobi CBD, Westlands, etc.)</small>
+                <div class="help-text">
+                    <i class="bi bi-info-circle"></i>
+                    Enter your city, town, or area (e.g., Nairobi CBD, Westlands, etc.)
+                </div>
             </div>
-            
+
             <!-- Bio -->
             <div class="form-group">
-                <label>Bio / About You</label>
+                <label><i class="bi bi-file-text-fill"></i> Bio / About You</label>
                 <textarea name="bio" rows="4" class="form-control" 
                           placeholder="Tell buyers about yourself, your experience, and what makes you a trusted seller...">{{ user.profile.bio|default:'' }}</textarea>
-                <small class="help-text">Share your story to build trust with potential buyers</small>
+                <div class="help-text">
+                    <i class="bi bi-lightbulb"></i>
+                    Share your story to build trust with potential buyers
+                </div>
             </div>
-            
+
             <!-- Form Actions -->
             <div class="form-actions">
                 <button type="submit" class="btn-save">
