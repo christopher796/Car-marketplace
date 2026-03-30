@@ -5,984 +5,1132 @@
 
 <style>
     /* =========================================
-       SELLER PROFILE — DARK NAVY / GOLD LUXURY THEME
-       Matching Chrandi Motors design system
+       SELLER PROFILE — REDESIGNED
+       Dark/Light mode · Mobile responsive
     ========================================= */
 
-    .profile-wrapper {
-        background: var(--navy);
-        min-height: 100vh;
-        padding: 2rem 0;
+    .main-container { padding: 0 !important; max-width: 100% !important; }
+
+    /* ---- CSS Variables for light mode ---- */
+    :root {
+        --lm-bg:        #F3F4F6;
+        --lm-card:      #FFFFFF;
+        --lm-soft:      #F9FAFB;
+        --lm-border:    #E5E7EB;
+        --lm-text:      #111827;
+        --lm-sub:       #374151;
+        --lm-muted:     #6B7280;
+        --lm-gold:      #92650A;
+        --lm-gold-bg:   rgba(146,101,10,0.07);
+    }
+
+    /* =========================================
+       HERO BANNER
+    ========================================= */
+    .profile-hero {
+        background: var(--navy-mid);
+        border-bottom: 1px solid var(--border);
+        padding: 2.5rem 2rem 6rem;
         position: relative;
         overflow: hidden;
     }
 
-    .profile-wrapper::before {
-        content: '👤';
-        position: absolute;
-        top: 5%;
-        left: 5%;
-        font-size: 12rem;
-        opacity: 0.02;
-        transform: rotate(-15deg);
-        animation: floatProfile 8s ease-in-out infinite;
-        pointer-events: none;
-    }
-
-    .profile-wrapper::after {
-        content: '⭐';
-        position: absolute;
-        bottom: 5%;
-        right: 5%;
-        font-size: 12rem;
-        opacity: 0.02;
-        transform: rotate(15deg);
-        animation: floatStar 10s ease-in-out infinite reverse;
-        pointer-events: none;
-    }
-
-    @keyframes floatProfile {
-        0%, 100% { transform: translateY(0) rotate(-15deg); }
-        50% { transform: translateY(-30px) rotate(-10deg); }
-    }
-
-    @keyframes floatStar {
-        0%, 100% { transform: translateY(0) rotate(15deg); }
-        50% { transform: translateY(-30px) rotate(20deg); }
-    }
-
-    /* Profile Card */
-    .profile-card {
-        background: var(--navy-card);
-        border-radius: 20px;
-        border: 1px solid var(--border-soft);
-        box-shadow: var(--shadow-card);
-        padding: 2rem;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .profile-card:hover {
-        border-color: var(--border);
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-card), var(--shadow-glow);
-    }
-
-    .profile-card::before {
+    .profile-hero::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: linear-gradient(90deg, var(--gold), var(--gold-light), transparent);
+        top: -100px; right: -100px;
+        width: 400px; height: 400px;
+        background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 65%);
+        border-radius: 50%;
+        pointer-events: none;
     }
 
-    .profile-image-wrapper {
+    /* Subtle grid */
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+        background-size: 52px 52px;
+        mask-image: radial-gradient(ellipse 80% 100% at 50% 0%, black, transparent);
+        pointer-events: none;
+    }
+
+    .hero-inner {
+        max-width: 1100px;
+        margin: 0 auto;
         position: relative;
-        width: 150px;
-        height: 150px;
+        z-index: 1;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+    }
+    .breadcrumb-row a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb-row a:hover { color: var(--gold-light); }
+    .breadcrumb-row i { font-size: 0.6rem; }
+    .breadcrumb-row span { color: var(--gold-light); }
+
+    /* =========================================
+       PROFILE BODY (overlaps hero)
+    ========================================= */
+    .profile-body {
+        max-width: 1100px;
+        margin: -4.5rem auto 0;
+        padding: 0 1.5rem 3rem;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 1.5rem;
+        align-items: start;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* =========================================
+       LEFT SIDEBAR
+    ========================================= */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* ---- Identity card ---- */
+    .identity-card {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 14px;
+        overflow: hidden;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    /* Gold top accent */
+    .identity-card::before {
+        content: '';
+        display: block;
+        height: 3px;
+        background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), transparent);
+    }
+
+    .identity-top {
+        padding: 2rem 1.5rem 1.25rem;
+    }
+
+    /* Avatar */
+    .avatar-wrap {
+        position: relative;
+        width: 100px;
+        height: 100px;
         margin: 0 auto 1rem;
     }
 
-    .profile-image {
-        width: 150px;
-        height: 150px;
+    .avatar-img {
+        width: 100px; height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid var(--gold);
-        box-shadow: 0 0 20px rgba(201,168,76,0.3);
-        transition: all 0.3s ease;
+        border: 3px solid rgba(201,168,76,0.5);
+        box-shadow: 0 0 24px rgba(201,168,76,0.2);
     }
 
-    .profile-image:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(201,168,76,0.5);
-    }
-
-    .default-avatar-large {
-        width: 150px;
-        height: 150px;
+    .avatar-letter {
+        width: 100px; height: 100px;
         border-radius: 50%;
         background: linear-gradient(135deg, var(--navy-soft), var(--navy-mid));
+        border: 3px solid rgba(201,168,76,0.4);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 4rem;
-        font-weight: 700;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.5rem;
+        letter-spacing: 1px;
         color: var(--gold-light);
-        border: 3px solid var(--gold);
-        box-shadow: 0 0 20px rgba(201,168,76,0.2);
-        margin: 0 auto;
+        box-shadow: 0 0 24px rgba(201,168,76,0.15);
     }
 
-    .verified-badge-large {
+    .verified-dot {
         position: absolute;
-        bottom: 10px;
-        right: 10px;
+        bottom: 4px; right: 4px;
+        width: 26px; height: 26px;
         background: var(--green);
-        color: white;
-        width: 35px;
-        height: 35px;
+        border: 3px solid var(--navy-card);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 3px solid var(--navy-card);
-        font-size: 1.2rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        font-size: 0.7rem;
+        color: white;
     }
 
-    .profile-name {
-        font-size: 1.8rem;
-        font-weight: 600;
+    .profile-username {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.4rem;
         color: var(--white);
+        letter-spacing: -0.02em;
         margin-bottom: 0.3rem;
-        text-align: center;
-        font-family: 'DM Sans', sans-serif;
     }
 
-    .profile-name span {
-        color: var(--gold-light);
-    }
-
-    /* Bio Section */
-    .bio-section {
-        background: rgba(255,255,255,0.03);
-        border-radius: 12px;
-        padding: 1rem;
-        margin: 1rem 0;
-        border-left: 3px solid var(--gold);
-        transition: all 0.3s ease;
-    }
-
-    .bio-section:hover {
-        background: rgba(255,255,255,0.05);
-        transform: translateX(5px);
-    }
-
-    .bio-section p {
-        margin: 0;
-        color: var(--muted-light);
-        line-height: 1.6;
-        font-size: 0.95rem;
-    }
-
-    .bio-section i {
-        color: var(--gold);
-        margin-right: 8px;
-    }
-
-    /* Contact Info */
-    .contact-info {
-        background: rgba(255,255,255,0.02);
-        border-radius: 12px;
-        padding: 1rem;
-        margin: 1rem 0;
-        border: 1px solid var(--border-soft);
-        transition: all 0.3s ease;
-    }
-
-    .contact-info:hover {
-        border-color: var(--border);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .info-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 0.8rem;
-        color: var(--muted-light);
-        padding: 0.3rem 0;
-    }
-
-    .info-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .info-item i {
-        color: var(--gold);
-        width: 24px;
-        font-size: 1.1rem;
-        text-align: center;
-    }
-
-    /* Rating Display */
-    .rating-display {
-        background: rgba(201,168,76,0.05);
-        border-radius: 12px;
-        padding: 1rem;
-        margin: 1rem 0;
-        border: 1px solid rgba(201,168,76,0.2);
-        transition: all 0.3s ease;
-    }
-
-    .stars {
-        color: #FFB800;
-        font-size: 1.2rem;
-        letter-spacing: 2px;
-    }
-
-    .rating-text {
-        color: var(--muted);
-        font-size: 0.9rem;
-    }
-
-    /* Buttons */
-    .btn-view-ads {
-        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-        color: var(--navy) !important;
-        border: none;
-        border-radius: 8px;
-        padding: 0.8rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        font-size: 0.82rem;
-    }
-
-    .btn-view-ads:hover {
-        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-btn);
-        color: var(--navy) !important;
-    }
-
-    .contact-actions {
-        display: flex;
-        gap: 0.8rem;
-        margin-top: 1rem;
-    }
-
-    .contact-action-btn {
-        flex: 1;
-        padding: 0.6rem;
-        border-radius: 8px;
-        font-weight: 600;
+    .verified-label {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: all 0.2s ease;
-        text-decoration: none;
-        font-size: 0.85rem;
+        gap: 5px;
+        background: rgba(46,204,138,0.1);
+        border: 1px solid rgba(46,204,138,0.25);
+        color: var(--green);
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.28rem 0.75rem;
+        border-radius: 100px;
+        margin-bottom: 0.75rem;
     }
 
-    .btn-whatsapp {
-        background: #25D366;
-        color: white;
+    .member-since {
+        font-size: 0.72rem;
+        color: var(--muted);
+        letter-spacing: 0.04em;
     }
 
-    .btn-whatsapp:hover {
-        background: #128C7E;
-        transform: translateY(-2px);
-        color: white;
+    /* Stats strip */
+    .stats-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--border-soft);
     }
 
-    /* Section Cards */
-    .section-card {
+    .sstat {
+        padding: 0.85rem 0.5rem;
+        text-align: center;
+        border-right: 1px solid var(--border-soft);
+    }
+
+    .sstat:last-child { border-right: none; }
+
+    .sstat-num {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.3rem;
+        color: var(--gold-light);
+        display: block;
+        line-height: 1;
+        margin-bottom: 3px;
+    }
+
+    .sstat-lbl {
+        font-size: 0.62rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    /* ---- Info card ---- */
+    .info-card {
         background: var(--navy-card);
-        border-radius: 20px;
         border: 1px solid var(--border-soft);
-        box-shadow: var(--shadow-card);
-        padding: 1.8rem;
-        margin-bottom: 1.5rem;
-        transition: all 0.3s ease;
+        border-radius: 14px;
+        overflow: hidden;
     }
 
-    .section-card:hover {
-        box-shadow: var(--shadow-card), var(--shadow-glow);
-        border-color: var(--border);
-        transform: translateY(-2px);
+    .card-head {
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--border-soft);
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .section-title {
+    .card-head-icon {
+        width: 26px; height: 26px;
+        background: rgba(201,168,76,0.1);
+        border: 1px solid rgba(201,168,76,0.2);
+        border-radius: 5px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--gold); font-size: 0.75rem; flex-shrink: 0;
+    }
+
+    .card-head h5 {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--platinum);
+        margin: 0;
+    }
+
+    .card-body-inner { padding: 1rem 1.1rem; }
+
+    /* Bio */
+    .bio-text {
+        font-size: 0.84rem;
+        color: var(--muted-light);
+        line-height: 1.7;
+        border-left: 2px solid var(--gold-dim);
+        padding-left: 0.85rem;
+        font-style: italic;
+    }
+
+    /* Contact rows */
+    .contact-row {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1rem;
+        padding: 0.55rem 0;
         border-bottom: 1px solid var(--border-soft);
+        font-size: 0.83rem;
+        color: var(--muted-light);
     }
 
-    .section-title i {
-        color: var(--gold);
-        font-size: 1.5rem;
-        background: rgba(201,168,76,0.1);
-        padding: 0.5rem;
-        border-radius: 12px;
-    }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row i { color: var(--gold); width: 16px; font-size: 0.82rem; flex-shrink: 0; }
 
-    .section-title h4 {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: var(--white);
-        margin: 0;
-        font-family: 'DM Sans', sans-serif;
-    }
-
-    .count-badge {
-        background: rgba(201,168,76,0.12);
-        color: var(--gold-light);
-        padding: 0.2rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-left: 0.8rem;
-        border: 1px solid rgba(201,168,76,0.25);
-    }
-
-    /* Ads Grid */
-    .ads-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .ad-card {
-        background: var(--navy-soft);
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid var(--border-soft);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: block;
-    }
-
-    .ad-card:hover {
-        transform: translateY(-6px);
-        border-color: var(--border);
-        box-shadow: var(--shadow-card), var(--shadow-glow);
-    }
-
-    .ad-image {
-        height: 160px;
-        overflow: hidden;
-        background: var(--navy-mid);
-    }
-
-    .ad-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .ad-card:hover .ad-image img {
-        transform: scale(1.08);
-    }
-
-    .ad-content {
-        padding: 1rem;
-        background: var(--navy-soft);
-    }
-
-    .ad-title {
-        font-weight: 600;
-        color: var(--white);
-        margin-bottom: 0.3rem;
-        font-size: 0.95rem;
-        font-family: 'DM Sans', sans-serif;
-    }
-
-    .ad-price {
-        color: var(--gold-light);
-        font-weight: 700;
-        font-size: 1.1rem;
-        margin: 0.3rem 0;
-    }
-
-    .ad-content .text-muted {
-        color: var(--muted) !important;
-        font-size: 0.7rem;
-    }
-
-    /* Reviews */
-    .reviews-list {
-        max-height: 500px;
-        overflow-y: auto;
-        padding-right: 0.5rem;
-    }
-
-    .reviews-list::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    .reviews-list::-webkit-scrollbar-track {
-        background: var(--navy-soft);
-        border-radius: 4px;
-    }
-
-    .reviews-list::-webkit-scrollbar-thumb {
-        background: var(--gold-dim);
-        border-radius: 4px;
-    }
-
-    .review-item {
-        background: var(--navy-soft);
-        border-radius: 12px;
-        padding: 1.2rem;
-        margin-bottom: 1rem;
-        border: 1px solid var(--border-soft);
-        transition: all 0.3s ease;
-    }
-
-    .review-item:hover {
-        border-color: var(--border);
-        transform: translateX(5px);
-    }
-
-    .review-header {
+    /* Rating */
+    .rating-row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.5rem;
+        justify-content: space-between;
         flex-wrap: wrap;
         gap: 0.5rem;
     }
 
-    .review-stars {
-        color: #FFB800;
-        font-size: 0.9rem;
-        letter-spacing: 1px;
-    }
+    .stars { color: #FFB800; font-size: 0.95rem; letter-spacing: 2px; }
+    .rating-num { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--gold-light); }
+    .rating-sub { font-size: 0.72rem; color: var(--muted); width: 100%; }
 
-    .review-date {
-        color: var(--muted);
-        font-size: 0.75rem;
-    }
-
-    .review-comment {
-        color: var(--muted-light);
-        font-size: 0.9rem;
-        margin: 0.8rem 0;
-        line-height: 1.6;
-        font-style: italic;
-    }
-
-    .reviewer-info {
+    /* CTA buttons */
+    .sidebar-cta {
         display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 0.8rem;
-        padding-top: 0.8rem;
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 1rem 1.1rem;
         border-top: 1px solid var(--border-soft);
-        color: var(--muted);
-        font-size: 0.8rem;
     }
 
-    .reviewer-info i {
-        color: var(--gold);
-    }
-
-    /* Review Form - Matching Dark Theme */
-    .review-form {
-        background: var(--navy-soft);
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
-        position: relative;
-    }
-
-    .form-label {
-        font-weight: 600;
-        color: var(--muted-light);
-        margin-bottom: 0.6rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-
-    .form-label i {
-        color: var(--gold);
-        font-size: 0.9rem;
-    }
-
-    /* Custom Styled Dropdown */
-    .custom-select {
-        position: relative;
-        width: 100%;
-    }
-
-    .custom-select select {
-        width: 100%;
-        padding: 12px 16px;
-        font-size: 0.9rem;
-        background: var(--navy-mid);
-        border: 1px solid var(--border-soft);
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        appearance: none;
-        -webkit-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 16px center;
-        background-size: 16px;
-        color: var(--platinum);
-        font-weight: 500;
-    }
-
-    .custom-select select:focus {
-        border-color: var(--gold);
-        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
-        outline: none;
-    }
-
-    .custom-select select:hover {
-        border-color: var(--gold-dim);
-        background-color: var(--navy-card);
-    }
-
-    .custom-select select option {
-        background: var(--navy-mid);
-        color: var(--platinum);
-    }
-
-    /* Custom Styled Textarea */
-    .custom-textarea {
-        width: 100%;
-    }
-
-    .custom-textarea textarea {
-        width: 100%;
-        padding: 12px 16px;
-        font-size: 0.9rem;
-        background: var(--navy-mid);
-        border: 1px solid var(--border-soft);
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        resize: vertical;
-        font-family: 'DM Sans', sans-serif;
-        line-height: 1.5;
-        color: var(--platinum);
-    }
-
-    .custom-textarea textarea::placeholder {
-        color: var(--muted);
-    }
-
-    .custom-textarea textarea:focus {
-        border-color: var(--gold);
-        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
-        outline: none;
-    }
-
-    .custom-textarea textarea:hover {
-        border-color: var(--gold-dim);
-        background-color: var(--navy-card);
-    }
-
-    /* Custom Submit Button */
-    .custom-submit-btn {
-        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-        color: var(--navy) !important;
-        border: none;
-        border-radius: 8px;
-        padding: 12px 20px;
-        font-size: 0.85rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        width: 100%;
-        cursor: pointer;
-        transition: all 0.3s ease;
+    .cta-wa {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        box-shadow: var(--shadow-btn);
-    }
-
-    .custom-submit-btn:hover {
-        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 28px rgba(201,168,76,0.45);
-    }
-
-    .custom-submit-btn:active {
-        transform: translateY(0);
-    }
-
-    /* Stats Row */
-    .stats-row {
-        display: flex;
-        justify-content: space-around;
-        gap: 1rem;
-        margin: 1.5rem 0;
-    }
-
-    .stat-item {
-        text-align: center;
-        flex: 1;
-        padding: 0.8rem;
-        background: rgba(255,255,255,0.02);
-        border-radius: 12px;
-        border: 1px solid var(--border-soft);
-    }
-
-    .stat-value {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: var(--gold-light);
-        line-height: 1;
-        font-family: 'DM Serif Display', serif;
-    }
-
-    .stat-label {
-        font-size: 0.7rem;
-        color: var(--muted);
+        gap: 8px;
+        padding: 0.72rem;
+        background: rgba(37,211,102,0.1);
+        border: 1px solid rgba(37,211,102,0.25);
+        border-radius: 7px;
+        color: #4ADE80 !important;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+        letter-spacing: 0.04em;
         text-transform: uppercase;
-        margin-top: 0.3rem;
-        letter-spacing: 0.05em;
+        transition: all 0.2s;
     }
 
-    /* Empty State */
+    .cta-wa:hover {
+        background: rgba(37,211,102,0.18);
+        border-color: rgba(37,211,102,0.45);
+        transform: translateY(-2px);
+    }
+
+    .cta-all-ads {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0.72rem;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        border-radius: 7px;
+        color: var(--navy) !important;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: all 0.22s;
+        box-shadow: 0 4px 16px rgba(201,168,76,0.25);
+    }
+
+    .cta-all-ads:hover {
+        background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+        color: var(--navy) !important;
+    }
+
+    .cta-edit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0.65rem;
+        background: transparent;
+        border: 1px solid var(--border-soft);
+        border-radius: 7px;
+        color: var(--muted-light) !important;
+        font-size: 0.78rem;
+        font-weight: 500;
+        text-decoration: none;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        transition: all 0.2s;
+    }
+
+    .cta-edit:hover {
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(255,255,255,0.15);
+        color: var(--platinum) !important;
+    }
+
+    /* =========================================
+       RIGHT CONTENT
+    ========================================= */
+    .right-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* ---- Section card ---- */
+    .section-card {
+        background: var(--navy-card);
+        border: 1px solid var(--border-soft);
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .section-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--border-soft);
+        background: var(--navy-soft);
+        flex-wrap: wrap;
+    }
+
+    .section-head-icon {
+        width: 30px; height: 30px;
+        background: rgba(201,168,76,0.1);
+        border: 1px solid rgba(201,168,76,0.2);
+        border-radius: 6px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--gold); font-size: 0.85rem; flex-shrink: 0;
+    }
+
+    .section-head h4 {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--platinum);
+        margin: 0;
+    }
+
+    .count-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(201,168,76,0.08);
+        border: 1px solid rgba(201,168,76,0.2);
+        color: var(--gold-light);
+        font-size: 0.68rem;
+        font-weight: 600;
+        padding: 0.2rem 0.65rem;
+        border-radius: 100px;
+        margin-left: auto;
+    }
+
+    .section-body { padding: 1.25rem; }
+
+    /* ---- Listings grid ---- */
+    .ads-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .ad-card {
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        overflow: hidden;
+        text-decoration: none;
+        display: block;
+        transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
+        position: relative;
+    }
+
+    .ad-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--gold-dim), var(--gold), transparent);
+        opacity: 0;
+        transition: opacity 0.28s;
+        z-index: 2;
+    }
+
+    .ad-card:hover { transform: translateY(-5px); border-color: rgba(201,168,76,0.2); box-shadow: 0 12px 30px rgba(0,0,0,0.35); }
+    .ad-card:hover::before { opacity: 1; }
+
+    .ad-img {
+        height: 140px;
+        overflow: hidden;
+        background: var(--navy-mid);
+    }
+
+    .ad-img img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .ad-card:hover .ad-img img { transform: scale(1.07); }
+
+    .ad-info { padding: 0.85rem; }
+
+    .ad-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 0.25rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ad-price {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1rem;
+        color: var(--gold-light);
+        margin-bottom: 0.2rem;
+    }
+
+    .ad-views {
+        font-size: 0.68rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .view-all-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 1.1rem;
+        padding: 0.55rem 1.2rem;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border-soft);
+        border-radius: 6px;
+        color: var(--muted-light) !important;
+        font-size: 0.78rem;
+        font-weight: 500;
+        text-decoration: none;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        transition: all 0.2s;
+    }
+
+    .view-all-btn:hover {
+        background: rgba(201,168,76,0.06);
+        border-color: rgba(201,168,76,0.25);
+        color: var(--gold-light) !important;
+    }
+
+    /* ---- Reviews ---- */
+    .reviews-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .review-card {
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        padding: 1.1rem;
+        transition: border-color 0.2s;
+    }
+
+    .review-card:hover { border-color: rgba(201,168,76,0.2); }
+
+    .review-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.65rem;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .review-stars { color: #FFB800; font-size: 0.85rem; letter-spacing: 1px; }
+    .review-date  { font-size: 0.7rem; color: var(--muted); }
+
+    .review-comment {
+        font-size: 0.85rem;
+        color: var(--muted-light);
+        line-height: 1.65;
+        font-style: italic;
+        border-left: 2px solid var(--gold-dim);
+        padding-left: 0.75rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .review-by {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.72rem;
+        color: var(--muted);
+    }
+
+    .review-by i { color: var(--gold-dim); }
+    .review-by .verified-buyer { color: var(--green); }
+
+    /* ---- Review form ---- */
+    .review-form { padding: 1.25rem; }
+
+    .form-field { margin-bottom: 1.1rem; }
+
+    .form-lbl {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--muted-light);
+        margin-bottom: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .form-lbl i { color: var(--gold); font-size: 0.72rem; }
+
+    .review-select,
+    .review-textarea {
+        width: 100%;
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        color: var(--white);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.88rem;
+        padding: 0.72rem 1rem;
+        outline: none;
+        transition: all 0.22s;
+        box-sizing: border-box;
+    }
+
+    .review-select { cursor: pointer; }
+
+    .review-select option { background: var(--navy-mid); color: var(--platinum); }
+
+    .review-textarea {
+        resize: vertical;
+        min-height: 100px;
+        line-height: 1.6;
+    }
+
+    .review-textarea::placeholder { color: var(--muted); font-size: 0.82rem; }
+
+    .review-select:focus,
+    .review-textarea:focus {
+        border-color: rgba(201,168,76,0.5);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+        background: var(--navy-card);
+    }
+
+    .btn-review {
+        width: 100%;
+        height: 48px;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: var(--navy) !important;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.22s;
+        box-shadow: 0 4px 16px rgba(201,168,76,0.25);
+    }
+
+    .btn-review:hover {
+        background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+    }
+
+    /* Login CTA */
+    .login-cta-box {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+    }
+
+    .login-cta-icon {
+        width: 60px; height: 60px;
+        background: rgba(201,168,76,0.08);
+        border: 1px solid rgba(201,168,76,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.1rem;
+        font-size: 1.5rem;
+        color: var(--gold);
+    }
+
+    .login-cta-box h5 {
+        font-family: 'DM Serif Display', serif;
+        font-weight: 400;
+        color: var(--white);
+        margin-bottom: 0.4rem;
+    }
+
+    .login-cta-box p {
+        font-size: 0.83rem;
+        color: var(--muted);
+        margin-bottom: 1.25rem;
+    }
+
+    /* Empty state */
     .empty-state {
         text-align: center;
-        padding: 3rem 2rem;
-        background: rgba(255,255,255,0.02);
-        border-radius: 12px;
+        padding: 3rem 1.5rem;
         border: 1px dashed var(--border-soft);
+        border-radius: 10px;
     }
 
-    .empty-state i {
-        font-size: 3rem;
-        color: var(--gold-dim);
-        margin-bottom: 1rem;
-        opacity: 0.5;
-    }
+    .empty-state i { font-size: 2.5rem; color: var(--gold-dim); display: block; margin-bottom: 0.85rem; opacity: 0.5; }
+    .empty-state p  { font-size: 0.85rem; color: var(--muted); margin: 0; }
 
-    .empty-state p {
-        color: var(--muted);
-        font-size: 0.9rem;
-    }
+    /* =========================================
+       LIGHT MODE
+    ========================================= */
+    @media (prefers-color-scheme: light) {
+        .profile-hero    { background: #1A2235; }  /* keep dark hero */
 
-    .empty-state h5 {
-        color: var(--white);
-        margin-bottom: 0.5rem;
-    }
+        .identity-card,
+        .info-card,
+        .section-card    { background: #FFFFFF; border-color: #E5E7EB; }
 
-    /* Edit Profile Button */
-    .btn-outline-primary {
-        background: transparent;
-        border: 1px solid rgba(201,168,76,0.35);
-        color: var(--gold-light) !important;
-        border-radius: 8px;
-        padding: 0.7rem;
-        font-weight: 500;
-        font-size: 0.82rem;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        transition: all 0.2s;
-    }
+        .card-head,
+        .section-head    { background: #F9FAFB; border-color: #E5E7EB; }
 
-    .btn-outline-primary:hover {
-        background: rgba(201,168,76,0.1);
-        border-color: var(--gold);
-        color: var(--gold) !important;
-        transform: translateY(-2px);
-    }
+        .card-head h5,
+        .section-head h4 { color: #374151; }
 
-    .btn-dark {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border-soft);
-        color: var(--platinum) !important;
-        transition: all 0.2s;
-    }
+        .profile-username { color: #111827; }
+        .member-since     { color: #6B7280; }
+        .sstat-lbl        { color: #6B7280; }
+        .sstat-num        { color: #92650A; }
 
-    .btn-dark:hover {
-        background: rgba(255,255,255,0.1);
-        border-color: var(--gold-dim);
-        transform: translateY(-2px);
-    }
+        .stats-strip,
+        .sstat           { border-color: #E5E7EB; }
 
-    .text-orange {
-        color: var(--gold-light) !important;
-    }
+        .bio-text        { color: #374151; border-color: #C9A84C; }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-        .profile-card {
-            padding: 1.5rem;
+        .contact-row     { color: #374151; border-color: #E5E7EB; }
+        .contact-row i   { color: #92650A; }
+
+        .stars           { color: #D97706; }
+        .rating-num      { color: #92650A; }
+        .rating-sub      { color: #6B7280; }
+
+        .sidebar-cta     { border-color: #E5E7EB; }
+
+        .cta-edit        { border-color: #D1D5DB; color: #4B5563 !important; }
+        .cta-edit:hover  { background: #F3F4F6; color: #111827 !important; }
+
+        .ad-card         { background: #F9FAFB; border-color: #E5E7EB; }
+        .ad-name         { color: #111827; }
+        .ad-price        { color: #92650A; }
+        .ad-views        { color: #6B7280; }
+
+        .view-all-btn    { background: #F9FAFB; border-color: #D1D5DB; color: #4B5563 !important; }
+        .view-all-btn:hover { background: rgba(201,168,76,0.05); border-color: #C9A84C; color: #92650A !important; }
+
+        .review-card     { background: #F9FAFB; border-color: #E5E7EB; }
+        .review-comment  { color: #374151; border-color: #C9A84C; }
+        .review-by       { color: #6B7280; }
+        .review-date     { color: #6B7280; }
+
+        .review-select,
+        .review-textarea { background: #F9FAFB; border-color: #D1D5DB; color: #111827; }
+        .review-select:focus,
+        .review-textarea:focus {
+            border-color: #C9A84C;
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+            background: #fff;
         }
+        .review-select option   { background: #fff; color: #111827; }
+        .review-textarea::placeholder { color: #9CA3AF; }
 
-        .profile-image-wrapper {
-            width: 120px;
-            height: 120px;
-        }
+        .empty-state i { color: #C9A84C; }
+        .empty-state p { color: #6B7280; }
 
-        .profile-image, .default-avatar-large {
-            width: 120px;
-            height: 120px;
-            font-size: 3rem;
-        }
+        .login-cta-box h5 { color: #111827; }
+        .login-cta-box p  { color: #6B7280; }
+        .login-cta-icon   { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.2); color: #92650A; }
 
-        .profile-name {
-            font-size: 1.5rem;
-        }
+        .count-pill { color: #92650A; background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.2); }
+        .section-head-icon { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.18); color: #92650A; }
+        .card-head-icon    { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.18); color: #92650A; }
+    }
 
-        .ads-grid {
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+    @media (max-width: 900px) {
+        .profile-body {
             grid-template-columns: 1fr;
+            margin-top: -3rem;
+            padding: 0 1rem 2rem;
         }
 
-        .section-card {
-            padding: 1.2rem;
+        .sidebar { flex-direction: column; }
+
+        /* On mobile: show identity card horizontally */
+        .identity-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-align: left;
+            padding: 1.25rem;
         }
 
-        .stats-row {
-            gap: 0.5rem;
-        }
+        .avatar-wrap { width: 72px; height: 72px; flex-shrink: 0; margin: 0; }
+        .avatar-img  { width: 72px; height: 72px; }
+        .avatar-letter { width: 72px; height: 72px; font-size: 1.8rem; }
+        .verified-dot { width: 20px; height: 20px; font-size: 0.55rem; }
 
-        .stat-value {
-            font-size: 1.2rem;
-        }
+        .profile-username { font-size: 1.1rem; margin-bottom: 0.2rem; }
 
-        .custom-select select,
-        .custom-textarea textarea {
-            padding: 12px;
-            font-size: 0.85rem;
-        }
+        .ads-grid { grid-template-columns: repeat(2, 1fr); }
+    }
 
-        .custom-submit-btn {
-            padding: 10px;
-            font-size: 0.8rem;
-        }
+    @media (max-width: 560px) {
+        .profile-hero { padding: 1.75rem 1.25rem 5rem; }
+        .profile-body { padding: 0 0.75rem 2rem; gap: 1rem; }
+        .ads-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+        .ad-img { height: 110px; }
+        .ad-info { padding: 0.65rem; }
+        .ad-name  { font-size: 0.78rem; }
+        .ad-price { font-size: 0.88rem; }
+        .section-body { padding: 1rem; }
+        .review-form  { padding: 1rem; }
     }
 </style>
 
-<div class="profile-wrapper">
-    <div class="container">
-        <div class="row g-4">
-            <!-- PROFILE CARD -->
-            <div class="col-lg-4">
-                <div class="profile-card">
-                    <div class="profile-image-wrapper">
-                        {% if profile.profile_pic %}
-                            <img src="{{ profile.profile_pic.url }}" class="profile-image" alt="{{ profile.user.username }}">
-                        {% else %}
-                            <div class="default-avatar-large">{{ profile.user.username|first|upper }}</div>
-                        {% endif %}
-                        {% if profile.is_verified %}
-                            <div class="verified-badge-large"><i class="bi bi-patch-check-fill"></i></div>
-                        {% endif %}
-                    </div>
-                    <h4 class="profile-name"><span>{{ profile.user.username }}</span></h4>
-                    
-                    {% if profile.bio %}
-                    <div class="bio-section">
-                        <p><i class="bi bi-quote"></i> {{ profile.bio }}</p>
-                    </div>
-                    {% endif %}
-                    
-                    <div class="contact-info">
-                        {% if profile.phone %}<div class="info-item"><i class="bi bi-telephone-fill"></i><span>{{ profile.phone }}</span></div>{% endif %}
-                        {% if profile.whatsapp %}<div class="info-item"><i class="bi bi-whatsapp"></i><span>{{ profile.whatsapp }}</span></div>{% endif %}
-                        {% if profile.location %}<div class="info-item"><i class="bi bi-geo-alt-fill"></i><span>{{ profile.location }}</span></div>{% endif %}
-                        <div class="info-item"><i class="bi bi-calendar3"></i><span>Member since {{ profile.user.date_joined|date:"F Y" }}</span></div>
-                    </div>
-                    
-                    {% if profile.whatsapp %}
-                    <div class="contact-actions">
-                        <a href="https://wa.me/{{ profile.whatsapp|cut:'+'|cut:' '|cut:'-' }}" target="_blank" class="contact-action-btn btn-whatsapp"><i class="bi bi-whatsapp"></i> WhatsApp</a>
-                    </div>
-                    {% endif %}
-                    
-                    <div class="rating-display">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="stars">
-                                {% with rating=avg_rating|default:0 %}
-                                    {% for i in "12345" %}{% if forloop.counter <= rating %}<i class="bi bi-star-fill"></i>{% else %}<i class="bi bi-star"></i>{% endif %}{% endfor %}
-                                {% endwith %}
-                            </span>
-                            <span class="rating-text">{{ avg_rating|floatformat:1 }}/5</span>
-                        </div>
-                        <div class="text-center rating-text"><i class="bi bi-people-fill me-1"></i>{{ reviews.count }} review{{ reviews.count|pluralize }}</div>
-                    </div>
-                    
-                    <a href="{% url 'seller_listings' user_id=profile.user.id %}" class="btn-view-ads"><i class="bi bi-grid-fill"></i> View All Ads ({{ ads.count }})</a>
-                    
-                    <div class="stats-row">
-                        <div class="stat-item"><div class="stat-value">{{ ads.count }}</div><div class="stat-label">Listings</div></div>
-                        <div class="stat-item"><div class="stat-value">{{ reviews.count }}</div><div class="stat-label">Reviews</div></div>
-                        <div class="stat-item"><div class="stat-value">{{ avg_rating|floatformat:1 }}</div><div class="stat-label">Rating</div></div>
-                    </div>
-                    
-                    {% if user == profile.user %}
-                    <div class="mt-3"><a href="{% url 'edit_profile' %}" class="btn-outline-primary w-100 text-center d-block" style="text-decoration: none;"><i class="bi bi-pencil-square"></i> Edit Profile</a></div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- RIGHT SIDE -->
-            <div class="col-lg-8">
-                <!-- SELLER'S ADS -->
-                <div class="section-card">
-                    <div class="section-title"><i class="bi bi-grid-fill"></i><h4>Latest Listings</h4><span class="count-badge">{{ ads.count }} total</span></div>
-                    {% if ads %}
-                        <div class="ads-grid">
-                            {% for ad in ads|slice:":4" %}
-                                <a href="{% url 'listing_detail' ad.id %}" class="ad-card">
-                                    <div class="ad-image">
-                                        {% if ad.images.all %}
-                                            <img src="{{ ad.images.all.0.image.url }}" alt="{{ ad.title }}">
-                                        {% else %}
-                                            <img src="{% static 'images/default-car.jpg' %}" alt="No image">
-                                        {% endif %}
-                                    </div>
-                                    <div class="ad-content">
-                                        <div class="ad-title">{{ ad.title|truncatechars:25 }}</div>
-                                        <div class="ad-price">KES {{ ad.price|intcomma }}</div>
-                                        <div class="text-muted"><i class="bi bi-eye me-1"></i>{{ ad.views_count }} views</div>
-                                    </div>
-                                </a>
-                            {% endfor %}
-                        </div>
-                        {% if ads.count > 4 %}
-                        <div class="text-center mt-4">
-                            <a href="{% url 'seller_listings' user_id=profile.user.id %}" class="btn btn-dark btn-sm rounded-pill px-4 py-2">View All {{ ads.count }} Listings <i class="bi bi-arrow-right ms-2"></i></a>
-                        </div>
-                        {% endif %}
-                    {% else %}
-                        <div class="empty-state">
-                            <i class="bi bi-car-front"></i>
-                            <p>No listings posted yet</p>
-                        </div>
-                    {% endif %}
-                </div>
-                
-                <!-- REVIEWS -->
-                <div class="section-card">
-                    <div class="section-title"><i class="bi bi-chat-fill"></i><h4>Customer Reviews</h4><span class="count-badge">{{ reviews.count }} review{{ reviews.count|pluralize }}</span></div>
-                    {% if reviews %}
-                        <div class="reviews-list">
-                            {% for r in reviews %}
-                                <div class="review-item">
-                                    <div class="review-header">
-                                        <span class="review-stars">
-                                            {% for i in "12345" %}
-                                                {% if forloop.counter <= r.rating %}<i class="bi bi-star-fill"></i>{% else %}<i class="bi bi-star"></i>{% endif %}
-                                            {% endfor %}
-                                        </span>
-                                        <span class="review-date"><i class="bi bi-clock"></i> {{ r.created_at|date:"d M Y" }}</span>
-                                    </div>
-                                    <div class="review-comment">"{{ r.comment }}"</div>
-                                    <div class="reviewer-info">
-                                        <i class="bi bi-person-circle"></i>
-                                        <span>{{ r.user.username }}</span>
-                                        <span class="text-muted">•</span>
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                        <span>Verified Buyer</span>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="empty-state">
-                            <i class="bi bi-chat-dots"></i>
-                            <p>No reviews yet. Be the first to leave a review!</p>
-                        </div>
-                    {% endif %}
-                </div>
-                
-                <!-- ADD REVIEW FORM -->
-                {% if user.is_authenticated and user != profile.user %}
-                <div class="section-card review-form">
-                    <div class="section-title"><i class="bi bi-pencil-square"></i><h4>Write a Review</h4></div>
-                    <form method="POST" action="{% url 'add_review' profile.user.id %}">
-                        {% csrf_token %}
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="bi bi-star-fill"></i> Your Rating
-                            </label>
-                            <div class="custom-select">
-                                <select name="rating" required>
-                                    <option value="" disabled selected>★★★★★ Tap to select rating</option>
-                                    <option value="5">★★★★★ - Excellent</option>
-                                    <option value="4">★★★★☆ - Very Good</option>
-                                    <option value="3">★★★☆☆ - Average</option>
-                                    <option value="2">★★☆☆☆ - Poor</option>
-                                    <option value="1">★☆☆☆☆ - Terrible</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="bi bi-chat"></i> Your Review
-                            </label>
-                            <div class="custom-textarea">
-                                <textarea name="comment" rows="4" placeholder="Share your experience with this seller..." required></textarea>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="custom-submit-btn">
-                            <i class="bi bi-check2-circle"></i> Submit Review
-                        </button>
-                    </form>
-                </div>
-                {% elif not user.is_authenticated %}
-                <div class="section-card text-center">
-                    <i class="bi bi-box-arrow-in-right fs-1 text-gold d-block mb-3" style="color: var(--gold-light); font-size: 2.5rem;"></i>
-                    <h5 style="color: var(--white);">Want to leave a review?</h5>
-                    <p class="text-muted mb-3">Please log in to share your experience with this seller</p>
-                    <a href="{% url 'login' %}?next={% url 'seller_profile' user_id=profile.user.id %}" class="btn btn-primary rounded-pill px-4 py-2">Login to Review</a>
-                </div>
-                {% endif %}
-            </div>
+<!-- =========================================
+     HERO
+========================================= -->
+<div class="profile-hero">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+        <div class="breadcrumb-row">
+            <a href="{% url 'browse_listings' %}">Home</a>
+            <i class="bi bi-chevron-right"></i>
+            <span>Seller Profile</span>
+            <i class="bi bi-chevron-right"></i>
+            <span>{{ profile.user.username }}</span>
         </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Ensure all form elements are fully clickable
-        const selects = document.querySelectorAll('.custom-select select');
-        const textareas = document.querySelectorAll('.custom-textarea textarea');
-        const buttons = document.querySelectorAll('.custom-submit-btn');
-        
-        selects.forEach(select => {
-            select.style.pointerEvents = 'auto';
-            select.style.cursor = 'pointer';
-            
-            select.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        });
-        
-        textareas.forEach(textarea => {
-            textarea.style.pointerEvents = 'auto';
-            textarea.style.cursor = 'text';
-            
-            textarea.addEventListener('focus', function() {
-                setTimeout(() => {
-                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            });
-        });
-        
-        buttons.forEach(btn => {
-            btn.style.pointerEvents = 'auto';
-            btn.style.cursor = 'pointer';
-        });
-        
-        // Remove any global click blockers
-        document.querySelectorAll('.review-form, .review-form *').forEach(el => {
-            el.style.pointerEvents = 'auto';
-        });
-    });
-</script>
+<!-- =========================================
+     PROFILE BODY
+========================================= -->
+<div class="profile-body">
+
+    <!-- =========================================
+         LEFT SIDEBAR
+    ========================================= -->
+    <div class="sidebar">
+
+        <!-- Identity Card -->
+        <div class="identity-card">
+            <div class="identity-top">
+                <!-- Avatar -->
+                <div class="avatar-wrap">
+                    {% if profile.profile_pic %}
+                        <img src="{{ profile.profile_pic.url }}" class="avatar-img" alt="{{ profile.user.username }}">
+                    {% else %}
+                        <div class="avatar-letter">{{ profile.user.username|first|upper }}</div>
+                    {% endif %}
+                    {% if profile.is_verified %}
+                        <div class="verified-dot"><i class="bi bi-check-lg"></i></div>
+                    {% endif %}
+                </div>
+
+                <!-- Name / badges -->
+                <div>
+                    <div class="profile-username">{{ profile.user.username }}</div>
+                    {% if profile.is_verified %}
+                    <div class="verified-label">
+                        <i class="bi bi-patch-check-fill"></i> Verified Seller
+                    </div>
+                    {% endif %}
+                    <div class="member-since">
+                        <i class="bi bi-calendar3" style="color:var(--gold-dim);margin-right:4px;"></i>
+                        Member since {{ profile.user.date_joined|date:"F Y" }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats strip -->
+            <div class="stats-strip">
+                <div class="sstat">
+                    <span class="sstat-num">{{ ads.count }}</span>
+                    <div class="sstat-lbl">Listings</div>
+                </div>
+                <div class="sstat">
+                    <span class="sstat-num">{{ reviews.count }}</span>
+                    <div class="sstat-lbl">Reviews</div>
+                </div>
+                <div class="sstat">
+                    <span class="sstat-num">{{ avg_rating|floatformat:1 }}</span>
+                    <div class="sstat-lbl">Rating</div>
+                </div>
+            </div>
+
+            <!-- CTAs -->
+            <div class="sidebar-cta">
+                <a href="{% url 'seller_listings' user_id=profile.user.id %}" class="cta-all-ads">
+                    <i class="bi bi-grid-fill"></i> View All Ads ({{ ads.count }})
+                </a>
+                {% if profile.whatsapp %}
+                <a href="https://wa.me/{{ profile.whatsapp|cut:'+'|cut:' '|cut:'-' }}" target="_blank" class="cta-wa">
+                    <i class="bi bi-whatsapp"></i> WhatsApp Seller
+                </a>
+                {% endif %}
+                {% if user == profile.user %}
+                <a href="{% url 'edit_profile' %}" class="cta-edit">
+                    <i class="bi bi-pencil-square"></i> Edit My Profile
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Bio Card -->
+        {% if profile.bio %}
+        <div class="info-card">
+            <div class="card-head">
+                <div class="card-head-icon"><i class="bi bi-person-lines-fill"></i></div>
+                <h5>About</h5>
+            </div>
+            <div class="card-body-inner">
+                <p class="bio-text">{{ profile.bio }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Contact Card -->
+        <div class="info-card">
+            <div class="card-head">
+                <div class="card-head-icon"><i class="bi bi-person-vcard"></i></div>
+                <h5>Contact Info</h5>
+            </div>
+            <div class="card-body-inner">
+                {% if profile.phone %}
+                <div class="contact-row">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>{{ profile.phone }}</span>
+                </div>
+                {% endif %}
+                {% if profile.whatsapp %}
+                <div class="contact-row">
+                    <i class="bi bi-whatsapp"></i>
+                    <span>{{ profile.whatsapp }}</span>
+                </div>
+                {% endif %}
+                {% if profile.location %}
+                <div class="contact-row">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>{{ profile.location }}</span>
+                </div>
+                {% endif %}
+                <div class="contact-row">
+                    <i class="bi bi-calendar3"></i>
+                    <span>{{ profile.user.date_joined|date:"d M Y" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rating Card -->
+        <div class="info-card">
+            <div class="card-head">
+                <div class="card-head-icon"><i class="bi bi-star-fill"></i></div>
+                <h5>Seller Rating</h5>
+            </div>
+            <div class="card-body-inner">
+                <div class="rating-row">
+                    <span class="stars">
+                        {% with rating=avg_rating|default:0 %}
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rating %}
+                                    <i class="bi bi-star-fill"></i>
+                                {% else %}
+                                    <i class="bi bi-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </span>
+                    <span class="rating-num">{{ avg_rating|floatformat:1 }}<span style="font-size:0.75rem;color:var(--muted)">/5</span></span>
+                    <span class="rating-sub">
+                        <i class="bi bi-people-fill" style="margin-right:4px;color:var(--gold-dim);"></i>
+                        {{ reviews.count }} review{{ reviews.count|pluralize }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /sidebar -->
+
+    <!-- =========================================
+         RIGHT COLUMN
+    ========================================= -->
+    <div class="right-col">
+
+        <!-- Listings -->
+        <div class="section-card">
+            <div class="section-head">
+                <div class="section-head-icon"><i class="bi bi-car-front-fill"></i></div>
+                <h4>Latest Listings</h4>
+                <span class="count-pill">{{ ads.count }} total</span>
+            </div>
+            <div class="section-body">
+                {% if ads %}
+                <div class="ads-grid">
+                    {% for ad in ads|slice:":6" %}
+                    <a href="{% url 'listing_detail' ad.id %}" class="ad-card">
+                        <div class="ad-img">
+                            {% if ad.images.all %}
+                                <img src="{{ ad.images.all.0.image.url }}" alt="{{ ad.title }}" loading="lazy">
+                            {% else %}
+                                <img src="{% static 'images/default-car.jpg' %}" alt="No image">
+                            {% endif %}
+                        </div>
+                        <div class="ad-info">
+                            <div class="ad-name">{{ ad.title|truncatechars:22 }}</div>
+                            <div class="ad-price">KES {{ ad.price|intcomma }}</div>
+                            <div class="ad-views">
+                                <i class="bi bi-eye"></i> {{ ad.views_count }} views
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% if ads.count > 6 %}
+                <a href="{% url 'seller_listings' user_id=profile.user.id %}" class="view-all-btn">
+                    <i class="bi bi-grid"></i> View All {{ ads.count }} Listings
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+                {% endif %}
+                {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-car-front"></i>
+                    <p>No listings posted yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="section-card">
+            <div class="section-head">
+                <div class="section-head-icon"><i class="bi bi-chat-quote-fill"></i></div>
+                <h4>Customer Reviews</h4>
+                <span class="count-pill">{{ reviews.count }} review{{ reviews.count|pluralize }}</span>
+            </div>
+            <div class="section-body">
+                {% if reviews %}
+                <div class="reviews-list">
+                    {% for r in reviews %}
+                    <div class="review-card">
+                        <div class="review-top">
+                            <span class="review-stars">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= r.rating %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                            <span class="review-date">
+                                <i class="bi bi-clock" style="margin-right:3px;"></i>{{ r.created_at|date:"d M Y" }}
+                            </span>
+                        </div>
+                        <div class="review-comment">"{{ r.comment }}"</div>
+                        <div class="review-by">
+                            <i class="bi bi-person-circle"></i>
+                            <span>{{ r.user.username }}</span>
+                            <span style="color:var(--border-soft);">·</span>
+                            <i class="bi bi-patch-check-fill verified-buyer"></i>
+                            <span class="verified-buyer">Verified Buyer</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-chat-dots"></i>
+                    <p>No reviews yet — be the first to review this seller.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Write Review / Login CTA -->
+        {% if user.is_authenticated and user != profile.user %}
+        <div class="section-card">
+            <div class="section-head">
+                <div class="section-head-icon"><i class="bi bi-pencil-fill"></i></div>
+                <h4>Write a Review</h4>
+            </div>
+            <form method="POST" action="{% url 'add_review' profile.user.id %}" class="review-form">
+                {% csrf_token %}
+                <div class="form-field">
+                    <label class="form-lbl"><i class="bi bi-star-fill"></i> Your Rating</label>
+                    <select name="rating" class="review-select" required>
+                        <option value="" disabled selected>Select a rating…</option>
+                        <option value="5">★★★★★ — Excellent</option>
+                        <option value="4">★★★★☆ — Very Good</option>
+                        <option value="3">★★★☆☆ — Average</option>
+                        <option value="2">★★☆☆☆ — Poor</option>
+                        <option value="1">★☆☆☆☆ — Terrible</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="form-lbl"><i class="bi bi-chat-left-text-fill"></i> Your Review</label>
+                    <textarea name="comment" class="review-textarea" rows="4" placeholder="Share your experience with this seller…" required></textarea>
+                </div>
+                <button type="submit" class="btn-review">
+                    <i class="bi bi-check2-circle"></i> Submit Review
+                </button>
+            </form>
+        </div>
+
+        {% elif not user.is_authenticated %}
+        <div class="section-card">
+            <div class="login-cta-box">
+                <div class="login-cta-icon"><i class="bi bi-box-arrow-in-right"></i></div>
+                <h5>Want to leave a review?</h5>
+                <p>Log in to share your experience with this seller.</p>
+                <a href="{% url 'login' %}?next={% url 'seller_profile' user_id=profile.user.id %}" class="btn btn-primary">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Login to Review
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div><!-- /right-col -->
+
+</div><!-- /profile-body -->
+
 {% endblock %}

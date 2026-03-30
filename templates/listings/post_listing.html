@@ -5,1035 +5,1103 @@
 
 <style>
     /* =========================================
-       POST LISTING — DARK NAVY / GOLD LUXURY THEME
-       Matching Chrandi Motors design system
+       POST LISTING — REDESIGNED FORM
+       Dark & Light mode compatible
     ========================================= */
 
-    .posting-wrapper {
-        min-height: 80vh;
-        background: var(--navy);
-        padding: 2rem 0;
-        position: relative;
-    }
+    .main-container { padding: 2rem 1rem !important; }
 
-    /* Decorative background */
-    .posting-wrapper::before {
-        content: '';
-        position: absolute;
-        top: -20%;
-        right: -10%;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
-        border-radius: 50%;
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    .posting-wrapper::after {
-        content: '';
-        position: absolute;
-        bottom: -20%;
-        left: -10%;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 70%);
-        border-radius: 50%;
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    .posting-card {
-        background: var(--navy-card);
-        backdrop-filter: blur(10px);
-        border-radius: 24px;
-        border: 1px solid var(--border-soft);
-        box-shadow: var(--shadow-card);
-        padding: 2rem;
-        position: relative;
-        z-index: 2;
-        animation: slideUp 0.5s ease-out;
-        max-width: 900px;
+    /* ---- PAGE WRAPPER ---- */
+    .post-wrap {
+        max-width: 860px;
         margin: 0 auto;
-        overflow-x: hidden;
-        transition: all 0.3s ease;
+        animation: fadeUp 0.45s ease-out both;
     }
 
-    .posting-card:hover {
-        border-color: var(--border);
-        box-shadow: var(--shadow-card), var(--shadow-glow);
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .page-header {
+    /* ---- PAGE HEADER ---- */
+    .post-header {
         text-align: center;
-        margin-bottom: 2rem;
-        position: relative;
+        margin-bottom: 2.5rem;
     }
 
-    .page-header h2 {
-        font-size: 2rem;
-        font-weight: 600;
-        color: var(--white);
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.5px;
-        font-family: 'DM Sans', sans-serif;
-    }
-
-    .page-header h2 span {
+    .post-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(201,168,76,0.08);
+        border: 1px solid rgba(201,168,76,0.22);
         color: var(--gold-light);
-        position: relative;
-        display: inline-block;
-    }
-
-    .page-header p {
-        color: var(--muted);
-        font-size: 0.9rem;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .page-header p i {
-        color: var(--gold);
-    }
-
-    .progress-steps {
-        display: flex;
-        justify-content: center;
-        gap: 0.8rem;
-        margin: 1.5rem 0 1.5rem;
-        flex-wrap: wrap;
-    }
-
-    .step {
-        background: var(--navy-soft);
-        border: 1px solid var(--border-soft);
-        border-radius: 30px;
-        padding: 0.4rem 1.2rem;
+        font-size: 0.72rem;
         font-weight: 600;
-        font-size: 0.8rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0.38rem 1rem;
+        border-radius: 100px;
+        margin-bottom: 1rem;
+    }
+
+    .post-eyebrow i { font-size: 0.75rem; }
+
+    .post-heading {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        color: var(--white);
+        letter-spacing: -0.02em;
+        margin-bottom: 0.6rem;
+        line-height: 1.1;
+    }
+
+    .post-heading em {
+        font-style: italic;
+        color: var(--gold-light);
+    }
+
+    .post-sub {
+        font-size: 0.85rem;
         color: var(--muted);
+    }
+
+    /* Light mode header */
+    @media (prefers-color-scheme: light) {
+        .post-heading { color: #111827; }
+        .post-sub { color: #6B7280; }
+    }
+
+    /* ---- PROGRESS STEPS ---- */
+    .steps-row {
         display: flex;
         align-items: center;
-        gap: 6px;
-        letter-spacing: 0.03em;
+        justify-content: center;
+        gap: 0;
+        margin-bottom: 2.5rem;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .step.active {
-        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    .step-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        position: relative;
+        flex: 1;
+    }
+
+    .step-circle {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border: 2px solid var(--border-soft);
+        background: var(--navy-card);
+        color: var(--muted);
+        transition: all 0.3s;
+        z-index: 1;
+    }
+
+    .step-circle.active {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
         border-color: transparent;
         color: var(--navy);
+        box-shadow: 0 0 18px rgba(201,168,76,0.35);
     }
 
-    .step i {
-        font-size: 0.85rem;
+    .step-circle.done {
+        background: rgba(46,204,138,0.1);
+        border-color: rgba(46,204,138,0.35);
+        color: var(--green);
     }
 
-    /* Form Styling */
+    .step-lbl {
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .step-lbl.active { color: var(--gold-light); font-weight: 600; }
+
+    /* Connector line between steps */
+    .step-connector {
+        flex: 1;
+        height: 1px;
+        background: var(--border-soft);
+        margin-bottom: 20px;
+        max-width: 60px;
+    }
+
+    /* ---- PRIVACY NOTE ---- */
+    .privacy-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        background: rgba(201,168,76,0.05);
+        border: 1px solid rgba(201,168,76,0.18);
+        border-left: 3px solid var(--gold);
+        border-radius: 8px;
+        padding: 0.85rem 1rem;
+        margin-bottom: 2rem;
+        font-size: 0.8rem;
+        color: var(--muted-light);
+        line-height: 1.55;
+    }
+
+    .privacy-note i { color: var(--gold); flex-shrink: 0; margin-top: 1px; font-size: 0.9rem; }
+    .privacy-note strong { color: var(--gold-light); }
+
+    /* ---- FORM SECTION CARD ---- */
     .form-section {
-        background: var(--navy-soft);
-        border-radius: 20px;
-        padding: 1.2rem;
-        margin-bottom: 1.5rem;
+        background: var(--navy-card);
         border: 1px solid var(--border-soft);
-        transition: all 0.3s ease;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.25s;
     }
 
-    .form-section:hover {
-        border-color: var(--border);
-    }
+    .form-section:hover { border-color: var(--border); }
 
-    .section-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--white);
-        margin-bottom: 1.2rem;
+    .section-head {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding-bottom: 0.5rem;
+        gap: 10px;
+        padding: 1rem 1.25rem;
+        background: var(--navy-soft);
         border-bottom: 1px solid var(--border-soft);
-        flex-wrap: wrap;
+    }
+
+    .section-head-icon {
+        width: 30px; height: 30px;
+        background: rgba(201,168,76,0.1);
+        border: 1px solid rgba(201,168,76,0.22);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .section-head h3 {
         font-family: 'DM Sans', sans-serif;
-    }
-
-    .section-title i {
-        color: var(--gold);
-        font-size: 1.1rem;
-    }
-
-    /* Form fields styling */
-    .form-group {
-        margin-bottom: 1rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .form-label {
-        font-weight: 600;
-        color: var(--muted-light);
-        margin-bottom: 0.4rem;
-        display: block;
-        font-size: 0.8rem;
-        letter-spacing: 0.04em;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
         text-transform: uppercase;
-    }
-
-    .form-label .required {
-        color: var(--gold);
-        margin-left: 3px;
-    }
-
-    .form-control, .form-select, textarea {
-        border: 1px solid var(--border-soft);
-        border-radius: 10px;
-        padding: 0.7rem 1rem;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-        background: var(--navy-mid);
         color: var(--platinum);
+        margin: 0;
+    }
+
+    .section-body {
+        padding: 1.5rem 1.25rem;
+    }
+
+    /* ---- FIELD GRID ---- */
+    .fields-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.1rem;
+    }
+
+    .field-full { grid-column: 1 / -1; }
+
+    /* ---- FIELD WRAPPER ---- */
+    .field-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .field-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--muted-light);
+        margin-bottom: 0.38rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .field-label .req { color: var(--gold); margin-left: 1px; }
+    .field-label i { color: var(--gold-dim); font-size: 0.68rem; }
+
+    /* Input with floating help */
+    .input-shell {
+        position: relative;
+    }
+
+    /* The actual input / select */
+    .field-input,
+    .field-select,
+    .field-textarea {
         width: 100%;
+        background: var(--navy-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        color: var(--white);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.88rem;
+        padding: 0.72rem 1rem;
+        outline: none;
+        transition: all 0.22s;
         box-sizing: border-box;
     }
 
-    .form-control:focus, .form-select:focus, textarea:focus {
-        border-color: var(--gold);
-        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
-        outline: none;
+    .field-input::placeholder,
+    .field-textarea::placeholder {
+        color: var(--muted);
+        font-size: 0.82rem;
+    }
+
+    .field-input:focus,
+    .field-select:focus,
+    .field-textarea:focus {
+        border-color: rgba(201,168,76,0.5);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
         background: var(--navy-card);
     }
 
-    .form-control::placeholder, textarea::placeholder {
+    .field-select option { background: var(--navy-mid); color: var(--platinum); }
+
+    .field-textarea {
+        resize: vertical;
+        min-height: 110px;
+        line-height: 1.6;
+    }
+
+    /* Help text beneath field */
+    .field-hint {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.68rem;
         color: var(--muted);
+        margin-top: 0.35rem;
+        line-height: 1.4;
+        padding-left: 2px;
     }
 
-    .form-select option {
-        background: var(--navy-mid);
-        color: var(--platinum);
-    }
+    .field-hint i { color: var(--gold-dim); flex-shrink: 0; font-size: 0.65rem; }
 
-    .help-text {
+    /* Error text */
+    .field-error {
         font-size: 0.7rem;
-        color: var(--muted);
+        color: #F87171;
         margin-top: 0.3rem;
         display: flex;
         align-items: center;
         gap: 4px;
-        flex-wrap: wrap;
     }
 
-    .help-text i {
-        color: var(--gold-dim);
-        font-size: 0.65rem;
+    .field-error::before { content: '⚠'; font-size: 0.65rem; }
+
+    /* ---- LIGHT MODE OVERRIDES ---- */
+    @media (prefers-color-scheme: light) {
+        .form-section {
+            background: #ffffff;
+            border-color: #E5E7EB;
+        }
+
+        .form-section:hover { border-color: #C9A84C; }
+
+        .section-head {
+            background: #F9FAFB;
+            border-bottom-color: #E5E7EB;
+        }
+
+        .section-head h3 { color: #374151; }
+
+        .field-label { color: #4B5563; }
+
+        .field-input,
+        .field-select,
+        .field-textarea {
+            background: #F9FAFB;
+            border-color: #D1D5DB;
+            color: #111827;
+        }
+
+        .field-input::placeholder,
+        .field-textarea::placeholder { color: #9CA3AF; }
+
+        .field-input:focus,
+        .field-select:focus,
+        .field-textarea:focus {
+            background: #ffffff;
+            border-color: #C9A84C;
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+        }
+
+        .field-select option { background: #ffffff; color: #111827; }
+
+        .field-hint { color: #6B7280; }
+
+        .privacy-note {
+            background: rgba(201,168,76,0.04);
+            color: #374151;
+        }
+
+        .privacy-note strong { color: #92650A; }
+
+        .section-head-icon {
+            background: rgba(201,168,76,0.08);
+            border-color: rgba(201,168,76,0.2);
+        }
+
+        .post-heading { color: #111827; }
+        .post-sub    { color: #6B7280; }
+
+        .step-circle {
+            background: #F3F4F6;
+            border-color: #D1D5DB;
+            color: #6B7280;
+        }
+
+        .step-lbl { color: #6B7280; }
     }
 
-    .form-row {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    /* Image Upload Section */
-    .image-upload-section {
-        background: var(--navy-soft);
-        border-radius: 20px;
-        padding: 1.2rem;
-        margin-top: 1.5rem;
-        border: 1px solid var(--border-soft);
-    }
-
-    .image-count-badge {
-        background: rgba(201,168,76,0.12);
-        color: var(--gold-light);
-        padding: 0.2rem 0.6rem;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        margin-left: 0.5rem;
-        border: 1px solid rgba(201,168,76,0.25);
-    }
-
-    /* Multi-file upload area */
-    .multi-upload-area {
+    /* ---- IMAGE UPLOAD SECTION ---- */
+    .upload-drop {
         border: 2px dashed var(--border-soft);
-        border-radius: 16px;
-        padding: 2rem;
+        border-radius: 10px;
+        padding: 2rem 1.5rem;
         text-align: center;
         cursor: pointer;
-        transition: all 0.3s ease;
-        background: var(--navy-mid);
+        transition: all 0.22s;
+        background: var(--navy-soft);
         margin-bottom: 1rem;
     }
 
-    .multi-upload-area:hover {
+    .upload-drop:hover,
+    .upload-drop.dragover {
         border-color: var(--gold);
-        background: rgba(201,168,76,0.05);
+        background: rgba(201,168,76,0.04);
     }
 
-    .multi-upload-area i {
-        font-size: 2.5rem;
+    .upload-drop i {
+        font-size: 2.2rem;
         color: var(--gold-dim);
-        margin-bottom: 0.5rem;
+        display: block;
+        margin-bottom: 0.6rem;
     }
 
-    .multi-upload-area p {
-        margin: 0;
-        font-size: 0.85rem;
+    .upload-drop .drop-main {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--platinum);
+        margin-bottom: 0.3rem;
+    }
+
+    .upload-drop .drop-sub {
+        font-size: 0.72rem;
         color: var(--muted);
     }
 
-    .multi-upload-area .upload-hint {
+    .upload-drop .drop-types {
+        margin-top: 0.6rem;
         font-size: 0.7rem;
-        margin-top: 0.5rem;
-        color: var(--muted);
+        color: var(--gold-dim);
+        letter-spacing: 0.04em;
     }
 
-    /* Visible file input */
-    .file-input-visible {
+    @media (prefers-color-scheme: light) {
+        .upload-drop {
+            background: #F9FAFB;
+            border-color: #D1D5DB;
+        }
+        .upload-drop:hover, .upload-drop.dragover {
+            border-color: #C9A84C;
+            background: rgba(201,168,76,0.03);
+        }
+        .upload-drop .drop-main { color: #374151; }
+        .upload-drop .drop-sub  { color: #6B7280; }
+        .upload-drop .drop-types { color: #92650A; }
+    }
+
+    /* File input */
+    .file-input {
         width: 100%;
-        padding: 0.7rem;
+        padding: 0.65rem 0.85rem;
         border: 1px solid var(--border-soft);
-        border-radius: 10px;
-        background: var(--navy-mid);
+        border-radius: 8px;
+        background: var(--navy-soft);
         color: var(--muted-light);
-        font-size: 0.85rem;
-        margin-bottom: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.82rem;
         cursor: pointer;
+        margin-bottom: 1rem;
     }
 
-    .file-input-visible::-webkit-file-upload-button {
-        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    .file-input::-webkit-file-upload-button {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
         color: var(--navy);
         border: none;
-        padding: 0.4rem 1rem;
-        border-radius: 6px;
-        margin-right: 1rem;
+        padding: 0.38rem 0.9rem;
+        border-radius: 5px;
+        margin-right: 0.85rem;
         cursor: pointer;
-        transition: all 0.2s ease;
-        font-weight: 600;
-        font-size: 0.75rem;
+        font-weight: 700;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
     }
 
-    .file-input-visible::-webkit-file-upload-button:hover {
-        transform: translateY(-1px);
+    @media (prefers-color-scheme: light) {
+        .file-input { background: #F9FAFB; border-color: #D1D5DB; color: #4B5563; }
     }
 
-    /* Image Preview Grid */
-    .image-preview-grid {
+    /* Image previews */
+    .preview-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 0.8rem;
-        margin: 1rem 0;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 0.7rem;
+        margin-bottom: 1rem;
     }
 
-    .preview-item {
+    .preview-thumb {
         position: relative;
         aspect-ratio: 1;
-        border-radius: 10px;
+        border-radius: 8px;
         overflow: hidden;
+        background: var(--navy-soft);
         border: 1px solid var(--border-soft);
-        background: var(--navy-mid);
     }
 
-    .preview-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .preview-item .remove-btn {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        width: 24px;
-        height: 24px;
-        background: rgba(217,79,79,0.9);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 0.7rem;
-        transition: all 0.2s ease;
-        border: none;
-    }
-
-    .preview-item .remove-btn:hover {
-        background: var(--red);
-        transform: scale(1.1);
-    }
-
-    .preview-item.required {
+    .preview-thumb.req-thumb {
         border-color: var(--gold);
-        box-shadow: 0 0 0 1px var(--gold);
+        box-shadow: 0 0 0 1px rgba(201,168,76,0.4);
     }
 
-    .image-count-info {
+    .preview-thumb img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .thumb-remove {
+        position: absolute;
+        top: 4px; right: 4px;
+        width: 22px; height: 22px;
+        background: rgba(217,79,79,0.88);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 0.65rem;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .thumb-remove:hover {
+        background: #DC2626;
+        transform: scale(1.15);
+    }
+
+    /* Image count bar */
+    .img-count-bar {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 1rem;
-        padding: 0.8rem;
-        background: var(--navy-mid);
-        border-radius: 10px;
-        font-size: 0.8rem;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        border: 1px solid var(--border-soft);
-    }
-
-    .image-count-info .warning {
-        color: #F87171;
-    }
-
-    .image-count-info .success {
-        color: var(--green);
-    }
-
-    /* Chassis note */
-    .chassis-note {
-        background: rgba(201,168,76,0.05);
-        border: 1px solid rgba(201,168,76,0.2);
-        border-radius: 12px;
-        padding: 0.8rem 1rem;
-        margin: 1rem 0;
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        flex-wrap: wrap;
-    }
-
-    .chassis-note i {
-        color: var(--gold);
-        font-size: 1.1rem;
-    }
-
-    .chassis-note p {
-        margin: 0;
-        color: var(--muted-light);
-        font-size: 0.8rem;
-        flex: 1;
-    }
-
-    .chassis-note strong {
-        color: var(--gold-light);
-    }
-
-    /* Pro tips alert */
-    .alert-info {
-        background: rgba(201,168,76,0.08);
-        border: 1px solid rgba(201,168,76,0.2);
-        border-radius: 12px;
-        padding: 0.8rem;
-        margin-bottom: 1rem;
-    }
-
-    .alert-info strong {
-        color: var(--gold-light);
-        font-size: 0.8rem;
-    }
-
-    .alert-info span {
-        font-size: 0.7rem;
-        color: var(--muted);
-    }
-
-    /* Terms checkbox */
-    .terms-checkbox {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 1.5rem 0;
-        padding: 1rem;
+        padding: 0.7rem 0.9rem;
         background: var(--navy-soft);
-        border-radius: 12px;
         border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        font-size: 0.76rem;
         flex-wrap: wrap;
+        gap: 0.4rem;
     }
 
-    .terms-checkbox input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
+    .img-count-bar .count-label { color: var(--muted-light); }
+    .img-count-bar .count-num   { color: var(--gold-light); font-weight: 700; }
+    .img-count-bar .status-ok   { color: var(--green); }
+    .img-count-bar .status-warn { color: #F87171; }
+
+    @media (prefers-color-scheme: light) {
+        .img-count-bar { background: #F3F4F6; border-color: #E5E7EB; }
+        .img-count-bar .count-label { color: #4B5563; }
+        .img-count-bar .count-num   { color: #92650A; }
+    }
+
+    /* Photo tips */
+    .photo-tips {
+        background: rgba(201,168,76,0.05);
+        border: 1px solid rgba(201,168,76,0.15);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.76rem;
+        color: var(--muted-light);
+        line-height: 1.6;
+    }
+
+    .photo-tips strong { color: var(--gold-light); font-size: 0.78rem; }
+    .photo-tips i { color: var(--gold); margin-right: 4px; }
+
+    @media (prefers-color-scheme: light) {
+        .photo-tips { color: #4B5563; }
+        .photo-tips strong { color: #92650A; }
+    }
+
+    /* ---- TERMS CHECKBOX ---- */
+    .terms-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        padding: 1rem 1.1rem;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        margin: 1.5rem 0 0;
+    }
+
+    .terms-row input[type=checkbox] {
+        width: 16px; height: 16px;
         accent-color: var(--gold);
-        cursor: pointer;
         flex-shrink: 0;
+        margin-top: 2px;
+        cursor: pointer;
     }
 
-    .terms-checkbox label {
-        font-size: 0.85rem;
+    .terms-row label {
+        font-size: 0.8rem;
         color: var(--muted-light);
         cursor: pointer;
+        line-height: 1.55;
         margin: 0;
-        line-height: 1.4;
-        flex: 1;
     }
 
-    .terms-checkbox a {
+    .terms-row a {
         color: var(--gold-light);
-        text-decoration: none;
         font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s;
     }
 
-    .terms-checkbox a:hover {
-        color: var(--gold);
-        text-decoration: underline;
+    .terms-row a:hover { color: var(--gold); text-decoration: underline; }
+
+    @media (prefers-color-scheme: light) {
+        .terms-row { background: #F9FAFB; border-color: #E5E7EB; }
+        .terms-row label { color: #4B5563; }
+        .terms-row a { color: #92650A; }
     }
 
-    /* Submit button */
-    .submit-btn {
+    /* ---- SUBMIT BUTTON ---- */
+    .btn-publish {
+        width: 100%;
+        height: 52px;
         background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
         color: var(--navy) !important;
-        border: none;
-        border-radius: 10px;
-        padding: 0.9rem 1.5rem;
-        font-size: 0.9rem;
+        font-family: 'DM Sans', sans-serif;
         font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
-        width: 100%;
+        border: none;
+        border-radius: 9px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        margin-top: 1rem;
-        box-shadow: var(--shadow-btn);
+        gap: 9px;
         cursor: pointer;
+        transition: all 0.25s;
+        box-shadow: 0 4px 20px rgba(201,168,76,0.28);
+        margin-top: 1.25rem;
     }
 
-    .submit-btn:hover {
+    .btn-publish:hover {
         background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
         transform: translateY(-2px);
-        box-shadow: 0 8px 28px rgba(201,168,76,0.45);
+        box-shadow: 0 8px 30px rgba(201,168,76,0.42);
     }
 
-    .submit-btn:disabled {
-        opacity: 0.5;
+    .btn-publish:disabled {
+        opacity: 0.45;
         cursor: not-allowed;
         transform: none;
+        box-shadow: none;
     }
 
     /* Footer note */
-    .text-muted.small {
-        font-size: 0.7rem;
-        color: var(--muted) !important;
+    .post-footer-note {
+        text-align: center;
+        margin-top: 1.25rem;
+        font-size: 0.72rem;
+        color: var(--muted);
+        line-height: 1.55;
     }
 
-    .text-muted.small a {
-        color: var(--gold-light);
+    .post-footer-note a { color: var(--gold-light); }
+    .post-footer-note i { color: var(--gold-dim); }
+
+    @media (prefers-color-scheme: light) {
+        .post-footer-note { color: #6B7280; }
+        .post-footer-note a { color: #92650A; }
     }
 
-    .text-muted.small a:hover {
-        color: var(--gold);
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-        .posting-card {
-            padding: 1.5rem;
-            margin: 0 1rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .posting-card {
-            padding: 1rem;
-            margin: 0 0.75rem;
-        }
-
-        .page-header h2 {
-            font-size: 1.5rem;
-        }
-
-        .page-header p {
-            font-size: 0.8rem;
-        }
-
-        .progress-steps {
-            gap: 0.5rem;
-        }
-
-        .step {
-            padding: 0.3rem 0.8rem;
-            font-size: 0.7rem;
-        }
-
-        .form-section {
-            padding: 1rem;
-        }
-
-        .section-title {
-            font-size: 1rem;
-        }
-
-        .form-row {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .form-group {
-            margin-bottom: 0.8rem;
-        }
-
-        .form-label {
-            font-size: 0.75rem;
-        }
-
-        .form-control, .form-select, textarea {
-            padding: 0.6rem 0.8rem;
-            font-size: 0.85rem;
-        }
-
-        .multi-upload-area {
-            padding: 1rem;
-        }
-
-        .multi-upload-area i {
-            font-size: 2rem;
-        }
-
-        .multi-upload-area p {
-            font-size: 0.75rem;
-        }
-
-        .image-preview-grid {
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 0.6rem;
-        }
-
-        .image-count-info {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .chassis-note {
-            padding: 0.6rem 0.8rem;
-        }
-
-        .chassis-note p {
-            font-size: 0.7rem;
-        }
-
-        .terms-checkbox {
-            padding: 0.8rem;
-        }
-
-        .terms-checkbox label {
-            font-size: 0.75rem;
-        }
-
-        .submit-btn {
-            padding: 0.8rem 1.2rem;
-            font-size: 0.85rem;
-        }
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 640px) {
+        .fields-grid { grid-template-columns: 1fr; }
+        .field-full  { grid-column: 1; }
+        .section-body { padding: 1.1rem 1rem; }
+        .steps-row { max-width: 100%; }
+        .step-connector { max-width: 30px; }
     }
 
     @media (max-width: 480px) {
-        .posting-card {
-            padding: 0.8rem;
-            margin: 0 0.5rem;
-        }
-
-        .image-preview-grid {
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 0.5rem;
-        }
-
-        .multi-upload-area {
-            padding: 0.8rem;
-        }
-
-        .multi-upload-area i {
-            font-size: 1.5rem;
-        }
-
-        .progress-steps {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .step {
-            width: 100%;
-            justify-content: center;
-        }
+        .main-container { padding: 1rem 0.75rem !important; }
+        .post-heading { font-size: 1.55rem; }
+        .preview-grid { grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 0.5rem; }
+        .upload-drop { padding: 1.5rem 1rem; }
+        .upload-drop i { font-size: 1.8rem; }
+        .step-circle { width: 30px; height: 30px; font-size: 0.72rem; }
+        .step-lbl { font-size: 0.58rem; }
     }
 </style>
 
-<div class="posting-wrapper">
-    <div class="container">
-        <div class="posting-card">
-            <!-- Header -->
-            <div class="page-header">
-                <h2>
-                    <span>Post</span> a New Listing
-                </h2>
-                <p>
-                    <i class="bi bi-info-circle-fill"></i>
-                    Fill in the details below and upload at least 5 images (max 15)
-                </p>
-            </div>
+<div class="post-wrap">
 
-            <!-- Progress Steps -->
-            <div class="progress-steps">
-                <div class="step active">
-                    <i class="bi bi-pencil-fill"></i> Details
-                </div>
-                <div class="step">
-                    <i class="bi bi-images"></i> Photos
-                </div>
-                <div class="step">
-                    <i class="bi bi-check-circle"></i> Review
-                </div>
-            </div>
+    <!-- =========================================
+         PAGE HEADER
+    ========================================= -->
+    <div class="post-header">
+        <div class="post-eyebrow">
+            <i class="bi bi-plus-circle-fill"></i> New Listing
+        </div>
+        <h1 class="post-heading">
+            List Your Car for <em>Sale</em>
+        </h1>
+        <p class="post-sub">
+            Fill in the details below and add at least 5 photos to publish your listing
+        </p>
+    </div>
 
-            <!-- Chassis Number Note -->
-            <div class="chassis-note">
-                <i class="bi bi-shield-lock-fill"></i>
-                <p>
-                    <strong>Privacy Note:</strong> Chassis number is optional and will <strong>NOT</strong> be displayed to users. It's only used for verification purposes.
-                </p>
-            </div>
-
-            <!-- Form -->
-            <form method="post" enctype="multipart/form-data" id="listingForm">
-                {% csrf_token %}
-
-                <!-- Vehicle Details Section -->
-                <div class="form-section">
-                    <div class="section-title">
-                        <i class="bi bi-car-front-fill"></i>
-                        Vehicle Details
-                    </div>
-
-                    <div class="form-row">
-                        {% for field in form %}
-                            {% if field.name not in 'description' %}
-                                <div class="form-group">
-                                    <label class="form-label" for="{{ field.id_for_label }}">
-                                        {{ field.label }}
-                                        {% if field.field.required %}
-                                            <span class="required">*</span>
-                                        {% endif %}
-                                    </label>
-                                    {{ field }}
-                                    {% if field.help_text %}
-                                        <div class="help-text">
-                                            <i class="bi bi-info-circle"></i>
-                                            {{ field.help_text }}
-                                        </div>
-                                    {% endif %}
-                                    {{ field.errors }}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-
-                    {% if form.description %}
-                        <div class="form-group mt-2">
-                            <label class="form-label" for="{{ form.description.id_for_label }}">
-                                {{ form.description.label }}
-                                {% if form.description.field.required %}
-                                    <span class="required">*</span>
-                                {% endif %}
-                            </label>
-                            {{ form.description }}
-                            <div class="help-text">
-                                <i class="bi bi-pencil"></i>
-                                Describe your vehicle's condition, features, and history
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-
-                <!-- Enhanced Images Section -->
-                <div class="image-upload-section">
-                    <div class="section-title">
-                        <i class="bi bi-images"></i>
-                        Vehicle Photos
-                        <span class="image-count-badge">
-                            <i class="bi bi-camera"></i> Max 15
-                        </span>
-                    </div>
-
-                    <p class="text-muted mb-2" style="font-size: 0.75rem; color: var(--muted);">
-                        <i class="bi bi-exclamation-triangle-fill" style="color: var(--gold);"></i>
-                        <strong>First 5 images are required</strong> — the rest are optional but recommended.
-                    </p>
-
-                    <!-- Pro tips -->
-                    <div class="alert-info">
-                        <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
-                            <i class="bi bi-lightbulb-fill" style="color: var(--gold); font-size: 1rem;"></i>
-                            <div style="flex: 1;">
-                                <strong>Pro tips for great photos:</strong>
-                                <span>Take photos in good daylight • Show exterior, interior, engine, and boot • Include any unique features</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Multi-file Upload Area -->
-                    <div class="multi-upload-area" id="uploadArea">
-                        <i class="bi bi-cloud-upload-fill"></i>
-                        <p><strong>Tap or click to select multiple images</strong></p>
-                        <p class="upload-hint">Select 5-15 images at once from your gallery</p>
-                        <p class="upload-hint" style="color: var(--gold);">✓ JPG, PNG, WEBP • Max 5MB each</p>
-                    </div>
-
-                    <!-- Visible file input -->
-                    <input type="file" id="multiFileInput" name="images" multiple accept="image/jpeg,image/png,image/webp" class="file-input-visible">
-
-                    <!-- Image Preview Grid -->
-                    <div id="imagePreviewGrid" class="image-preview-grid"></div>
-
-                    <!-- Image Count Info -->
-                    <div class="image-count-info">
-                        <span>
-                            <i class="bi bi-images"></i> Selected: 
-                            <strong id="selectedCount">0</strong> / 15
-                        </span>
-                        <span id="requiredWarning" class="warning">
-                            <i class="bi bi-exclamation-triangle-fill"></i> Minimum 5 required
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Terms and Conditions Checkbox -->
-                <div class="terms-checkbox">
-                    <input type="checkbox" id="termsCheckbox" required>
-                    <label for="termsCheckbox">
-                        I confirm that the vehicle information is accurate and I agree to the 
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> and 
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>. 
-                        I understand that false information may result in listing removal.
-                    </label>
-                </div>
-
-                <!-- Submit button -->
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <i class="bi bi-cloud-upload-fill"></i>
-                    Publish Listing
-                </button>
-            </form>
-
-            <!-- Footer note -->
-            <p class="text-center text-muted mt-3 small" style="font-size: 0.7rem;">
-                <i class="bi bi-shield-check"></i>
-                By posting, you agree to our <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> and confirm that this vehicle is available for sale.
-            </p>
+    <!-- Steps -->
+    <div class="steps-row">
+        <div class="step-item">
+            <div class="step-circle active"><i class="bi bi-pencil-fill"></i></div>
+            <div class="step-lbl active">Details</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item">
+            <div class="step-circle"><i class="bi bi-images"></i></div>
+            <div class="step-lbl">Photos</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item">
+            <div class="step-circle"><i class="bi bi-check2-circle"></i></div>
+            <div class="step-lbl">Publish</div>
         </div>
     </div>
+
+    <!-- Privacy note -->
+    <div class="privacy-note">
+        <i class="bi bi-shield-lock-fill"></i>
+        <span>
+            <strong>Privacy note:</strong> The chassis number is optional and is
+            <strong>never shown publicly</strong> — it's used for verification only. All other
+            details will be visible to potential buyers.
+        </span>
+    </div>
+
+    <!-- =========================================
+         FORM
+    ========================================= -->
+    <form method="post" enctype="multipart/form-data" id="listingForm">
+        {% csrf_token %}
+
+        <!-- ---- SECTION 1: Basic Info ---- -->
+        <div class="form-section">
+            <div class="section-head">
+                <div class="section-head-icon"><i class="bi bi-card-text"></i></div>
+                <h3>Basic Information</h3>
+            </div>
+            <div class="section-body">
+                <div class="fields-grid">
+                    {% for field in form %}
+                        {% if field.name in "brand,model,year,price" %}
+                        <div class="field-wrap">
+                            <label class="field-label" for="{{ field.id_for_label }}">
+                                <i class="bi bi-dash-circle"></i>
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="req">*</span>{% endif %}
+                            </label>
+                            <div class="input-shell">{{ field }}</div>
+                            {% if field.name == "brand" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> e.g. Toyota, Nissan, Mercedes</div>
+                            {% elif field.name == "model" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> e.g. Demio, Premio, Fielder</div>
+                            {% elif field.name == "year" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Year of manufacture (e.g. 2019)</div>
+                            {% elif field.name == "price" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Asking price in KES (e.g. 850000)</div>
+                            {% endif %}
+                            {% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- ---- SECTION 2: Specs ---- -->
+        <div class="form-section">
+            <div class="section-head">
+                <div class="section-head-icon"><i class="bi bi-speedometer2"></i></div>
+                <h3>Technical Specifications</h3>
+            </div>
+            <div class="section-body">
+                <div class="fields-grid">
+                    {% for field in form %}
+                        {% if field.name in "transmission,fuel_type,mileage,body,engine_size,horse_power,drive_train,seats_number,condition,registered_car,negotiation,trim,color,interior_color,chassis_number,location" %}
+                        <div class="field-wrap {% if field.name == 'chassis_number' or field.name == 'location' %}field-full{% endif %}">
+                            <label class="field-label" for="{{ field.id_for_label }}">
+                                <i class="bi bi-dash-circle"></i>
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="req">*</span>{% endif %}
+                            </label>
+                            <div class="input-shell">{{ field }}</div>
+                            {% if field.name == "transmission" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Automatic, Manual, CVT, etc.</div>
+                            {% elif field.name == "fuel_type" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Petrol, Diesel, Hybrid, Electric</div>
+                            {% elif field.name == "mileage" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Total kilometres driven (e.g. 45000)</div>
+                            {% elif field.name == "body" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Sedan, SUV, Hatchback, Pick-up, etc.</div>
+                            {% elif field.name == "engine_size" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Engine cc (e.g. 1500 for 1.5L)</div>
+                            {% elif field.name == "horse_power" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Output in HP (e.g. 120)</div>
+                            {% elif field.name == "drive_train" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> 2WD, 4WD, AWD, RWD, FWD</div>
+                            {% elif field.name == "seats_number" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Total seating capacity</div>
+                            {% elif field.name == "condition" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> New, Excellent, Good, Fair</div>
+                            {% elif field.name == "registered_car" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Is the car registered in Kenya?</div>
+                            {% elif field.name == "negotiation" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Is the price negotiable?</div>
+                            {% elif field.name == "trim" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Trim/grade (e.g. Sport, GL, Executive)</div>
+                            {% elif field.name == "color" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Exterior body colour (e.g. Pearl White)</div>
+                            {% elif field.name == "interior_color" %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> Interior trim colour (e.g. Black, Beige)</div>
+                            {% elif field.name == "chassis_number" %}
+                                <div class="field-hint"><i class="bi bi-shield-lock"></i> Optional — private & never shown publicly</div>
+                            {% elif field.name == "location" %}
+                                <div class="field-hint"><i class="bi bi-geo-alt"></i> County or town where car is located</div>
+                            {% endif %}
+                            {% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- ---- SECTION 3: Description ---- -->
+        <div class="form-section">
+            <div class="section-head">
+                <div class="section-head-icon"><i class="bi bi-file-text-fill"></i></div>
+                <h3>Description & Features</h3>
+            </div>
+            <div class="section-body">
+                <div class="fields-grid">
+                    {% for field in form %}
+                        {% if field.name == "description" %}
+                        <div class="field-wrap field-full">
+                            <label class="field-label" for="{{ field.id_for_label }}">
+                                <i class="bi bi-dash-circle"></i>
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="req">*</span>{% endif %}
+                            </label>
+                            <div class="input-shell">{{ field }}</div>
+                            <div class="field-hint">
+                                <i class="bi bi-lightbulb"></i>
+                                Describe the car's history, condition, service records, any extras included. More detail = more buyer trust.
+                            </div>
+                            {% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        {% endif %}
+                        {% if field.name == "features" %}
+                        <div class="field-wrap field-full">
+                            <label class="field-label" for="{{ field.id_for_label }}">
+                                <i class="bi bi-dash-circle"></i>
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="req">*</span>{% endif %}
+                            </label>
+                            <div class="input-shell">{{ field }}</div>
+                            <div class="field-hint">
+                                <i class="bi bi-info-circle"></i>
+                                Select all features that apply (hold Ctrl / ⌘ to pick multiple)
+                            </div>
+                            {% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Catch-all for any remaining fields not listed above -->
+                    {% for field in form %}
+                        {% if field.name not in "brand,model,year,price,transmission,fuel_type,mileage,body,engine_size,horse_power,drive_train,seats_number,condition,registered_car,negotiation,trim,color,interior_color,chassis_number,location,description,features" %}
+                        <div class="field-wrap">
+                            <label class="field-label" for="{{ field.id_for_label }}">
+                                <i class="bi bi-dash-circle"></i>
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="req">*</span>{% endif %}
+                            </label>
+                            <div class="input-shell">{{ field }}</div>
+                            {% if field.help_text %}
+                                <div class="field-hint"><i class="bi bi-info-circle"></i> {{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- ---- SECTION 4: Photos ---- -->
+        <div class="form-section">
+            <div class="section-head">
+                <div class="section-head-icon"><i class="bi bi-camera-fill"></i></div>
+                <h3>Vehicle Photos <span style="color:var(--muted);font-weight:400;font-size:0.72rem;letter-spacing:0;text-transform:none;">(5 min · 15 max)</span></h3>
+            </div>
+            <div class="section-body">
+
+                <div class="photo-tips">
+                    <strong><i class="bi bi-lightbulb-fill"></i> Tips for great photos:</strong><br>
+                    Shoot in daylight &nbsp;·&nbsp; Show all angles (front, rear, sides, interior, engine, boot) &nbsp;·&nbsp;
+                    Clean the car first &nbsp;·&nbsp; JPG / PNG / WEBP &nbsp;·&nbsp; Max 5 MB each
+                </div>
+
+                <!-- Drop zone -->
+                <div class="upload-drop" id="uploadDrop">
+                    <i class="bi bi-cloud-upload-fill"></i>
+                    <div class="drop-main">Tap or drag &amp; drop photos here</div>
+                    <div class="drop-sub">Select 5–15 images at once from your gallery</div>
+                    <div class="drop-types">JPG · PNG · WEBP &nbsp;|&nbsp; Max 5 MB each</div>
+                </div>
+
+                <!-- File input -->
+                <input
+                    type="file"
+                    id="imgInput"
+                    name="images"
+                    multiple
+                    accept="image/jpeg,image/png,image/webp"
+                    class="file-input"
+                >
+
+                <!-- Preview -->
+                <div class="preview-grid" id="previewGrid"></div>
+
+                <!-- Count bar -->
+                <div class="img-count-bar">
+                    <span class="count-label">
+                        Selected: <span class="count-num" id="imgCount">0</span> / 15
+                    </span>
+                    <span class="status-warn" id="imgStatus">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Minimum 5 required
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---- TERMS ---- -->
+        <div class="terms-row">
+            <input type="checkbox" id="termsChk" required>
+            <label for="termsChk">
+                I confirm the vehicle information is accurate and I agree to the
+                <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a>
+                and
+                <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>.
+                I understand false information may result in listing removal.
+            </label>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-publish" id="publishBtn" disabled>
+            <i class="bi bi-cloud-upload-fill"></i>
+            Publish Listing
+        </button>
+
+    </form>
+
+    <p class="post-footer-note">
+        <i class="bi bi-shield-check"></i>
+        By posting you confirm this vehicle is available for sale and agree to our
+        <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a>.
+    </p>
+
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // DOM Elements
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('multiFileInput');
-        const previewGrid = document.getElementById('imagePreviewGrid');
-        const selectedCountSpan = document.getElementById('selectedCount');
-        const requiredWarning = document.getElementById('requiredWarning');
-        const termsCheckbox = document.getElementById('termsCheckbox');
-        const submitBtn = document.getElementById('submitBtn');
-        const listingForm = document.getElementById('listingForm');
-        
-        let selectedFiles = [];
-        const MAX_FILES = 15;
-        const MIN_FILES = 5;
-        
-        // Update preview grid
-        function updatePreviewGrid() {
-            previewGrid.innerHTML = '';
-            selectedCountSpan.textContent = selectedFiles.length;
-            
-            // Update warning message
-            if (selectedFiles.length < MIN_FILES) {
-                requiredWarning.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Minimum ' + MIN_FILES + ' images required';
-                requiredWarning.style.color = '#F87171';
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ---- Apply field classes from Django widgets ---- */
+    document.querySelectorAll('.field-wrap input:not([type=checkbox]):not([type=file]), .field-wrap select:not(.field-select)').forEach(el => {
+        if (!el.classList.contains('field-input') && !el.classList.contains('field-select')) {
+            if (el.tagName === 'SELECT') {
+                el.classList.add('field-select');
             } else {
-                requiredWarning.innerHTML = '<i class="bi bi-check-circle-fill"></i> Minimum ' + MIN_FILES + ' images ✓';
-                requiredWarning.style.color = '#2ECC8A';
+                el.classList.add('field-input');
             }
-            
-            // Create preview items
-            selectedFiles.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    if (index < MIN_FILES) {
-                        previewItem.classList.add('required');
-                    }
-                    
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = file.name;
-                    
-                    const removeBtn = document.createElement('button');
-                    removeBtn.className = 'remove-btn';
-                    removeBtn.innerHTML = '✕';
-                    removeBtn.title = 'Remove image';
-                    removeBtn.onclick = function(e) {
-                        e.stopPropagation();
-                        removeImage(index);
-                    };
-                    
-                    previewItem.appendChild(img);
-                    previewItem.appendChild(removeBtn);
-                    previewGrid.appendChild(previewItem);
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-        
-        // Remove image from selection
-        function removeImage(index) {
-            selectedFiles.splice(index, 1);
-            updatePreviewGrid();
-            updateFileInput();
-        }
-        
-        // Update file input with selected files
-        function updateFileInput() {
-            const dataTransfer = new DataTransfer();
-            selectedFiles.forEach(file => {
-                dataTransfer.items.add(file);
-            });
-            fileInput.files = dataTransfer.files;
-        }
-        
-        // Handle file selection
-        function handleFiles(files) {
-            const validFiles = [];
-            const invalidFiles = [];
-            const totalAfterAdd = selectedFiles.length + files.length;
-            
-            if (totalAfterAdd > MAX_FILES) {
-                alert(`You can only upload up to ${MAX_FILES} images. You already have ${selectedFiles.length} selected.`);
-                return;
-            }
-            
-            // Validate each file
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-                const maxSize = 5 * 1024 * 1024; // 5MB
-                
-                if (!validTypes.includes(file.type)) {
-                    invalidFiles.push(`${file.name} (Invalid format)`);
-                } else if (file.size > maxSize) {
-                    invalidFiles.push(`${file.name} (Max 5MB)`);
-                } else {
-                    validFiles.push(file);
-                }
-            }
-            
-            if (invalidFiles.length > 0) {
-                alert(`The following files were not added:\n${invalidFiles.join('\n')}`);
-            }
-            
-            // Add valid files
-            validFiles.forEach(file => {
-                selectedFiles.push(file);
-            });
-            
-            updatePreviewGrid();
-            updateFileInput();
-            
-            // Enable/disable submit button based on terms and image count
-            if (submitBtn) {
-                if (termsCheckbox.checked && selectedFiles.length >= MIN_FILES) {
-                    submitBtn.disabled = false;
-                } else {
-                    submitBtn.disabled = true;
-                }
-            }
-        }
-        
-        // Click upload area to trigger file input
-        if (uploadArea) {
-            uploadArea.addEventListener('click', function() {
-                fileInput.click();
-            });
-        }
-        
-        // Handle file selection from input
-        if (fileInput) {
-            fileInput.addEventListener('change', function(e) {
-                handleFiles(Array.from(e.target.files));
-            });
-        }
-        
-        // Drag and drop support
-        if (uploadArea) {
-            uploadArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                uploadArea.style.borderColor = 'var(--gold)';
-                uploadArea.style.background = 'rgba(201,168,76,0.05)';
-            });
-            
-            uploadArea.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                uploadArea.style.borderColor = '';
-                uploadArea.style.background = '';
-            });
-            
-            uploadArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                uploadArea.style.borderColor = '';
-                uploadArea.style.background = '';
-                const files = Array.from(e.dataTransfer.files);
-                handleFiles(files);
-            });
-        }
-        
-        // Terms checkbox validation
-        if (termsCheckbox && submitBtn) {
-            submitBtn.disabled = true;
-            
-            termsCheckbox.addEventListener('change', function() {
-                if (this.checked && selectedFiles.length >= MIN_FILES) {
-                    submitBtn.disabled = false;
-                } else {
-                    submitBtn.disabled = true;
-                }
-            });
-        }
-        
-        // Form submission
-        if (listingForm) {
-            listingForm.addEventListener('submit', function(e) {
-                if (!termsCheckbox.checked) {
-                    e.preventDefault();
-                    alert('Please agree to the Terms of Service and Privacy Policy before publishing.');
-                    termsCheckbox.focus();
-                    return false;
-                }
-                
-                if (selectedFiles.length < MIN_FILES) {
-                    e.preventDefault();
-                    alert(`Please select at least ${MIN_FILES} images. You have selected ${selectedFiles.length}.`);
-                    return false;
-                }
-                
-                // Show loading state
-                const submitButton = listingForm.querySelector('.submit-btn');
-                submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing...';
-                submitButton.disabled = true;
-                
-                return true;
-            });
         }
     });
+
+    document.querySelectorAll('.field-wrap select').forEach(el => {
+        el.classList.add('field-select');
+    });
+
+    document.querySelectorAll('.field-wrap textarea').forEach(el => {
+        el.classList.add('field-textarea');
+    });
+
+    /* ---- Image Upload Logic ---- */
+    const drop     = document.getElementById('uploadDrop');
+    const input    = document.getElementById('imgInput');
+    const grid     = document.getElementById('previewGrid');
+    const countEl  = document.getElementById('imgCount');
+    const statusEl = document.getElementById('imgStatus');
+    const termsChk = document.getElementById('termsChk');
+    const pubBtn   = document.getElementById('publishBtn');
+
+    let files = [];
+    const MAX = 15, MIN = 5;
+
+    /* Click drop → trigger input */
+    drop.addEventListener('click', () => input.click());
+
+    /* Drag & Drop */
+    drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('dragover'); });
+    drop.addEventListener('dragleave', e => { e.preventDefault(); drop.classList.remove('dragover'); });
+    drop.addEventListener('drop', e => {
+        e.preventDefault();
+        drop.classList.remove('dragover');
+        addFiles(Array.from(e.dataTransfer.files));
+    });
+
+    /* File input change */
+    input.addEventListener('change', e => {
+        addFiles(Array.from(e.target.files));
+    });
+
+    function addFiles(incoming) {
+        const valid = [], bad = [];
+        const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+
+        if (files.length + incoming.length > MAX) {
+            alert(`Max ${MAX} images. You already have ${files.length}.`);
+            return;
+        }
+
+        incoming.forEach(f => {
+            if (!allowed.includes(f.type))  { bad.push(f.name + ' (invalid type)'); return; }
+            if (f.size > 5 * 1024 * 1024)  { bad.push(f.name + ' (>5 MB)'); return; }
+            files.push(f);
+        });
+
+        if (bad.length) alert('Skipped:\n' + bad.join('\n'));
+
+        render();
+        syncInput();
+        checkReady();
+    }
+
+    function removeFile(idx) {
+        files.splice(idx, 1);
+        render();
+        syncInput();
+        checkReady();
+    }
+
+    function render() {
+        grid.innerHTML = '';
+        countEl.textContent = files.length;
+
+        files.forEach((f, i) => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const wrap = document.createElement('div');
+                wrap.className = 'preview-thumb' + (i < MIN ? ' req-thumb' : '');
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = f.name;
+
+                const btn = document.createElement('button');
+                btn.className = 'thumb-remove';
+                btn.type = 'button';
+                btn.innerHTML = '✕';
+                btn.title = 'Remove';
+                btn.onclick = () => removeFile(i);
+
+                wrap.appendChild(img);
+                wrap.appendChild(btn);
+                grid.appendChild(wrap);
+            };
+            reader.readAsDataURL(f);
+        });
+
+        if (files.length >= MIN) {
+            statusEl.className = 'status-ok';
+            statusEl.innerHTML = '<i class="bi bi-check-circle-fill"></i> ' + MIN + ' photos minimum met ✓';
+        } else {
+            statusEl.className = 'status-warn';
+            statusEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Minimum ' + MIN + ' required';
+        }
+    }
+
+    function syncInput() {
+        const dt = new DataTransfer();
+        files.forEach(f => dt.items.add(f));
+        input.files = dt.files;
+    }
+
+    function checkReady() {
+        pubBtn.disabled = !(termsChk.checked && files.length >= MIN);
+    }
+
+    termsChk.addEventListener('change', checkReady);
+
+    /* Form submit */
+    document.getElementById('listingForm').addEventListener('submit', function (e) {
+        if (!termsChk.checked) {
+            e.preventDefault();
+            alert('Please accept the Terms of Service.');
+            return;
+        }
+        if (files.length < MIN) {
+            e.preventDefault();
+            alert(`Please upload at least ${MIN} photos. You have ${files.length}.`);
+            return;
+        }
+        pubBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Publishing…';
+        pubBtn.disabled = true;
+    });
+
+    /* Apply CSS classes to Django-generated form fields */
+    document.querySelectorAll('.input-shell input, .input-shell select, .input-shell textarea').forEach(el => {
+        if (el.tagName === 'SELECT') el.classList.add('field-select');
+        else if (el.tagName === 'TEXTAREA') el.classList.add('field-textarea');
+        else if (el.type !== 'checkbox' && el.type !== 'file') el.classList.add('field-input');
+    });
+});
 </script>
+
 {% endblock %}
