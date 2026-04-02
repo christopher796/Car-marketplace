@@ -31,4 +31,6 @@ def dashboard(request):
         'most_viewed': most_viewed
     }
     return render(request, 'dashboard.html', context)
-    
+
+def google_verification(request):
+    return render(request, 'google_verification.html')
