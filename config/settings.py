@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uj+#ds8suj%r8lulkwtqn)#we+qo1xx=o+10nw2_g%-y6is^&0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = ['.onrender.com', '127.0.0.1', 'localhost']
@@ -137,7 +137,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # use users/models.py
 #AUTH_USER_MODEL = 'users.User'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/opt/render/project/src/media'
 LOGIN_REDIRECT_URL = 'browse_listings'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
