@@ -621,7 +621,7 @@
     .sh-twitter  { background: rgba(29,161,242,0.12); border: 1px solid rgba(29,161,242,0.25); color: #7DD3FC !important; }
     .sh-copy     { background: rgba(255,255,255,0.05); border: 1px solid var(--border-soft); color: var(--muted-light) !important; }
 
-    /* ---- LIGHTBOX ---- */
+    /* ---- LIGHTBOX (FIXED FOR MOBILE) ---- */
     .lightbox {
         display: none;
         position: fixed;
@@ -638,14 +638,18 @@
     .lightbox img {
         max-width: 92vw;
         max-height: 90vh;
+        width: auto;
+        height: auto;
         border-radius: 8px;
         object-fit: contain;
         box-shadow: 0 0 80px rgba(0,0,0,0.8);
+        display: block;
     }
 
     .lightbox-close {
         position: absolute;
-        top: 1.25rem; right: 1.5rem;
+        top: 1.25rem;
+        right: 1.5rem;
         color: var(--muted-light);
         font-size: 1.8rem;
         cursor: pointer;
@@ -653,9 +657,25 @@
         background: none;
         border: none;
         line-height: 1;
+        z-index: 9001;
     }
 
     .lightbox-close:hover { color: var(--white); }
+
+    /* Mobile lightbox adjustments */
+    @media (max-width: 768px) {
+        .lightbox img {
+            max-width: 95vw;
+            max-height: 85vh;
+        }
+        
+        .lightbox-close {
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            padding: 0.5rem;
+        }
+    }
 
     /* ---- RESPONSIVE ---- */
     @media (max-width: 1024px) {
@@ -987,9 +1007,9 @@
 </div><!-- /detail-body -->
 
 <!-- =========================================
-     LIGHTBOX
+     LIGHTBOX (FIXED FOR MOBILE)
 ========================================= -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<div class="lightbox" id="lightbox">
     <button class="lightbox-close" onclick="closeLightbox()">×</button>
     <img id="lightboxImg" src="" alt="Full size">
 </div>
@@ -1012,19 +1032,67 @@
         thumb.classList.add('active');
     }
 
-    /* Lightbox */
+    /* Lightbox - Fixed for Mobile */
     function openLightbox(src) {
-        document.getElementById('lightboxImg').src = src;
-        document.getElementById('lightbox').classList.add('open');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        
+        // Set the image source
+        lightboxImg.src = src;
+        
+        // Open lightbox
+        lightbox.classList.add('open');
         document.body.style.overflow = 'hidden';
+        
+        // Force reflow and ensure image loads properly on mobile
+        setTimeout(function() {
+            lightboxImg.style.display = 'block';
+        }, 10);
     }
 
     function closeLightbox() {
-        document.getElementById('lightbox').classList.remove('open');
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('open');
         document.body.style.overflow = '';
+        
+        // Clear image source to prevent flickering
+        setTimeout(function() {
+            document.getElementById('lightboxImg').src = '';
+        }, 300);
     }
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+    // Close lightbox when clicking on the overlay (background)
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        // Only close if clicking the background, not the image
+        if (e.target === this) {
+            closeLightbox();
+        }
+    });
+
+    // Prevent image click from closing lightbox
+    document.getElementById('lightboxImg').addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) { 
+        if (e.key === 'Escape') closeLightbox(); 
+    });
+
+    // Touch swipe to close for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.getElementById('lightbox').addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.getElementById('lightbox').addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        if (Math.abs(touchEndX - touchStartX) > 50) {
+            closeLightbox();
+        }
+    });
 
     /* Copy link */
     function copyLink() {
